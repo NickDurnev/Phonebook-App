@@ -10,7 +10,7 @@ import { light } from '../../themes';
 //components imports
 import ContactForm from '../../components/ContactForm';
 import ContactList from '../../components/ContactList';
-import ContactInfo from '../../components/ContactInfo';
+import ContactInfo from '../../components/ContactEdit';
 import Filter from '../../components/Filter';
 import AgreementModal from '../../components/AgreementModal';
 import DropList from '../../components/DropList';
@@ -46,7 +46,7 @@ const ContactsPage = () => {
   });
 
   if (error) {
-    toast.error(`${error.data}`);
+    toast.error(`${error.data.message}`);
   }
 
   const handleClickClose = e => {

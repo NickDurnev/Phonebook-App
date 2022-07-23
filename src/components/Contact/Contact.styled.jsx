@@ -16,7 +16,7 @@ export const Item = styled.li`
 `;
 
 export const ButtonWrap = styled.div`
-  width: 120px;
+  width: 90px;
   display: flex;
   justify-content: space-between;
 `;

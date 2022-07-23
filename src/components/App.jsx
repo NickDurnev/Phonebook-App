@@ -3,19 +3,21 @@ import { useSelector } from 'react-redux';
 import { ThemeProvider } from 'styled-components';
 import ContactsPage from 'pages/ContactsPage';
 import { Container } from './App.styled';
-import Navigation from './Navigation';
+import AppBar from './AppBar/AppBar';
+import RegistrationPage from '../pages/RegistrationPage';
+import LoginPage from 'pages/LoginPage';
 
 export function App() {
   const theme = useSelector(({ rootReducer }) => rootReducer.theme);
   return (
     <ThemeProvider theme={theme}>
       <Container>
-        <Navigation />
+        <AppBar />
         <Routes>
-          {/* <Route path="/register" element={<ContactsPage />} /> */}
-          {/* <Route path="/login" element={<ContactsPage />} /> */}
+          <Route path="/register" element={<RegistrationPage />} />
+          <Route path="/login" element={<LoginPage />} />
           <Route path="/contacts" element={<ContactsPage />} />
-          <Route path="*" element={<Navigate to="/contacts" replace />} />
+          <Route path="*" element={<Navigate to="/login" replace />} />
         </Routes>
       </Container>
     </ThemeProvider>

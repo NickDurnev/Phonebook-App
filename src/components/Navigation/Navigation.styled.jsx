@@ -5,11 +5,6 @@ export const Container = styled.nav`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 100%;
-  height: 50px;
-  padding: 15px 40px;
-  border-radius: 5px;
-  background-color: ${({ theme }) => theme.bgElementColor};
 `;
 
 export const NavLink = styled(BaseNavLink)`

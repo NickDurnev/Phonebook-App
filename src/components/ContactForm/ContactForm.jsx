@@ -6,7 +6,7 @@ import { Form, Label, Button, Input, Loader } from './ContactForm.styled';
 
 const ContactForm = ({ data }) => {
   const [name, setName] = useState('');
-  const [mobilePhone, setPhone] = useState('');
+  const [number, setNumber] = useState('');
   const names = data.map(({ name }) => name.toLowerCase());
 
   const [createContact, { isLoading }] = useAddContactMutation();
@@ -18,7 +18,7 @@ const ContactForm = ({ data }) => {
         setName(value);
         break;
       case 'number':
-        setPhone(value);
+        setNumber(value);
         break;
       default:
         return;
@@ -32,14 +32,14 @@ const ContactForm = ({ data }) => {
       reset();
       return;
     }
-    createContact({ name, mobilePhone });
+    createContact({ name, number });
     reset();
     toast.success('Contact was added');
   };
 
   const reset = () => {
     setName('');
-    setPhone('');
+    setNumber('');
   };
 
   return (
@@ -65,7 +65,7 @@ const ContactForm = ({ data }) => {
           mask="+ 999-99-99-99-999"
           title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
           required
-          value={mobilePhone}
+          value={number}
           onChange={handleChange}
         />
       </Label>
