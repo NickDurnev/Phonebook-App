@@ -18,7 +18,7 @@ export const Title = styled.h1`
 
 export const Container = styled.div`
   width: 60vw;
-  padding: 0 250px;
+  padding: 0 350px;
 `;
 
 export const Form = styled(InfoForm)`

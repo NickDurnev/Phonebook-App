@@ -9,7 +9,7 @@ export const Container = styled.nav`
 
 export const NavLink = styled(BaseNavLink)`
   position: relative;
-  font-size: 16px;
+  font-size: 20px;
   font-weight: 500;
   color: ${({ theme }) => theme.elementColor};
   text-decoration: none;
