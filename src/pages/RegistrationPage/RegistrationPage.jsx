@@ -4,7 +4,6 @@ import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { ErrorMessage } from '@hookform/error-message';
 import { useUserSignupMutation } from 'redux/auth/auth';
-import { toast } from 'react-toastify';
 import {
   Wrap,
   Title,

@@ -9,7 +9,7 @@ export const Container = styled.div`
   padding: 5px;
   width: 300px;
   height: 50px;
-  background-color: ${({ theme }) => theme.bgUserManuColor};
+  background-color: ${({ theme }) => theme.linkActiveColor};
   border-radius: 4px;
 `;
 

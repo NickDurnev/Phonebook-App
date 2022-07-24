@@ -1,7 +1,6 @@
 const base = {
   mainTextFontWeight: '500',
   listItemBcgColor: 'rgba(157, 153, 153, 0.253)',
-  bgUserManuColor: 'rgb(211, 211, 211)',
   backdropColor: 'rgba(0, 0, 0, 0.2)',
   hoverTransition: '300ms',
   hoverTimeFunction: 'linear',
@@ -27,7 +26,7 @@ export const dark = {
   bgColor: '#2D2831',
   textColor: '#fff',
   bgElementColor: '#8c6fcf',
-  linkActiveColor: '#96f8ca',
+  linkActiveColor: '#8ce4bb',
   bgElementHoverColor: '#715ba7',
 };
 
