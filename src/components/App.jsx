@@ -22,6 +22,7 @@ const ContactsPage = lazy(() =>
 
 export function App() {
   const theme = useSelector(({ rootReducer }) => rootReducer.theme);
+  const isLogged = useSelector(({ isLoggedIn }) => isLoggedIn.logged);
   return (
     <ThemeProvider theme={theme}>
       <Container>
@@ -31,7 +32,16 @@ export function App() {
             <Route path="/register" element={<RegistrationPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/contacts" element={<ContactsPage />} />
-            <Route path="*" element={<Navigate to="/login" replace />} />
+            <Route
+              path="*"
+              element={
+                isLogged ? (
+                  <Navigate to="/contacts" replace />
+                ) : (
+                  <Navigate to="/login" replace />
+                )
+              }
+            />
           </Routes>
         </Suspense>
       </Container>
