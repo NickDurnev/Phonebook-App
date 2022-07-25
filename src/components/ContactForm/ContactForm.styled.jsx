@@ -16,7 +16,6 @@ export const Label = styled.label`
   font-weight: ${props => props.theme.mainTextFontWeight};
   color: ${props => props.theme.textColor};
   text-align: center;
-
   & + & {
     margin-top: 10px;
     margin-bottom: 20px;
@@ -39,7 +38,6 @@ export const Input = styled(InputMask)`
   transition: border-color ${props => props.theme.hoverTransition}
     ${props => props.theme.hoverTimeFunction};
   transition: color 1000ms ${props => props.theme.hoverTimeFunction};
-
   &:hover,
   &:focus {
     border-color: ${props => props.theme.bgElementHoverColor};
@@ -57,7 +55,6 @@ export const Button = styled.button`
   background-color: ${props => props.theme.bgElementColor};
   transition: background-color ${props => props.theme.hoverTransition}
     ${props => props.theme.hoverTimeFunction};
-
   &:hover,
   &:focus {
     background-color: ${props => props.theme.bgElementHoverColor};

@@ -91,6 +91,7 @@ const RegistrationPage = () => {
           <UserLabel>
             Password
             <UserInput
+              type="password"
               {...register('password', {
                 required: 'Password is required.',
                 pattern: {

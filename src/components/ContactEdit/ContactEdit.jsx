@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import { createPortal } from 'react-dom';
 import { useDispatch } from 'react-redux';
 import { useEditContactMutation } from 'redux/contacts/contacts-slice';
+import { toast } from 'react-toastify';
 import { forwardRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
@@ -35,6 +36,11 @@ const ContactInfo = forwardRef(({ id, data }, ref) => {
   } = useForm({ criteriaMode: 'all' });
 
   const onSubmit = ({ name, number }) => {
+    const formattedNumber = number.replace(/[^0-9]/g, '');
+    if (formattedNumber.length < 12) {
+      toast.error('Enter full telephone number');
+      return;
+    }
     const patchtData = { id: contactID, name, number };
     editContact(patchtData);
     dispatch(setContactInfoOpen(false));
@@ -78,12 +84,12 @@ const ContactInfo = forwardRef(({ id, data }, ref) => {
             />
           </InfoLabel>
           <InfoLabel>
-            Mobile phone
+            Number
             <InfoInput
               defaultValue={number}
               mask="+ 999-99-99-99-999"
               {...register('number', {
-                required: 'Mobile phone is required.',
+                required: 'Number is required.',
               })}
             />
             <ErrorMessage

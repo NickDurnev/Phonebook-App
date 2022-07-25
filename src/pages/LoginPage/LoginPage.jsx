@@ -75,6 +75,7 @@ const LoginPage = () => {
           <UserLabel>
             Password
             <UserInput
+              type="password"
               {...register('password', {
                 required: 'Password is required.',
                 pattern: {

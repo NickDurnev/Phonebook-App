@@ -32,6 +32,11 @@ const ContactForm = ({ data }) => {
       reset();
       return;
     }
+    const formattedNumber = number.replace(/[^0-9]/g, '');
+    if (formattedNumber.length < 12) {
+      toast.error('Enter full telephone number');
+      return;
+    }
     createContact({ name, number });
     reset();
     toast.success('Contact was added');
