@@ -48,6 +48,11 @@ export const Modal = styled.div`
   }
 
   & button + button {
-    margin-left: 20px;
+    margin-left: 50px;
+  }
+
+  & > button {
+    display: block;
+    margin-left: auto;
   }
 `;

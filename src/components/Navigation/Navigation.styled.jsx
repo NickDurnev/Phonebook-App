@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { NavLink as BaseNavLink } from 'react-router-dom';
+import { device } from 'deviceSizes';
 
 export const Container = styled.nav`
   display: flex;
@@ -30,5 +31,10 @@ export const NavLink = styled(BaseNavLink)`
   }
   & + & {
     margin-left: 30px;
+  }
+
+  @media ${device.mobileM} {
+    font-size: 14px;
+    font-weight: 400;
   }
 `;

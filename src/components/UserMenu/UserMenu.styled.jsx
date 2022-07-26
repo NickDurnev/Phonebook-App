@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { BiUserCircle } from 'react-icons/bi';
+import { device } from 'deviceSizes';
 
 export const Container = styled.div`
   display: flex;
@@ -11,6 +12,10 @@ export const Container = styled.div`
   height: 50px;
   background-color: ${({ theme }) => theme.linkActiveColor};
   border-radius: 4px;
+
+  @media ${device.mobileM} {
+    width: 250px;
+  }
 `;
 
 export const UserIcon = styled(BiUserCircle)`
@@ -22,6 +27,11 @@ export const UserIcon = styled(BiUserCircle)`
 
   &:hover {
     color: ${({ theme }) => theme.bgElementHoverColor};
+  }
+
+  @media ${device.mobileM} {
+    width: 28px;
+    height: 28px;
   }
 `;
 

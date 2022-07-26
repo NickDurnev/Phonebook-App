@@ -34,12 +34,14 @@ const AgreementModal = forwardRef(({ id }, ref) => {
     <Backdrop ref={ref} onClick={e => handleClose(e)}>
       <Modal>
         <p>Do you really want delete this contact?</p>
-        <Button onClick={() => checkAgreement(false)} padding={'5px 15px'}>
-          No
-        </Button>
-        <Button onClick={() => checkAgreement(true)} padding={'5px 15px'}>
-          Yes
-        </Button>
+        <div>
+          <Button onClick={() => checkAgreement(false)} padding={'5px 15px'}>
+            No
+          </Button>
+          <Button onClick={() => checkAgreement(true)} padding={'5px 15px'}>
+            Yes
+          </Button>
+        </div>
       </Modal>
     </Backdrop>,
     modalRoot

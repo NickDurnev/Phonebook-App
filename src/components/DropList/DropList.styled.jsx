@@ -1,12 +1,19 @@
 import styled from 'styled-components';
+import { device } from 'deviceSizes';
 
 export const List = styled.ul`
   position: absolute;
-  top: 55px;
-  right: 30px;
-  width: 150px;
+  top: 45px;
+  right: 20px;
+  width: 128px;
   padding: 10px;
   background-color: ${({ theme }) => theme.listItemBcgColor};
+
+  @media ${device.mobileM} {
+    top: 45px;
+    width: 108px;
+    right: 15px;
+  }
 
   &.drop-enter {
     opacity: 0;

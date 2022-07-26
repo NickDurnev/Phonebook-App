@@ -8,12 +8,6 @@ const Wrap = styled.button`
   transition: background-color ${({ theme }) => theme.hoverTransition}
     ${({ theme }) => theme.hoverTimeFunction};
 
-  &.positioned {
-    position: ${props => props.position};
-    top: ${props => props.positionY};
-    right: ${props => props.positionX};
-  }
-
   &:hover,
   &:focus {
     background-color: ${({ bgColor, theme }) =>

@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { device } from 'deviceSizes';
 
 const List = styled.ul`
   width: 400px;
@@ -6,6 +7,10 @@ const List = styled.ul`
   flex-wrap: wrap;
   justify-content: space-between;
   margin: -10px;
+
+  @media ${device.mobileM} {
+    padding: 10px;
+  }
 
   &.fade-enter {
     opacity: 0;

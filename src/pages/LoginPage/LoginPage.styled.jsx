@@ -5,6 +5,7 @@ import {
   InfoInput,
   InfoButton,
 } from '../../components/ContactEdit/ContactEdit.styled';
+import { device } from 'deviceSizes';
 
 export const Wrap = styled.div`
   padding: 30px 0;
@@ -17,8 +18,13 @@ export const Title = styled.h1`
 `;
 
 export const Container = styled.div`
-  width: 60vw;
-  padding: 0 350px;
+  width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+
+  @media ${device.mobileM} {
+    width: 350px;
+  }
 `;
 
 export const Form = styled(InfoForm)`

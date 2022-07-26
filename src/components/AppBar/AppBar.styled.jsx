@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { device } from 'deviceSizes';
 
 export const Container = styled.div`
   display: flex;
@@ -9,4 +10,8 @@ export const Container = styled.div`
   padding: 15px 40px;
   border-radius: 5px;
   background-color: ${({ theme }) => theme.bgElementColor};
+
+  @media ${device.mobileM} {
+    padding: 15px 15px;
+  }
 `;

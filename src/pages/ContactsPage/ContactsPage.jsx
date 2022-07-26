@@ -60,10 +60,7 @@ const ContactsPage = () => {
     <Container onClick={handleClickClose}>
       <Button
         onClick={() => dispatch(setDropListOpen(true))}
-        padding={'5px 32px'}
-        position={'absolute'}
-        positionY={'30px'}
-        positionX={'30px'}
+        padding={'5px 20px'}
       >
         Choose theme
       </Button>

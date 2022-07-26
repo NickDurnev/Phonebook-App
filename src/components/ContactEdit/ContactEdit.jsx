@@ -51,10 +51,7 @@ const ContactInfo = forwardRef(({ id, data }, ref) => {
       <Modal>
         <Button
           onClick={() => dispatch(setContactInfoOpen(false))}
-          position={'absolute'}
           bgColor={false}
-          positionX={'10px'}
-          positionY={'10px'}
         >
           <CloseIcon />
         </Button>

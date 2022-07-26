@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { device } from 'deviceSizes';
 
 export const Label = styled.label`
   font-weight: ${props => props.theme.mainTextFontWeight};
@@ -19,6 +20,11 @@ export const Label = styled.label`
     &:hover,
     &:focus {
       border-color: ${props => props.theme.bgElementHoverColor};
+    }
+
+    @media ${device.mobileM} {
+      margin-left: 0px;
+      margin-top: 10px;
     }
   }
 `;
