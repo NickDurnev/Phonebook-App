@@ -8,7 +8,39 @@ import {
 import { device } from 'deviceSizes';
 
 export const Wrap = styled.div`
+  position: relative;
   padding: 30px 0;
+`;
+
+export const Notification = styled.div`
+  position: absolute;
+  padding: 10px;
+  background-color: #a54f4f;
+  color: #fff;
+  border-radius: 5px;
+  top: 10px;
+  right: 10px;
+  z-index: 2;
+
+  &.fade-enter {
+    opacity: 0;
+  }
+
+  &.fade-enter-active {
+    opacity: 1;
+    transition: opacity ${({ theme }) => theme.animationDuration}
+      ${({ theme }) => theme.animationTimeFunction};
+  }
+
+  &.fade-exit {
+    opacity: 1;
+  }
+
+  &.fade-exit-active {
+    opacity: 0;
+    transition: opacity ${({ theme }) => theme.animationDuration}
+      ${({ theme }) => theme.animationTimeFunction};
+  }
 `;
 
 export const Title = styled.h1`

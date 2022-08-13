@@ -1,10 +1,12 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { ErrorMessage } from '@hookform/error-message';
 import { useUserLoginMutation } from 'redux/auth/auth';
+import { CSSTransition } from 'react-transition-group';
 import { toast } from 'react-toastify';
+import { light } from '../../themes';
 import {
   Wrap,
   Title,
@@ -13,12 +15,15 @@ import {
   UserLabel,
   UserInput,
   UserButton,
+  Notification,
 } from './LoginPage.styled';
 import { setCredentials } from 'redux/auth/auth-slice';
 import { setLoggedIn } from 'redux/auth/logged-slice';
 
 const LoginPage = () => {
-  const [userLogin, { status, data }] = useUserLoginMutation();
+  const [userLogin, { status, data, isError }] = useUserLoginMutation();
+  const notifyRef = useRef(null);
+  const animationTimeOut = useRef(parseInt(light.animationDuration));
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const userEmail = useSelector(({ auth }) => auth.user.email);
@@ -43,8 +48,21 @@ const LoginPage = () => {
     }
   }, [data, dispatch, navigate, status]);
 
+  console.log(status);
+
   return (
     <Wrap>
+      <CSSTransition
+        nodeRef={notifyRef}
+        in={isError}
+        timeout={animationTimeOut.current}
+        classNames="fade"
+        unmountOnExit
+      >
+        <Notification>
+          <h3>Wrong email or password</h3>
+        </Notification>
+      </CSSTransition>
       <Title>Login form</Title>
       <Container>
         <Form onSubmit={handleSubmit(onSubmit)}>
