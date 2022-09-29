@@ -1,12 +1,14 @@
 import PropTypes from 'prop-types';
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { useAddContactMutation } from 'redux/contacts/contacts-slice';
 import { toast } from 'react-toastify';
 import { Form, Label, Button, Input, Loader } from './ContactForm.styled';
 
-const ContactForm = ({ data }) => {
+const ContactForm = ({ data = [] }) => {
   const [name, setName] = useState('');
-  const [number, setNumber] = useState('');
+  const [phone, setNumber] = useState('');
+  const userID = useSelector(({ auth }) => auth.user.id);
   const names = data.map(({ name }) => name.toLowerCase());
 
   const [createContact, { isLoading }] = useAddContactMutation();
@@ -17,7 +19,7 @@ const ContactForm = ({ data }) => {
       case 'name':
         setName(value);
         break;
-      case 'number':
+      case 'phone':
         setNumber(value);
         break;
       default:
@@ -28,18 +30,24 @@ const ContactForm = ({ data }) => {
   const handleSubmit = async e => {
     e.preventDefault();
     if (names.includes(name.toLowerCase())) {
-      toast.error(`${name} is already in contacts`);
+      toast.error(`${name} is already in contacts`, {
+        position: toast.POSITION.TOP_CENTER,
+      });
       reset();
       return;
     }
-    const formattedNumber = number.replace(/[^0-9]/g, '');
+    const formattedNumber = phone.replace(/[^0-9]/g, '');
     if (formattedNumber.length < 12) {
-      toast.error('Enter full telephone number');
+      toast.error('Enter full telephone number', {
+        position: toast.POSITION.TOP_CENTER,
+      });
       return;
     }
-    createContact({ name, number });
+    createContact({ userID, name, phone });
     reset();
-    toast.success('Contact was added');
+    toast.success('Contact was added', {
+      position: toast.POSITION.TOP_CENTER,
+    });
   };
 
   const reset = () => {
@@ -63,14 +71,14 @@ const ContactForm = ({ data }) => {
         />
       </Label>
       <Label>
-        Number
+        Phone
         <Input
           type="tel"
-          name="number"
+          name="phone"
           mask="+ 999-99-99-99-999"
           title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
           required
-          value={number}
+          value={phone}
           onChange={handleChange}
         />
       </Label>

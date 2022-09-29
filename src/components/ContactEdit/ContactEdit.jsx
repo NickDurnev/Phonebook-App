@@ -27,7 +27,8 @@ const ContactInfo = forwardRef(({ id, data }, ref) => {
   console.log(result);
   const dispatch = useDispatch();
   const contactID = id;
-  const { name, number } = data.find(({ id }) => id === contactID);
+  const contact = data.find(({ _id }) => _id === contactID);
+  const { name, phone, email, surname } = contact;
 
   const {
     register,
@@ -35,13 +36,13 @@ const ContactInfo = forwardRef(({ id, data }, ref) => {
     formState: { errors },
   } = useForm({ criteriaMode: 'all' });
 
-  const onSubmit = ({ name, number }) => {
-    const formattedNumber = number.replace(/[^0-9]/g, '');
+  const onSubmit = ({ name, phone, email, surname }) => {
+    const formattedNumber = phone.replace(/[^0-9]/g, '');
     if (formattedNumber.length < 12) {
       toast.error('Enter full telephone number');
       return;
     }
-    const patchtData = { id: contactID, name, number };
+    const patchtData = { ...contact, name, phone, email, surname };
     editContact(patchtData);
     dispatch(setContactInfoOpen(false));
   };
@@ -81,17 +82,64 @@ const ContactInfo = forwardRef(({ id, data }, ref) => {
             />
           </InfoLabel>
           <InfoLabel>
-            Number
+            Surname
             <InfoInput
-              defaultValue={number}
-              mask="+ 999-99-99-99-999"
-              {...register('number', {
-                required: 'Number is required.',
+              defaultValue={surname}
+              {...register('surname', {
+                pattern: /[A-Za-z]{3}/,
+                maxLength: {
+                  value: 30,
+                  message: 'This input exceed maxLength.',
+                },
               })}
             />
             <ErrorMessage
               errors={errors}
-              name="number"
+              name="name"
+              render={({ messages }) =>
+                messages &&
+                Object.entries(messages).map(([type, message]) => (
+                  <p key={type}>{message}</p>
+                ))
+              }
+            />
+          </InfoLabel>
+          <InfoLabel>
+            Phone
+            <InfoInput
+              defaultValue={phone}
+              mask="+ 999-99-99-99-999"
+              {...register('phone', {
+                required: 'Phone is required.',
+              })}
+            />
+            <ErrorMessage
+              errors={errors}
+              name="phone"
+              render={({ messages }) =>
+                messages &&
+                Object.entries(messages).map(([type, message]) => (
+                  <p key={type}>{message}</p>
+                ))
+              }
+            />
+          </InfoLabel>
+          <InfoLabel>
+            Email
+            <InfoInput
+              defaultValue={email}
+              {...register('email', {
+                pattern:
+                  /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                maxLength: {
+                  value: 30,
+                  message: 'This input exceed maxLength.',
+                },
+              })}
+            />
+            <ErrorMessage
+              errors={errors}
+              name="email"
               render={({ messages }) =>
                 messages &&
                 Object.entries(messages).map(([type, message]) => (
@@ -114,7 +162,7 @@ ContactInfo.propTypes = {
   data: PropTypes.arrayOf(
     PropTypes.shape({
       name: PropTypes.string.isRequired,
-      number: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+      phone: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
         .isRequired,
       homePhone: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
       company: PropTypes.string,

@@ -20,6 +20,10 @@ const ContactsPage = lazy(() =>
   import('pages/ContactsPage' /* webpackChunkName: "contacts-page" */)
 );
 
+const ResetPasswordPage = lazy(() =>
+  import('pages/ResetPasswordPage' /* webpackChunkName: "res_password-page" */)
+);
+
 export function App() {
   const theme = useSelector(({ rootReducer }) => rootReducer.theme);
   const isLogged = useSelector(({ isLoggedIn }) => isLoggedIn.logged);
@@ -32,6 +36,7 @@ export function App() {
             <Route path="/register" element={<RegistrationPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/contacts" element={<ContactsPage />} />
+            <Route path="/password" element={<ResetPasswordPage />} />
             <Route
               path="*"
               element={

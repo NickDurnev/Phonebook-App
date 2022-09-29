@@ -9,9 +9,9 @@ import {
   Title,
   Container,
   Form,
-  UserLabel,
-  UserInput,
-  UserButton,
+  Label,
+  Input,
+  Button,
 } from './RegistrationPage.styled';
 import { setCredentials } from 'redux/auth/auth-slice';
 
@@ -42,14 +42,15 @@ const RegistrationPage = () => {
       <Title>Registration form</Title>
       <Container>
         <Form onSubmit={handleSubmit(onSubmit)}>
-          <UserLabel>
+          <Label>
             Name
-            <UserInput
+            <Input
               {...register('name', {
                 required: 'Name is required.',
                 pattern: /[A-Za-z]{3}/,
+                minLength: { value: 3 },
                 maxLength: {
-                  value: 30,
+                  value: 25,
                   message: 'This input exceed maxLength.',
                 },
               })}
@@ -64,10 +65,10 @@ const RegistrationPage = () => {
                 ))
               }
             />
-          </UserLabel>
-          <UserLabel>
+          </Label>
+          <Label>
             Email
-            <UserInput
+            <Input
               {...register('email', {
                 required: 'Email is required.',
                 pattern: /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/,
@@ -87,10 +88,10 @@ const RegistrationPage = () => {
                 ))
               }
             />
-          </UserLabel>
-          <UserLabel>
+          </Label>
+          <Label>
             Password
-            <UserInput
+            <Input
               type="password"
               {...register('password', {
                 required: 'Password is required.',
@@ -120,9 +121,9 @@ const RegistrationPage = () => {
                 ))
               }
             />
-          </UserLabel>
+          </Label>
           {errors.exampleRequired && <span>This field is required</span>}
-          <UserButton type="submit">Submit</UserButton>
+          <Button type="submit">Submit</Button>
         </Form>
       </Container>
     </Wrap>

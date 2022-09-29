@@ -10,12 +10,12 @@ import { Container } from './ContactList.styled';
 import Contact from 'components/Contact';
 
 const ContactList = ({ data, onClick, onInfo, animationTimeOut }) => {
+  console.log(data);
   const rootState = useSelector(state => state.rootReducer);
   const filteredContacts = getFilteredContacts(data, rootState);
   const dispatch = useDispatch();
 
   const openModalAgreement = id => {
-    console.log(id);
     dispatch(setModalOpen(true));
     onClick(id);
   };
@@ -30,10 +30,10 @@ const ContactList = ({ data, onClick, onInfo, animationTimeOut }) => {
       <TransitionGroup component="ul" className="contactsList">
         {filteredContacts.map(item => (
           <Contact
-            key={item.id}
+            key={item._id}
             item={item}
-            onClick={id => openModalAgreement(id)}
-            onInfo={id => openContactInfo(id)}
+            onClick={_id => openModalAgreement(_id)}
+            onInfo={_id => openContactInfo(_id)}
             animationTimeOut={animationTimeOut}
           />
         ))}
@@ -43,7 +43,7 @@ const ContactList = ({ data, onClick, onInfo, animationTimeOut }) => {
 };
 
 ContactList.propTypes = {
-  data: PropTypes.array.isRequired,
+  data: PropTypes.array,
   onClick: PropTypes.func.isRequired,
   animationTimeOut: PropTypes.number.isRequired,
 };

@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
 import {
   Title,
   Container,
@@ -10,7 +9,6 @@ import {
 } from '../RegistrationPage/RegistrationPage.styled';
 
 export const Wrap = styled.div`
-  position: relative;
   padding: 30px 0;
 `;
 
@@ -19,22 +17,6 @@ export const StyledTitle = styled(Title)``;
 export const StyledContainer = styled(Container)``;
 
 export const StyledForm = styled(Form)``;
-
-export const StyledLink = styled(Link)`
-  display: block;
-  margin: 20px auto;
-  cursor: pointer;
-  font-size: 14px;
-  font-weight: 500;
-  text-decoration: none;
-  color: ${({ theme }) => theme.bgElementColor};
-
-  &:hover,
-  &:focus {
-    background-color: ${({ bgColor, theme }) =>
-      bgColor ? theme.bgElementHoverColor : 'inherit'};
-  }
-`;
 
 export const StyledLabel = styled(Label)``;
 

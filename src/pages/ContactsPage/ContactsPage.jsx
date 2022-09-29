@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { setDropListOpen } from '../../redux/isOpen/isOpen-actions';
 import { useGetContactsQuery } from '../../redux/contacts/contacts-slice';
-import { Container, StyledToastContainer } from './ContactsPage.styled';
+import { Container } from './ContactsPage.styled';
 import { light } from '../../themes';
 //components imports
 import ContactForm from '../../components/ContactForm';
@@ -22,6 +22,8 @@ const ContactsPage = () => {
   const animationTimeOut = useRef(parseInt(light.animationDuration));
   const modalRef = useRef(null);
   const dropListRef = useRef(null);
+  const userID = useSelector(({ auth }) => auth.user.id);
+  let contacts = [];
 
   const isDropListOpen = useSelector(
     ({ rootReducer }) => rootReducer.isOpen.dropList
@@ -35,13 +37,8 @@ const ContactsPage = () => {
 
   const dispatch = useDispatch();
 
-  const {
-    data = [],
-    isLoading,
-    isSuccess,
-    error,
-  } = useGetContactsQuery({
-    pollingInterval: 3000,
+  const { data, isLoading, isSuccess, error } = useGetContactsQuery(userID, {
+    pollingInterval: 60000,
     refetchOnMountOrArgChange: true,
   });
 
@@ -55,7 +52,10 @@ const ContactsPage = () => {
     }
   };
 
-  console.log(data);
+  if (isSuccess) {
+    contacts = data.data.contacts;
+  }
+
   return (
     <Container onClick={handleClickClose}>
       <Button
@@ -74,17 +74,17 @@ const ContactsPage = () => {
         <DropList ref={dropListRef}></DropList>
       </CSSTransition>
       <h1>Phonebook</h1>
-      <ContactForm data={data} />
+      <ContactForm data={contacts} />
       <h2>Contacts</h2>
       <Filter />
       {isLoading && <NoteLoader />}
       <CSSTransition
-        in={data.length > 0 && isSuccess}
+        in={contacts && isSuccess}
         timeout={animationTimeOut.current}
         unmountOnExit
       >
         <ContactList
-          data={data}
+          data={contacts}
           onClick={value => (contactId.current = value)}
           onInfo={value => (contactId.current = value)}
           animationTimeOut={animationTimeOut.current}
@@ -106,9 +106,8 @@ const ContactsPage = () => {
         classNames="fade"
         unmountOnExit
       >
-        <ContactInfo id={contactId.current} data={data} ref={modalRef} />
+        <ContactInfo id={contactId.current} data={contacts} ref={modalRef} />
       </CSSTransition>
-      <StyledToastContainer autoClose={3000} />
     </Container>
   );
 };

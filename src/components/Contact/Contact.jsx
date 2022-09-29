@@ -6,7 +6,7 @@ import Button from 'components/Button';
 import { Item, ButtonWrap } from './Contact.styled';
 
 const Contact = ({ item, onClick, onInfo, animationTimeOut, ...rest }) => {
-  const { id, name, number } = item;
+  const { _id, name, phone } = item;
 
   const nodeRef = useRef(null);
   return (
@@ -18,10 +18,10 @@ const Contact = ({ item, onClick, onInfo, animationTimeOut, ...rest }) => {
     >
       <Item ref={nodeRef}>
         <BiUserCircle size="48" />
-        {name}:<span>{number}</span>
+        {name}:<span>{phone}</span>
         <ButtonWrap>
-          <Button onClick={() => onInfo(id)}>Edit</Button>
-          <Button onClick={() => onClick(id)}>Delete</Button>
+          <Button onClick={() => onInfo(_id)}>Edit</Button>
+          <Button onClick={() => onClick(_id)}>Delete</Button>
         </ButtonWrap>
       </Item>
     </CSSTransition>
@@ -30,9 +30,9 @@ const Contact = ({ item, onClick, onInfo, animationTimeOut, ...rest }) => {
 
 Contact.propTypes = {
   item: PropTypes.shape({
-    id: PropTypes.string.isRequired,
+    _id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
-    number: PropTypes.string.isRequired,
+    phone: PropTypes.string.isRequired,
   }),
   onClick: PropTypes.func.isRequired,
   onInfo: PropTypes.func.isRequired,

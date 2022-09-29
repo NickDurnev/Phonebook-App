@@ -19,7 +19,9 @@ const AgreementModal = forwardRef(({ id }, ref) => {
   const checkAgreement = answear => {
     if (answear) {
       deleteContact(id);
-      toast.success('Contact was deleted');
+      toast.success('Contact was deleted', {
+        position: toast.POSITION.TOP_CENTER,
+      });
     }
     dispatch(setModalOpen(false));
   };

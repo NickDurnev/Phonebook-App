@@ -6,6 +6,7 @@ import Button from 'components/Button';
 import { Container, UserIcon, Icon } from './UserMenu.styled';
 import { persistor } from '../../redux/store';
 import { addAvatar } from 'redux/addAvatar/avatars-slice';
+import { useUserLogoutQuery } from '../../redux/auth/auth';
 import { setCredentials } from 'redux/auth/auth-slice';
 import { setLoggedIn } from 'redux/auth/logged-slice';
 import AvatarList from 'components/AvatarList';
@@ -14,22 +15,34 @@ import { light } from '../../themes';
 
 const UserMenu = () => {
   const [isAvatarList, setIsAvatarList] = useState(false);
+  const [skip, setSkip] = useState(true);
   const animationTimeOut = useRef(parseInt(light.animationDuration));
   const modalRef = useRef(null);
-  const userEmail = useSelector(({ auth }) => auth.user.email);
+  const { user, token } = useSelector(({ auth }) => auth);
+  const { isSuccess } = useUserLogoutQuery(token, {
+    skip,
+  });
   const userAvatar = useSelector(
     ({ userAvatarID }) => userAvatarID.userAvatarID
   );
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const userReset = { user: { name: '', email: '' }, token: '' };
+  const userReset = {
+    user: { id: '', name: '', email: '', subscription: '' },
+    token: '',
+  };
 
   const handleLogout = () => {
+    setSkip(false);
+  };
+
+  if (isSuccess) {
     dispatch(setCredentials(userReset));
     dispatch(setLoggedIn(false));
     persistor.purge();
+    // setSkip(true);
     navigate('/login', { replace: true });
-  };
+  }
 
   const handleAvatarClick = id => {
     dispatch(addAvatar(id));
@@ -46,7 +59,7 @@ const UserMenu = () => {
             <UserIcon />
           )}
         </Button>
-        <p>Hi,{userEmail}</p>
+        <p>Hi, {user.name}</p>
         <Button onClick={handleLogout}>Logout</Button>
       </Container>
       <CSSTransition

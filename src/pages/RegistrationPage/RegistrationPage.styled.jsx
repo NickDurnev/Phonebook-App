@@ -9,6 +9,9 @@ import { device } from 'deviceSizes';
 
 export const Wrap = styled.div`
   padding: 30px 0;
+  & button {
+    margin-top: 20px;
+  }
 `;
 
 export const Title = styled.h1`
@@ -33,18 +36,14 @@ export const Form = styled(InfoForm)`
   width: 100%;
   border: 2px solid ${({ theme }) => theme.bgElementColor};
   border-radius: 5px;
-
-  & > button {
-    margin-top: 20px;
-  }
 `;
 
-export const UserLabel = styled(InfoLabel)``;
+export const Label = styled(InfoLabel)``;
 
-export const UserInput = styled(InfoInput)`
+export const Input = styled(InfoInput)`
   margin-top: 10px;
 `;
 
-export const UserButton = styled(InfoButton)`
+export const Button = styled(InfoButton)`
   margin-top: 20px;
 `;

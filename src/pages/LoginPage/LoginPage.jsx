@@ -1,29 +1,26 @@
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { ErrorMessage } from '@hookform/error-message';
 import { useUserLoginMutation } from 'redux/auth/auth';
-import { CSSTransition } from 'react-transition-group';
+import 'react-toastify/dist/ReactToastify.css';
 import { toast } from 'react-toastify';
-import { light } from '../../themes';
 import {
   Wrap,
-  Title,
-  Container,
-  Form,
-  UserLabel,
-  UserInput,
-  UserButton,
-  Notification,
+  StyledTitle,
+  StyledContainer,
+  StyledForm,
+  StyledLabel,
+  StyledInput,
+  StyledButton,
+  StyledLink,
 } from './LoginPage.styled';
 import { setCredentials } from 'redux/auth/auth-slice';
 import { setLoggedIn } from 'redux/auth/logged-slice';
 
 const LoginPage = () => {
-  const [userLogin, { status, data, isError }] = useUserLoginMutation();
-  const notifyRef = useRef(null);
-  const animationTimeOut = useRef(parseInt(light.animationDuration));
+  const [userLogin, { status, data, isError, error }] = useUserLoginMutation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const userEmail = useSelector(({ auth }) => auth.user.email);
@@ -33,42 +30,40 @@ const LoginPage = () => {
     formState: { errors },
   } = useForm({ criteriaMode: 'all' });
 
-  const onSubmit = formData => {
-    const fetchData = { ...formData };
-    userLogin(fetchData);
-  };
-
   useEffect(() => {
     if (status === 'fulfilled') {
       dispatch(setCredentials(data));
       dispatch(setLoggedIn(true));
       console.log(data);
-      toast.success('Login is successfull');
+      toast.success('Login is successfull', {
+        position: toast.POSITION.TOP_CENTER,
+      });
       navigate('/contacts', { replace: true });
     }
   }, [data, dispatch, navigate, status]);
 
-  console.log(status);
+  useEffect(() => {
+    if (isError) {
+      console.log(error.data.message);
+      toast.error(`${error.data.message}`, {
+        position: toast.POSITION.TOP_CENTER,
+      });
+    }
+  }, [error, isError]);
+
+  const onSubmit = formData => {
+    const fetchData = { ...formData };
+    userLogin(fetchData);
+  };
 
   return (
     <Wrap>
-      <CSSTransition
-        nodeRef={notifyRef}
-        in={isError}
-        timeout={animationTimeOut.current}
-        classNames="fade"
-        unmountOnExit
-      >
-        <Notification>
-          <h3>Wrong email or password</h3>
-        </Notification>
-      </CSSTransition>
-      <Title>Login form</Title>
-      <Container>
-        <Form onSubmit={handleSubmit(onSubmit)}>
-          <UserLabel>
+      <StyledTitle>Login form</StyledTitle>
+      <StyledContainer>
+        <StyledForm onSubmit={handleSubmit(onSubmit)}>
+          <StyledLabel>
             Email
-            <UserInput
+            <StyledInput
               defaultValue={userEmail}
               {...register('email', {
                 required: 'Email is required.',
@@ -89,10 +84,10 @@ const LoginPage = () => {
                 ))
               }
             />
-          </UserLabel>
-          <UserLabel>
+          </StyledLabel>
+          <StyledLabel>
             Password
-            <UserInput
+            <StyledInput
               type="password"
               {...register('password', {
                 required: 'Password is required.',
@@ -122,11 +117,14 @@ const LoginPage = () => {
                 ))
               }
             />
-          </UserLabel>
+          </StyledLabel>
           {errors.exampleRequired && <span>This field is required</span>}
-          <UserButton type="submit">Submit</UserButton>
-        </Form>
-      </Container>
+          <div>
+            <StyledLink to="/password">Forgot password</StyledLink>
+            <StyledButton type="submit">Submit</StyledButton>
+          </div>
+        </StyledForm>
+      </StyledContainer>
     </Wrap>
   );
 };
