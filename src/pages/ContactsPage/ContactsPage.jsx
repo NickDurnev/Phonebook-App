@@ -1,11 +1,15 @@
+import PropTypes from 'prop-types';
 import { useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { CSSTransition } from 'react-transition-group';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { setDropListOpen } from '../../redux/isOpen/isOpen-actions';
+import {
+  setDropListOpen,
+  setContactFormOpen,
+} from '../../redux/isOpen/isOpen-actions';
 import { useGetContactsQuery } from '../../redux/contacts/contacts-slice';
-import { Container } from './ContactsPage.styled';
+import { Container, ButtonWrap } from './ContactsPage.styled';
 import { light } from '../../themes';
 //components imports
 import ContactForm from '../../components/ContactForm';
@@ -17,12 +21,14 @@ import DropList from '../../components/DropList';
 import Button from '../../components/Button';
 import NoteLoader from '../../components/NoteLoader';
 
-const ContactsPage = () => {
+const ContactsPage = ({ userLogout }) => {
   let contactId = useRef(null);
   const animationTimeOut = useRef(parseInt(light.animationDuration));
   const modalRef = useRef(null);
   const dropListRef = useRef(null);
+  const dispatch = useDispatch();
   const userID = useSelector(({ auth }) => auth.user.id);
+  const token = useSelector(({ auth }) => auth.token);
   let contacts = [];
 
   const isDropListOpen = useSelector(
@@ -34,16 +40,25 @@ const ContactsPage = () => {
   const isContactInfoOpen = useSelector(
     ({ rootReducer }) => rootReducer.isOpen.contactInfo
   );
+  const isContactFormOpen = useSelector(
+    ({ rootReducer }) => rootReducer.isOpen.contactForm
+  );
 
-  const dispatch = useDispatch();
-
-  const { data, isLoading, isSuccess, error } = useGetContactsQuery(userID, {
-    pollingInterval: 60000,
-    refetchOnMountOrArgChange: true,
-  });
+  const { data, isLoading, isSuccess, error } = useGetContactsQuery(
+    { userID, token },
+    {
+      pollingInterval: 60000,
+      refetchOnMountOrArgChange: true,
+    }
+  );
 
   if (error) {
     toast.error(`${error.data.message}`);
+    console.log(error);
+    if (error.status === 401) {
+      toast.error(`${error.data.message}`);
+      userLogout();
+    }
   }
 
   const handleClickClose = e => {
@@ -74,7 +89,20 @@ const ContactsPage = () => {
         <DropList ref={dropListRef}></DropList>
       </CSSTransition>
       <h1>Phonebook</h1>
-      <ContactForm data={contacts} />
+      <ButtonWrap>
+        <Button onClick={() => dispatch(setContactFormOpen(true))}>
+          Add contact
+        </Button>
+      </ButtonWrap>
+      <CSSTransition
+        nodeRef={modalRef}
+        in={isContactFormOpen}
+        timeout={animationTimeOut.current}
+        classNames="fade"
+        unmountOnExit
+      >
+        <ContactForm data={contacts} ref={modalRef} />
+      </CSSTransition>
       <h2>Contacts</h2>
       <Filter />
       {isLoading && <NoteLoader />}
@@ -110,6 +138,10 @@ const ContactsPage = () => {
       </CSSTransition>
     </Container>
   );
+};
+
+ContactsPage.propTypes = {
+  userLogout: PropTypes.func.isRequired,
 };
 
 export default ContactsPage;

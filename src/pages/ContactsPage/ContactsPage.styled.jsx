@@ -30,3 +30,13 @@ export const StyledToastContainer = styled(ToastContainer)`
     background-color: ${props => props.theme.bgColor};
   }
 `;
+
+export const ButtonWrap = styled.div`
+  margin: 20px auto;
+
+  & > button {
+    padding: 10px;
+    font-size: 18px;
+    font-weight: 500;
+  }
+`;

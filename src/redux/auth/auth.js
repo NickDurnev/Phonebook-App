@@ -52,6 +52,16 @@ export const authApi = createApi({
         providesTags: ['Users'],
       }),
     }),
+    changePassword: builder.query({
+      query: ({ password, passwordToken }) => ({
+        url: `users/res_password/${passwordToken}`,
+        method: 'POST',
+        body: {
+          password,
+        },
+        providesTags: ['Users'],
+      }),
+    }),
   }),
 });
 
@@ -61,4 +71,5 @@ export const {
   useUserLogoutQuery,
   useUserSignupMutation,
   useResetPasswordQuery,
+  useChangePasswordQuery,
 } = authApi;

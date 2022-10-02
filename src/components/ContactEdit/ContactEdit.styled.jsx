@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Input, Button } from '../ContactForm/ContactForm.styled';
+import { Input, StyledButton } from '../ContactForm/ContactForm.styled';
 import { IoMdClose } from 'react-icons/io';
 
 export const InfoForm = styled.form`
@@ -50,4 +50,4 @@ export const CloseIcon = styled(IoMdClose)`
 `;
 
 export const InfoInput = styled(Input)``;
-export const InfoButton = styled(Button)``;
+export const InfoButton = styled(StyledButton)``;

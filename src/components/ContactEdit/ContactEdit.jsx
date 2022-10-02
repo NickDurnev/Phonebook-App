@@ -1,12 +1,17 @@
 import PropTypes from 'prop-types';
 import { createPortal } from 'react-dom';
-import { useDispatch } from 'react-redux';
-import { useEditContactMutation } from 'redux/contacts/contacts-slice';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  useEditContactMutation,
+  useAddAvatarMutation,
+} from 'redux/contacts/contacts-slice';
 import { toast } from 'react-toastify';
 import { forwardRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
 import { setContactInfoOpen } from 'redux/isOpen/isOpen-actions';
+import FileUploader from 'components/FileUploader';
+import Button from 'components/Button';
 import {
   Backdrop,
   Modal,
@@ -18,14 +23,15 @@ import {
   InfoLabel,
   CloseIcon,
 } from './ContactEdit.styled';
-import Button from 'components/Button';
 
 const modalRoot = document.querySelector('#modal-root');
 
 const ContactInfo = forwardRef(({ id, data }, ref) => {
+  const dispatch = useDispatch();
+  const { token } = useSelector(({ auth }) => auth);
+  const [editPicture, { image, isSuccess }] = useAddAvatarMutation();
   const [editContact, result] = useEditContactMutation();
   console.log(result);
-  const dispatch = useDispatch();
   const contactID = id;
   const contact = data.find(({ _id }) => _id === contactID);
   const { name, phone, email, surname } = contact;
@@ -35,6 +41,16 @@ const ContactInfo = forwardRef(({ id, data }, ref) => {
     handleSubmit,
     formState: { errors },
   } = useForm({ criteriaMode: 'all' });
+
+  const handleFile = async image => {
+    const formData = new FormData();
+    formData.append('avatar', image);
+    console.log(image);
+    for (var pair of formData.entries()) {
+      console.log(pair[0] + ', ' + pair[1]);
+    }
+    await editPicture({ token, id, formData }).unwrap();
+  };
 
   const onSubmit = ({ name, phone, email, surname }) => {
     const formattedNumber = phone.replace(/[^0-9]/g, '');
@@ -148,6 +164,7 @@ const ContactInfo = forwardRef(({ id, data }, ref) => {
               }
             />
           </InfoLabel>
+          <FileUploader handleFile={image => handleFile(image)} />
           {errors.exampleRequired && <span>This field is required</span>}
           <InfoButton type="submit">Submit</InfoButton>
         </InfoForm>

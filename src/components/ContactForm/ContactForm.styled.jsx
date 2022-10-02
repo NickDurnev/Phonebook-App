@@ -45,7 +45,7 @@ export const Input = styled(InputMask)`
   }
 `;
 
-export const Button = styled.button`
+export const StyledButton = styled.button`
   width: 120px;
   padding: 10px;
   margin-right: 5px;

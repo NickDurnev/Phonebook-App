@@ -45,5 +45,6 @@ export const Input = styled(InfoInput)`
 `;
 
 export const Button = styled(InfoButton)`
+  font-size: 16px;
   margin-top: 20px;
 `;

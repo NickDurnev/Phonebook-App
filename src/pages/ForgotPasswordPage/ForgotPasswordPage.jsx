@@ -12,9 +12,9 @@ import {
   StyledLabel,
   StyledInput,
   StyledButton,
-} from './ResetPasswordPage.styled';
+} from './ForgotPasswordPage.styled';
 
-const ResetPasswordPage = () => {
+const ForgotPasswordPage = () => {
   const [skip, setSkip] = useState(true);
   const [email, setEmail] = useState(null);
   const { data, isSuccess } = useResetPasswordQuery(email, { skip });
@@ -71,4 +71,4 @@ const ResetPasswordPage = () => {
   );
 };
 
-export default ResetPasswordPage;
+export default ForgotPasswordPage;

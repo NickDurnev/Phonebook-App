@@ -21,8 +21,13 @@ export const contactsApi = createApi({
   refetchOnMountOrArgChange: 10,
   endpoints: builder => ({
     getContacts: builder.query({
-      query: userID => `api/contacts/${userID}`,
-      providesTags: ['Contacts'],
+      query: ({ userID, token }) => ({
+        url: `api/contacts/${userID}`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        providesTags: ['Contacts'],
+      }),
     }),
     deleteContact: builder.mutation({
       query: contactId => ({
@@ -51,6 +56,16 @@ export const contactsApi = createApi({
       }),
       invalidatesTags: ['Contacts'],
     }),
+    addAvatar: builder.mutation({
+      query: ({ token, id, formData }) => ({
+        url: `contacts/avatars/${id}`,
+        method: 'PATCH',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: formData,
+      }),
+    }),
   }),
 });
 
@@ -59,4 +74,5 @@ export const {
   useAddContactMutation,
   useDeleteContactMutation,
   useEditContactMutation,
+  useAddAvatarMutation,
 } = contactsApi;

@@ -1,6 +1,10 @@
-import { Suspense, lazy } from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useState, Suspense, lazy } from 'react';
+import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { useUserLogoutQuery } from '../redux/auth/auth';
+import { setCredentials } from '../redux/auth/auth-slice';
+import { setLoggedIn } from '../redux/auth/logged-slice';
+import { persistor } from '../redux/store';
 import { ThemeProvider } from 'styled-components';
 import { Container } from './App.styled';
 import AppBar from './AppBar/AppBar';
@@ -20,23 +24,62 @@ const ContactsPage = lazy(() =>
   import('pages/ContactsPage' /* webpackChunkName: "contacts-page" */)
 );
 
-const ResetPasswordPage = lazy(() =>
-  import('pages/ResetPasswordPage' /* webpackChunkName: "res_password-page" */)
+const ForgotPasswordPage = lazy(() =>
+  import(
+    'pages/ForgotPasswordPage' /* webpackChunkName: "forgot-password-page" */
+  )
+);
+
+const ChangePasswordPage = lazy(() =>
+  import(
+    'pages/ChangePasswordPage' /* webpackChunkName: "change-password-page" */
+  )
 );
 
 export function App() {
+  const [skip, setSkip] = useState(true);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const theme = useSelector(({ rootReducer }) => rootReducer.theme);
   const isLogged = useSelector(({ isLoggedIn }) => isLoggedIn.logged);
+  const { token, user } = useSelector(({ auth }) => auth);
+  const userReset = {
+    user: { id: '', email: user.email, name: '', subscription: '' },
+    token: '',
+  };
+
+  const { isSuccess } = useUserLogoutQuery(token, {
+    skip,
+  });
+
+  const userLogout = () => {
+    setSkip(false);
+  };
+
+  if (isSuccess) {
+    dispatch(setCredentials(userReset));
+    dispatch(setLoggedIn(false));
+    persistor.purge();
+    navigate('/login', { replace: true });
+    setSkip(true);
+  }
   return (
     <ThemeProvider theme={theme}>
       <Container>
-        <AppBar />
+        <AppBar userLogout={() => userLogout()} />
         <Suspense fallback={<NoteLoader />}>
           <Routes>
             <Route path="/register" element={<RegistrationPage />} />
             <Route path="/login" element={<LoginPage />} />
-            <Route path="/contacts" element={<ContactsPage />} />
-            <Route path="/password" element={<ResetPasswordPage />} />
+            <Route
+              path="/contacts"
+              element={<ContactsPage userLogout={userLogout} />}
+            />
+            <Route path="/password" element={<ForgotPasswordPage />} />
+            <Route
+              path="/password/:passwordToken"
+              element={<ChangePasswordPage />}
+            />
             <Route
               path="*"
               element={

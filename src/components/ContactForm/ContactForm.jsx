@@ -1,13 +1,25 @@
 import PropTypes from 'prop-types';
-import { useState } from 'react';
+import { createPortal } from 'react-dom';
+import { useDispatch } from 'react-redux';
+import { useState, forwardRef } from 'react';
 import { useSelector } from 'react-redux';
+import { setContactFormOpen } from 'redux/isOpen/isOpen-actions';
 import { useAddContactMutation } from 'redux/contacts/contacts-slice';
 import { toast } from 'react-toastify';
-import { Form, Label, Button, Input, Loader } from './ContactForm.styled';
+import Button from '../Button';
+import {
+  Backdrop,
+  Modal,
+} from 'components/AgreementModal/AgreementModal.styled';
+import { CloseIcon } from '../ContactEdit/ContactEdit.styled';
+import { Form, Label, StyledButton, Input, Loader } from './ContactForm.styled';
 
-const ContactForm = ({ data = [] }) => {
+const modalRoot = document.querySelector('#modal-root');
+
+const ContactForm = forwardRef(({ data = [] }, ref) => {
   const [name, setName] = useState('');
   const [phone, setNumber] = useState('');
+  const dispatch = useDispatch();
   const userID = useSelector(({ auth }) => auth.user.id);
   const names = data.map(({ name }) => name.toLowerCase());
 
@@ -45,6 +57,7 @@ const ContactForm = ({ data = [] }) => {
     }
     createContact({ userID, name, phone });
     reset();
+    dispatch(setContactFormOpen(false));
     toast.success('Contact was added', {
       position: toast.POSITION.TOP_CENTER,
     });
@@ -55,40 +68,53 @@ const ContactForm = ({ data = [] }) => {
     setNumber('');
   };
 
-  return (
-    <Form onSubmit={handleSubmit}>
-      <Label>
-        Name
-        <Input
-          type="text"
-          name="name"
-          pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-          title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-          maxLength="30"
-          required
-          value={name}
-          onChange={handleChange}
-        />
-      </Label>
-      <Label>
-        Phone
-        <Input
-          type="tel"
-          name="phone"
-          mask="+ 999-99-99-99-999"
-          title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
-          required
-          value={phone}
-          onChange={handleChange}
-        />
-      </Label>
-      <Button type="submit">
-        Add contact
-        {isLoading && <Loader size={20} color="white" aria-label="loading" />}
-      </Button>
-    </Form>
+  return createPortal(
+    <Backdrop ref={ref}>
+      <Modal>
+        <Button
+          onClick={() => dispatch(setContactFormOpen(false))}
+          bgColor={false}
+        >
+          <CloseIcon />
+        </Button>
+        <Form onSubmit={handleSubmit}>
+          <Label>
+            Name
+            <Input
+              type="text"
+              name="name"
+              pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
+              title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
+              maxLength="30"
+              required
+              value={name}
+              onChange={handleChange}
+            />
+          </Label>
+          <Label>
+            Phone
+            <Input
+              type="tel"
+              name="phone"
+              mask="+ 999-99-99-99-999"
+              title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
+              required
+              value={phone}
+              onChange={handleChange}
+            />
+          </Label>
+          <StyledButton type="submit">
+            Add contact
+            {isLoading && (
+              <Loader size={20} color="white" aria-label="loading" />
+            )}
+          </StyledButton>
+        </Form>
+      </Modal>
+    </Backdrop>,
+    modalRoot
   );
-};
+});
 
 ContactForm.propTypes = {
   data: PropTypes.arrayOf(
