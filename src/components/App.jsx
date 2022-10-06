@@ -61,16 +61,18 @@ export function App() {
     dispatch(setLoggedIn(false));
     persistor.purge();
     navigate('/login', { replace: true });
-    setSkip(true);
   }
   return (
     <ThemeProvider theme={theme}>
       <Container>
-        <AppBar userLogout={() => userLogout()} />
+        <AppBar userLogout={userLogout} />
         <Suspense fallback={<NoteLoader />}>
           <Routes>
             <Route path="/register" element={<RegistrationPage />} />
-            <Route path="/login" element={<LoginPage />} />
+            <Route
+              path="/login"
+              element={<LoginPage setSkip={() => setSkip(true)} />}
+            />
             <Route
               path="/contacts"
               element={<ContactsPage userLogout={userLogout} />}

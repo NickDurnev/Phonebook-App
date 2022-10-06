@@ -1,4 +1,7 @@
 import styled from 'styled-components';
+import { FiEdit } from 'react-icons/fi';
+import { AiFillDelete } from 'react-icons/ai';
+import { AiFillStar } from 'react-icons/ai';
 
 export const Item = styled.li`
   display: flex;
@@ -10,13 +13,62 @@ export const Item = styled.li`
   background-color: ${props => props.theme.listItemBcgColor};
   border-radius: 5px;
 
-  & img {
-    width: 48px;
+  & > span {
+    width: 35%;
   }
 `;
 
 export const ButtonWrap = styled.div`
-  width: 90px;
+  width: 20%;
   display: flex;
   justify-content: space-between;
+`;
+
+export const EditIcon = styled(FiEdit)`
+  width: 100%;
+  height: auto;
+
+  color: ${({ theme }) => theme.bgElementColor};
+  transform: scale(1);
+  transition: transform ${({ theme }) => theme.animationDuration}
+    ${({ theme }) => theme.animationTimeFunction};
+
+  &:hover,
+  &:focus {
+    transform: scale(1.2);
+  }
+`;
+
+export const DeleteIcon = styled(AiFillDelete)`
+  width: 100%;
+  height: auto;
+
+  color: ${({ theme }) => theme.bgElementColor};
+  transform: scale(1);
+  transition: transform ${({ theme }) => theme.animationDuration}
+    ${({ theme }) => theme.animationTimeFunction};
+
+  &:hover,
+  &:focus {
+    transform: scale(1.2);
+  }
+`;
+
+export const FavoriteIcon = styled(AiFillStar)`
+  width: 100%;
+  height: auto;
+
+  fill: ${({ favorite, theme }) => (favorite ? theme.bgElementColor : 'none')};
+  stroke-width: 100;
+  stroke: ${({ theme }) => theme.bgElementColor};
+
+  color: ${({ theme }) => theme.bgElementColor};
+  transform: scale(1);
+  transition: transform ${({ theme }) => theme.animationDuration}
+    ${({ theme }) => theme.animationTimeFunction};
+
+  &:hover,
+  &:focus {
+    transform: scale(1.2);
+  }
 `;

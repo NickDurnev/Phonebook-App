@@ -19,10 +19,6 @@ export const InfoForm = styled.form`
     display: inline;
     content: '⚠  ';
   }
-
-  & > button {
-    margin-top: 20px;
-  }
 `;
 
 export const InfoLabel = styled.label`

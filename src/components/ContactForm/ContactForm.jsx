@@ -83,9 +83,9 @@ const ContactForm = forwardRef(({ data = [] }, ref) => {
             <Input
               type="text"
               name="name"
-              pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-              title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-              maxLength="30"
+              pattern="^[a-zA-Z0-9äöüÄÖÜ]*$"
+              title="Name doesn't may contain special symbols"
+              maxLength="20"
               required
               value={name}
               onChange={handleChange}

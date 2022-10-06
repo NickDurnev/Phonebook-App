@@ -1,12 +1,27 @@
 import { useRef } from 'react';
 import PropTypes from 'prop-types';
 import { CSSTransition } from 'react-transition-group';
-import { BiUserCircle } from 'react-icons/bi';
-import Button from 'components/Button';
-import { Item, ButtonWrap } from './Contact.styled';
+import { useAddFavoriteMutation } from 'redux/contacts/contacts-slice';
+//# Components
+import Avatar from 'components/Avatar';
+import IconButton from 'components/IconButton';
+//# Styles
+import {
+  Item,
+  ButtonWrap,
+  EditIcon,
+  DeleteIcon,
+  FavoriteIcon,
+} from './Contact.styled';
 
-const Contact = ({ item, onClick, onInfo, animationTimeOut, ...rest }) => {
-  const { _id, name, phone } = item;
+const Contact = ({ item, onEdit, onDelete, animationTimeOut, ...rest }) => {
+  const { _id, name, phone, avatarURL, favorite } = item;
+  const [onAdd, result] = useAddFavoriteMutation();
+
+  const addToFavorite = id => {
+    const bool = !favorite;
+    onAdd({ id, bool });
+  };
 
   const nodeRef = useRef(null);
   return (
@@ -17,11 +32,19 @@ const Contact = ({ item, onClick, onInfo, animationTimeOut, ...rest }) => {
       classNames="contact-item"
     >
       <Item ref={nodeRef}>
-        <BiUserCircle size="48" />
-        {name}:<span>{phone}</span>
+        <Avatar imageURL={avatarURL} width="48px" />
+        <span>{name}:</span>
+        <span>{phone}</span>
         <ButtonWrap>
-          <Button onClick={() => onInfo(_id)}>Edit</Button>
-          <Button onClick={() => onClick(_id)}>Delete</Button>
+          <IconButton onClick={() => onEdit(_id)} width="30%">
+            <EditIcon />
+          </IconButton>
+          <IconButton onClick={() => addToFavorite(_id)} width="30%">
+            <FavoriteIcon favorite={favorite} />
+          </IconButton>
+          <IconButton onClick={() => onDelete(_id)} width="30%">
+            <DeleteIcon />
+          </IconButton>
         </ButtonWrap>
       </Item>
     </CSSTransition>
@@ -34,8 +57,8 @@ Contact.propTypes = {
     name: PropTypes.string.isRequired,
     phone: PropTypes.string.isRequired,
   }),
-  onClick: PropTypes.func.isRequired,
-  onInfo: PropTypes.func.isRequired,
+  onEdit: PropTypes.func.isRequired,
+  onDelete: PropTypes.func.isRequired,
   animationTimeOut: PropTypes.number.isRequired,
 };
 

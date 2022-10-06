@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
@@ -19,7 +20,7 @@ import {
 import { setCredentials } from 'redux/auth/auth-slice';
 import { setLoggedIn } from 'redux/auth/logged-slice';
 
-const LoginPage = () => {
+const LoginPage = ({ setSkip }) => {
   const [userLogin, { status, data, isError, error }] = useUserLoginMutation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -40,7 +41,7 @@ const LoginPage = () => {
       });
       navigate('/contacts', { replace: true });
     }
-  }, [data, dispatch, navigate, status]);
+  }, [data, dispatch, navigate, setSkip, status]);
 
   useEffect(() => {
     if (isError) {
@@ -54,6 +55,7 @@ const LoginPage = () => {
   const onSubmit = formData => {
     const fetchData = { ...formData };
     userLogin(fetchData);
+    setSkip();
   };
 
   return (
@@ -127,6 +129,10 @@ const LoginPage = () => {
       </StyledContainer>
     </Wrap>
   );
+};
+
+LoginPage.propTypes = {
+  setSkip: PropTypes.func.isRequired,
 };
 
 export default LoginPage;

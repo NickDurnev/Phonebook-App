@@ -9,7 +9,7 @@ import {
 import { Container } from './ContactList.styled';
 import Contact from 'components/Contact';
 
-const ContactList = ({ data, onClick, onInfo, animationTimeOut }) => {
+const ContactList = ({ data, onDelete, onEdit, animationTimeOut }) => {
   console.log(data);
   const rootState = useSelector(state => state.rootReducer);
   const filteredContacts = getFilteredContacts(data, rootState);
@@ -17,12 +17,12 @@ const ContactList = ({ data, onClick, onInfo, animationTimeOut }) => {
 
   const openModalAgreement = id => {
     dispatch(setModalOpen(true));
-    onClick(id);
+    onDelete(id);
   };
 
   const openContactInfo = id => {
     dispatch(setContactInfoOpen(true));
-    onInfo(id);
+    onEdit(id);
   };
 
   return (
@@ -32,8 +32,8 @@ const ContactList = ({ data, onClick, onInfo, animationTimeOut }) => {
           <Contact
             key={item._id}
             item={item}
-            onClick={_id => openModalAgreement(_id)}
-            onInfo={_id => openContactInfo(_id)}
+            onDelete={_id => openModalAgreement(_id)}
+            onEdit={_id => openContactInfo(_id)}
             animationTimeOut={animationTimeOut}
           />
         ))}
@@ -44,7 +44,8 @@ const ContactList = ({ data, onClick, onInfo, animationTimeOut }) => {
 
 ContactList.propTypes = {
   data: PropTypes.array,
-  onClick: PropTypes.func.isRequired,
+  onDelete: PropTypes.func.isRequired,
+  onEdit: PropTypes.func.isRequired,
   animationTimeOut: PropTypes.number.isRequired,
 };
 

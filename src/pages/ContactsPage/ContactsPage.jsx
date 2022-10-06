@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import { useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { CSSTransition } from 'react-transition-group';
 import { toast } from 'react-toastify';
@@ -11,7 +12,7 @@ import {
 import { useGetContactsQuery } from '../../redux/contacts/contacts-slice';
 import { Container, ButtonWrap } from './ContactsPage.styled';
 import { light } from '../../themes';
-//components imports
+//# Components
 import ContactForm from '../../components/ContactForm';
 import ContactList from '../../components/ContactList';
 import ContactInfo from '../../components/ContactEdit';
@@ -27,6 +28,7 @@ const ContactsPage = ({ userLogout }) => {
   const modalRef = useRef(null);
   const dropListRef = useRef(null);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const userID = useSelector(({ auth }) => auth.user.id);
   const token = useSelector(({ auth }) => auth.token);
   let contacts = [];
@@ -54,10 +56,11 @@ const ContactsPage = ({ userLogout }) => {
 
   if (error) {
     toast.error(`${error.data.message}`);
-    console.log(error);
+    console.log(error.status);
     if (error.status === 401) {
       toast.error(`${error.data.message}`);
       userLogout();
+      navigate('/login', { replace: true });
     }
   }
 
@@ -113,8 +116,8 @@ const ContactsPage = ({ userLogout }) => {
       >
         <ContactList
           data={contacts}
-          onClick={value => (contactId.current = value)}
-          onInfo={value => (contactId.current = value)}
+          onDelete={value => (contactId.current = value)}
+          onEdit={value => (contactId.current = value)}
           animationTimeOut={animationTimeOut.current}
         />
       </CSSTransition>

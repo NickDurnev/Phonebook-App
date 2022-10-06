@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { useState } from 'react';
 import { createPortal } from 'react-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -10,8 +11,11 @@ import { forwardRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
 import { setContactInfoOpen } from 'redux/isOpen/isOpen-actions';
+//# Components
 import FileUploader from 'components/FileUploader';
 import Button from 'components/Button';
+import Avatar from 'components/Avatar';
+//# Styles
 import {
   Backdrop,
   Modal,
@@ -29,12 +33,13 @@ const modalRoot = document.querySelector('#modal-root');
 const ContactInfo = forwardRef(({ id, data }, ref) => {
   const dispatch = useDispatch();
   const { token } = useSelector(({ auth }) => auth);
-  const [editPicture, { image, isSuccess }] = useAddAvatarMutation();
+  // eslint-disable-next-line no-unused-vars
+  const [editPicture, { isSuccess }] = useAddAvatarMutation();
+  // eslint-disable-next-line no-unused-vars
   const [editContact, result] = useEditContactMutation();
-  console.log(result);
-  const contactID = id;
-  const contact = data.find(({ _id }) => _id === contactID);
-  const { name, phone, email, surname } = contact;
+  const contact = data.find(({ _id }) => _id === id);
+  const { name, phone, email, surname, avatarURL } = contact;
+  const [imageURL, setImageURL] = useState(avatarURL ?? null);
 
   const {
     register,
@@ -45,21 +50,25 @@ const ContactInfo = forwardRef(({ id, data }, ref) => {
   const handleFile = async image => {
     const formData = new FormData();
     formData.append('avatar', image);
-    console.log(image);
-    for (var pair of formData.entries()) {
-      console.log(pair[0] + ', ' + pair[1]);
-    }
-    await editPicture({ token, id, formData }).unwrap();
+    formData.append('prevURL', imageURL ?? '');
+    const { avatarURL } = await editPicture({
+      token,
+      id,
+      formData,
+    }).unwrap();
+    setTimeout(() => {
+      setImageURL(avatarURL);
+    }, 500);
   };
 
-  const onSubmit = ({ name, phone, email, surname }) => {
+  const onSubmit = async contact => {
     const formattedNumber = phone.replace(/[^0-9]/g, '');
     if (formattedNumber.length < 12) {
       toast.error('Enter full telephone number');
       return;
     }
-    const patchtData = { ...contact, name, phone, email, surname };
-    editContact(patchtData);
+    const patchtData = { id, contact };
+    await editContact(patchtData);
     dispatch(setContactInfoOpen(false));
   };
 
@@ -81,7 +90,7 @@ const ContactInfo = forwardRef(({ id, data }, ref) => {
                 required: 'Name is required.',
                 pattern: /[A-Za-z]{3}/,
                 maxLength: {
-                  value: 30,
+                  value: 20,
                   message: 'This input exceed maxLength.',
                 },
               })}
@@ -104,7 +113,7 @@ const ContactInfo = forwardRef(({ id, data }, ref) => {
               {...register('surname', {
                 pattern: /[A-Za-z]{3}/,
                 maxLength: {
-                  value: 30,
+                  value: 20,
                   message: 'This input exceed maxLength.',
                 },
               })}
@@ -164,7 +173,9 @@ const ContactInfo = forwardRef(({ id, data }, ref) => {
               }
             />
           </InfoLabel>
-          <FileUploader handleFile={image => handleFile(image)} />
+          <FileUploader handleFile={image => handleFile(image)}>
+            <Avatar imageURL={imageURL} width="100px" />
+          </FileUploader>
           {errors.exampleRequired && <span>This field is required</span>}
           <InfoButton type="submit">Submit</InfoButton>
         </InfoForm>

@@ -1,6 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 const url = process.env.REACT_APP_WEB_SERVER_URL;
-console.log(url);
 
 export const contactsApi = createApi({
   reducerPath: 'contactsApi',
@@ -17,8 +16,8 @@ export const contactsApi = createApi({
     },
   }),
   tagTypes: ['Contacts'],
-  keepUnusedDataFor: 10,
-  refetchOnMountOrArgChange: 10,
+  keepUnusedDataFor: 60,
+  refetchOnMountOrArgChange: 60,
   endpoints: builder => ({
     getContacts: builder.query({
       query: ({ userID, token }) => ({
@@ -26,8 +25,8 @@ export const contactsApi = createApi({
         headers: {
           Authorization: `Bearer ${token}`,
         },
-        providesTags: ['Contacts'],
       }),
+      providesTags: ['Contacts'],
     }),
     deleteContact: builder.mutation({
       query: contactId => ({
@@ -47,9 +46,9 @@ export const contactsApi = createApi({
       invalidatesTags: ['Contacts'],
     }),
     editContact: builder.mutation({
-      query: contact => ({
-        url: `api/contacts/${contact._id}`,
-        method: 'PUT',
+      query: ({ id, contact }) => ({
+        url: `api/contacts/${id}`,
+        method: 'PATCH',
         body: {
           ...contact,
         },
@@ -57,14 +56,19 @@ export const contactsApi = createApi({
       invalidatesTags: ['Contacts'],
     }),
     addAvatar: builder.mutation({
-      query: ({ token, id, formData }) => ({
+      query: ({ id, formData }) => ({
         url: `contacts/avatars/${id}`,
         method: 'PATCH',
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
         body: formData,
       }),
+    }),
+    addFavorite: builder.mutation({
+      query: ({ id, bool }) => ({
+        url: `api/contacts/${id}/favorite`,
+        method: 'PATCH',
+        body: { favorite: bool },
+      }),
+      invalidatesTags: ['Contacts'],
     }),
   }),
 });
@@ -75,4 +79,5 @@ export const {
   useDeleteContactMutation,
   useEditContactMutation,
   useAddAvatarMutation,
+  useAddFavoriteMutation,
 } = contactsApi;

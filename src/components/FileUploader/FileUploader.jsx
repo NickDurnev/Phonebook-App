@@ -1,8 +1,8 @@
+import PropTypes from 'prop-types';
 import { useRef } from 'react';
-import Button from 'components/Button';
-import { Wrap, Input } from './FileUploader.styled';
+import { Wrap, Input, Button } from './FileUploader.styled';
 
-const FileUploader = props => {
+const FileUploader = ({ handleFile, children }) => {
   const hiddenFileInput = useRef(null);
 
   const handleClick = event => {
@@ -11,12 +11,14 @@ const FileUploader = props => {
 
   const handleChange = event => {
     const fileUploaded = event.target.files[0];
-    props.handleFile(fileUploaded);
+    handleFile(fileUploaded);
   };
 
   return (
     <Wrap>
-      <Button onClick={handleClick}>Upload avatar</Button>
+      <Button type="button" onClick={handleClick}>
+        {children}
+      </Button>
       <Input
         type="file"
         name="picture"
@@ -26,6 +28,10 @@ const FileUploader = props => {
       />
     </Wrap>
   );
+};
+
+FileUploader.propTypes = {
+  handleFile: PropTypes.func.isRequired,
 };
 
 export default FileUploader;

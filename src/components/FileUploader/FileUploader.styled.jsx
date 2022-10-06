@@ -7,3 +7,8 @@ export const Wrap = styled.div`
 export const Input = styled.input`
   display: none;
 `;
+
+export const Button = styled.button`
+  color: inherit;
+  background-color: inherit;
+`;
