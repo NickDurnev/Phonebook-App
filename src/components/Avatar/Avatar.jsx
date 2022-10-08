@@ -10,7 +10,7 @@ const Avatar = ({ imageURL, width }) => {
 };
 
 Avatar.propTypes = {
-  imageURL: PropTypes.string.isRequired,
+  imageURL: PropTypes.string,
   width: PropTypes.string,
 };
 

@@ -34,11 +34,10 @@ const ContactInfo = forwardRef(({ id, data }, ref) => {
   const dispatch = useDispatch();
   const { token } = useSelector(({ auth }) => auth);
   // eslint-disable-next-line no-unused-vars
-  const [editPicture, { isSuccess }] = useAddAvatarMutation();
+  const [editPicture, editResult] = useAddAvatarMutation();
   // eslint-disable-next-line no-unused-vars
   const [editContact, result] = useEditContactMutation();
-  const contact = data.find(({ _id }) => _id === id);
-  const { name, phone, email, surname, avatarURL } = contact;
+  const { name, email, phone, surname, avatarURL } = data.data.contact;
   const [imageURL, setImageURL] = useState(avatarURL ?? null);
 
   const {
@@ -58,7 +57,7 @@ const ContactInfo = forwardRef(({ id, data }, ref) => {
     }).unwrap();
     setTimeout(() => {
       setImageURL(avatarURL);
-    }, 500);
+    }, 1000);
   };
 
   const onSubmit = async contact => {

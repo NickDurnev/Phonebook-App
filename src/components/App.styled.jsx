@@ -13,7 +13,7 @@ export const Container = styled.div`
 
   @media ${device.laptop} {
     max-width: 60vw;
-    height: 100vh;
+    min-height: 100vh;
   }
 
   & > h1,

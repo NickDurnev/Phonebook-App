@@ -16,6 +16,7 @@ import {
 
 const Contact = ({ item, onEdit, onDelete, animationTimeOut, ...rest }) => {
   const { _id, name, phone, avatarURL, favorite } = item;
+  // eslint-disable-next-line no-unused-vars
   const [onAdd, result] = useAddFavoriteMutation();
 
   const addToFavorite = id => {
@@ -40,7 +41,7 @@ const Contact = ({ item, onEdit, onDelete, animationTimeOut, ...rest }) => {
             <EditIcon />
           </IconButton>
           <IconButton onClick={() => addToFavorite(_id)} width="30%">
-            <FavoriteIcon favorite={favorite} />
+            <FavoriteIcon favorite={favorite ? 1 : 0} />
           </IconButton>
           <IconButton onClick={() => onDelete(_id)} width="30%">
             <DeleteIcon />
@@ -56,6 +57,8 @@ Contact.propTypes = {
     _id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     phone: PropTypes.string.isRequired,
+    avatarURL: PropTypes.string,
+    favorite: PropTypes.bool.isRequired,
   }),
   onEdit: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,

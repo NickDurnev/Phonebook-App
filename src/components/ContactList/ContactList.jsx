@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import getFilteredContacts from 'redux/contacts/contacts-selectors';
 import { TransitionGroup } from 'react-transition-group';
@@ -9,11 +10,26 @@ import {
 import { Container } from './ContactList.styled';
 import Contact from 'components/Contact';
 
-const ContactList = ({ data, onDelete, onEdit, animationTimeOut }) => {
-  console.log(data);
+const ContactList = ({
+  data,
+  onDelete,
+  onEdit,
+  animationTimeOut,
+  favorite,
+}) => {
+  const [contacts, setContacts] = useState([]);
   const rootState = useSelector(state => state.rootReducer);
-  const filteredContacts = getFilteredContacts(data, rootState);
+  const filteredContacts = getFilteredContacts(contacts, rootState, favorite);
   const dispatch = useDispatch();
+
+  console.log(contacts);
+  console.log(data);
+
+  //TODO Bug - Value of contacts in state always added.
+  useEffect(() => {
+    setContacts([...contacts, ...data]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data]);
 
   const openModalAgreement = id => {
     dispatch(setModalOpen(true));
@@ -47,6 +63,7 @@ ContactList.propTypes = {
   onDelete: PropTypes.func.isRequired,
   onEdit: PropTypes.func.isRequired,
   animationTimeOut: PropTypes.number.isRequired,
+  favorite: PropTypes.oneOf([null, true, false]),
 };
 
 export default ContactList;

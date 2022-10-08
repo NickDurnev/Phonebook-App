@@ -2,6 +2,7 @@ const base = {
   mainTextFontWeight: '500',
   listItemBcgColor: 'rgba(157, 153, 153, 0.253)',
   backdropColor: 'rgba(0, 0, 0, 0.2)',
+  marksBgColor: '#D0CD94',
   hoverTransition: '300ms',
   hoverTimeFunction: 'linear',
   animationDuration: '300ms',
@@ -23,11 +24,11 @@ export const light = {
 export const dark = {
   ...light,
   name: 'Dark',
-  bgColor: '#2D2831',
-  textColor: '#fff',
-  bgElementColor: '#8c6fcf',
-  linkActiveColor: '#8ce4bb',
-  bgElementHoverColor: '#715ba7',
+  bgColor: '#46494C',
+  textColor: '#FAFAFA',
+  bgElementColor: '#95A6B2',
+  linkActiveColor: '#DCDCDD',
+  bgElementHoverColor: '#718998',
 };
 
 export const blue = {

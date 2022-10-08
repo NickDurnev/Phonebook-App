@@ -20,13 +20,28 @@ export const contactsApi = createApi({
   refetchOnMountOrArgChange: 60,
   endpoints: builder => ({
     getContacts: builder.query({
-      query: ({ userID, token }) => ({
-        url: `api/contacts/${userID}`,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }),
+      query: ({ userID, token, favorite, page }) => {
+        let filter = {};
+        if (favorite) {
+          filter = { favorite: favorite };
+        }
+        return {
+          url: `api/contacts/${userID}`,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          params: {
+            page: page,
+            ...filter,
+          },
+        };
+      },
       providesTags: ['Contacts'],
+    }),
+    getContactById: builder.query({
+      query: ({ userID, contactID }) => ({
+        url: `api/contacts/${userID}/${contactID}`,
+      }),
     }),
     deleteContact: builder.mutation({
       query: contactId => ({
@@ -80,4 +95,5 @@ export const {
   useEditContactMutation,
   useAddAvatarMutation,
   useAddFavoriteMutation,
+  useGetContactByIdQuery,
 } = contactsApi;

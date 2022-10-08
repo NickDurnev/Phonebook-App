@@ -87,7 +87,7 @@ const ContactForm = forwardRef(({ data = [] }, ref) => {
               title="Name doesn't may contain special symbols"
               maxLength="20"
               required
-              value={name}
+              value={name.trim()}
               onChange={handleChange}
             />
           </Label>
