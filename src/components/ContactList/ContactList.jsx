@@ -22,12 +22,8 @@ const ContactList = ({
   const filteredContacts = getFilteredContacts(contacts, rootState, favorite);
   const dispatch = useDispatch();
 
-  console.log(contacts);
-  console.log(data);
-
-  //TODO Bug - Value of contacts in state always added.
   useEffect(() => {
-    setContacts([...contacts, ...data]);
+    setContacts([...data]);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 

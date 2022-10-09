@@ -4,18 +4,18 @@ import { device } from 'deviceSizes';
 import { slideInTop, slideInBottom } from 'animations';
 
 const enterAnimation = css`
-  ${slideInTop} ${props => props.theme.animationDuration}
-    ${props => props.theme.animationTimeFunction}
+  ${slideInTop} ${({ theme }) => theme.animationDuration}
+    ${({ theme }) => theme.animationTimeFunction}
 `;
 
 const exitAnimation = css`
-  ${slideInBottom} ${props => props.theme.animationDuration}
-    ${props => props.theme.animationTimeFunction}
+  ${slideInBottom} ${({ theme }) => theme.animationDuration}
+    ${({ theme }) => theme.animationTimeFunction}
 `;
 
 export const Container = styled.div`
   position: relative;
-  padding: 20px;
+  padding: 10px;
   overflow: hidden;
 
   @media ${device.mobileM} {
@@ -48,8 +48,8 @@ export const PositionedButton = styled.button`
   width: 90px;
   height: 100px;
   padding: 60px 5px 10px 5px;
-  background-color: ${props => props.theme.marksBgColor};
-  color: ${props => props.theme.textColor};
+  background-color: ${({ theme }) => theme.marksBgColor};
+  color: ${({ theme }) => theme.textColor};
   transform: translateY(-30px);
   text-transform: uppercase;
   font-weight: 600;
@@ -69,13 +69,13 @@ export const StyledToastContainer = styled(ToastContainer)`
   &&&.Toastify__toast-container {
   }
   .Toastify__toast {
-    color: ${props => props.theme.textColor};
-    background-color: ${props => props.theme.bgColor};
+    color: ${({ theme }) => theme.textColor};
+    background-color: ${({ theme }) => theme.bgColor};
   }
 `;
 
 export const ButtonWrap = styled.div`
-  margin: 20px auto;
+  margin: 10px auto;
 
   & > button {
     padding: 10px;

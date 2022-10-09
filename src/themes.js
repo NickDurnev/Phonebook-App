@@ -6,7 +6,8 @@ const base = {
   hoverTransition: '300ms',
   hoverTimeFunction: 'linear',
   animationDuration: '300ms',
-  animationTimeFunction: `linear`,
+  longAnimationDuration: '1000ms',
+  animationTimeFunction: `both`,
 };
 
 export const light = {

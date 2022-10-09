@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
-import { useRef, useState, useEffect } from 'react';
-import { useInView } from 'react-intersection-observer';
+import { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { CSSTransition } from 'react-transition-group';
@@ -23,6 +22,7 @@ import AgreementModal from '../../components/AgreementModal';
 import DropList from '../../components/DropList';
 import Button from '../../components/Button';
 import NoteLoader from '../../components/NoteLoader';
+import ContactsNavigation from 'components/ContactsNavigation';
 //# Styles
 import {
   Container,
@@ -30,7 +30,6 @@ import {
   PositionedWrap,
   AllContactsButton,
   FavoriteContactsButton,
-  FetchMarker,
 } from './ContactsPage.styled';
 import { light } from '../../themes';
 
@@ -38,7 +37,6 @@ const ContactsPage = ({ userLogout }) => {
   const [favorite, setFavorite] = useState(null);
   const [page, setPage] = useState(1);
   const [skipGetContact, setSkipGetContact] = useState(true);
-  // const [contacts, setContacts] = useState([]);
   let contactIdRef = useRef(null);
   const contactID = contactIdRef.current;
   const animationTimeOut = useRef(parseInt(light.animationDuration));
@@ -63,10 +61,6 @@ const ContactsPage = ({ userLogout }) => {
     ({ rootReducer }) => rootReducer.isOpen.contactForm
   );
 
-  const { ref: ListRef, inView } = useInView({
-    threshold: 0.1,
-  });
-
   const { data, isLoading, isSuccess, error, refetch } = useGetContactsQuery(
     { userID, token, favorite, page },
     {
@@ -81,16 +75,6 @@ const ContactsPage = ({ userLogout }) => {
       skip: skipGetContact,
     }
   );
-
-  useEffect(() => {
-    if (contacts.length < 10) {
-      return;
-    }
-    if (contacts.length !== 0 && inView) {
-      setPage(page + 1);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [inView]);
 
   if (isSuccess && data.data.contacts) {
     contacts = data.data.contacts;
@@ -212,7 +196,7 @@ const ContactsPage = ({ userLogout }) => {
           ref={modalRef}
         />
       </CSSTransition>
-      <FetchMarker ref={ListRef} />
+      <ContactsNavigation page={page} onClick={page => setPage(page)} />
     </Container>
   );
 };

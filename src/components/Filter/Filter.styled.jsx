@@ -5,7 +5,7 @@ export const Label = styled.label`
   font-weight: ${props => props.theme.mainTextFontWeight};
   & > input {
     margin-left: 10px;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     width: 200px;
     height: 30px;
     padding: 5px;
