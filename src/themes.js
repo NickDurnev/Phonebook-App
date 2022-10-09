@@ -7,7 +7,8 @@ const base = {
   hoverTimeFunction: 'linear',
   animationDuration: '300ms',
   longAnimationDuration: '1000ms',
-  animationTimeFunction: `both`,
+  animationTimeFunction: 'linear',
+  addAnimationTimeFunction: 'both',
 };
 
 export const light = {
@@ -15,10 +16,10 @@ export const light = {
   name: 'Light',
   bgColor: '#f3f3f3',
   textColor: '#000',
-  bgElementColor: '#60D0CA',
+  bgElementColor: '#3AB795',
   linkActiveColor: '#ecfcb4',
   elementColor: '#fff',
-  bgElementHoverColor: '#50aaa6',
+  bgElementHoverColor: '#319B7F',
   boxShadow: ' 0px 5px 10px 2px rgba(34, 60, 80, 0.2)',
 };
 
@@ -35,9 +36,9 @@ export const dark = {
 export const blue = {
   ...light,
   name: 'Blue',
-  bgColor: '#4d4d8a',
+  bgColor: '#B6C5E2',
   textColor: '#fff',
-  bgElementColor: '#b4b882',
-  linkActiveColor: '#69aaf5',
-  bgElementHoverColor: '#c4c393',
+  bgElementColor: '#4387C7',
+  linkActiveColor: '#B8E0D2',
+  bgElementHoverColor: '#8EB3CD',
 };

@@ -4,13 +4,14 @@ import { jelloHorizontal } from 'animations';
 
 const attentionAnimation = css`
   ${jelloHorizontal} ${({ theme }) => theme.longAnimationDuration}
-    ${({ theme }) => theme.animationTimeFunction}
+    ${({ theme }) => theme.addAnimationTimeFunction}
 `;
 
 export const NavWrap = styled.div`
   position: fixed;
   top: 50%;
   left: 50%;
+  pointer-events: none;
   transform: translate(-50%, -50%);
   display: flex;
   justify-content: space-between;
