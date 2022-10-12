@@ -30,6 +30,6 @@ export const Container = styled.div`
   }
 
   & li + li {
-    margin-top: 10px;
+    margin-top: 8px;
   }
 `;

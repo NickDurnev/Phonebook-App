@@ -1,17 +1,12 @@
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
-import { jelloHorizontal } from 'animations';
-
-const attentionAnimation = css`
-  ${jelloHorizontal} ${({ theme }) => theme.longAnimationDuration}
-    ${({ theme }) => theme.addAnimationTimeFunction}
-`;
+import { jelloHorizontal } from 'config/animations';
 
 export const NavWrap = styled.div`
   position: fixed;
+  pointer-events: none;
   top: 50%;
   left: 50%;
-  pointer-events: none;
   transform: translate(-50%, -50%);
   display: flex;
   justify-content: space-between;
@@ -23,6 +18,10 @@ export const LeftIcon = styled(IoIosArrowBack)`
   height: auto;
 
   color: ${({ theme }) => theme.marksBgColor};
+  animation: ${jelloHorizontal} ${({ theme }) => theme.animationTimeFunction} 4s
+    infinite alternate;
+  animation-delay: 0s;
+
   transform: scale(1);
   transition: transform ${({ theme }) => theme.animationDuration}
     ${({ theme }) => theme.animationTimeFunction};
@@ -31,9 +30,6 @@ export const LeftIcon = styled(IoIosArrowBack)`
   &:focus {
     transform: scale(1.2);
   }
-
-  animation: ${({ active }) => (active === true ? attentionAnimation : 'none')};
-  animation-fill-mode: forwards;
 `;
 
 export const RightIcon = styled(IoIosArrowForward)`
@@ -41,6 +37,10 @@ export const RightIcon = styled(IoIosArrowForward)`
   height: auto;
 
   color: ${({ theme }) => theme.marksBgColor};
+  animation: ${jelloHorizontal} ${({ theme }) => theme.animationTimeFunction} 4s
+    infinite alternate;
+  animation-delay: 0s;
+
   transform: scale(1);
   transition: transform ${({ theme }) => theme.animationDuration}
     ${({ theme }) => theme.animationTimeFunction};
@@ -49,7 +49,4 @@ export const RightIcon = styled(IoIosArrowForward)`
   &:focus {
     transform: scale(1.2);
   }
-
-  animation: ${({ active }) => active && attentionAnimation};
-  animation-fill-mode: forwards;
 `;

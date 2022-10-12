@@ -43,6 +43,12 @@ export const contactsApi = createApi({
         url: `api/contacts/${userID}/${contactID}`,
       }),
     }),
+    getContactsByName: builder.query({
+      query: ({ userID, query, page }) => ({
+        url: `api/contacts/${userID}/search/${query}`,
+        params: { page: page },
+      }),
+    }),
     deleteContact: builder.mutation({
       query: contactId => ({
         url: `api/contacts/${contactId}`,
@@ -61,8 +67,8 @@ export const contactsApi = createApi({
       invalidatesTags: ['Contacts'],
     }),
     editContact: builder.mutation({
-      query: ({ id, contact }) => ({
-        url: `api/contacts/${id}`,
+      query: ({ contactID, contact }) => ({
+        url: `api/contacts/${contactID}`,
         method: 'PATCH',
         body: {
           ...contact,
@@ -71,8 +77,8 @@ export const contactsApi = createApi({
       invalidatesTags: ['Contacts'],
     }),
     addAvatar: builder.mutation({
-      query: ({ id, formData }) => ({
-        url: `contacts/avatars/${id}`,
+      query: ({ contactID, formData }) => ({
+        url: `contacts/avatars/${contactID}`,
         method: 'PATCH',
         body: formData,
       }),
@@ -96,4 +102,5 @@ export const {
   useAddAvatarMutation,
   useAddFavoriteMutation,
   useGetContactByIdQuery,
+  useGetContactsByNameQuery,
 } = contactsApi;

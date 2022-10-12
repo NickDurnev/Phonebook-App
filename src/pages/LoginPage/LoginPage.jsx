@@ -21,7 +21,8 @@ import { setCredentials } from 'redux/auth/auth-slice';
 import { setLoggedIn } from 'redux/auth/logged-slice';
 
 const LoginPage = ({ setSkip }) => {
-  const [userLogin, { status, data, isError, error }] = useUserLoginMutation();
+  const [userLogin, { data, isError, isSuccess, error }] =
+    useUserLoginMutation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const userEmail = useSelector(({ auth }) => auth.user.email);
@@ -32,23 +33,18 @@ const LoginPage = ({ setSkip }) => {
   } = useForm({ criteriaMode: 'all' });
 
   useEffect(() => {
-    if (status === 'fulfilled') {
+    if (isSuccess) {
       dispatch(setCredentials(data));
       dispatch(setLoggedIn(true));
-      console.log(data);
-      toast.success('Login is successfull', {
-        position: toast.POSITION.TOP_CENTER,
-      });
       navigate('/contacts', { replace: true });
     }
-  }, [data, dispatch, navigate, setSkip, status]);
+  }, [data, dispatch, navigate, setSkip, isSuccess]);
 
   useEffect(() => {
     if (isError) {
       console.log(error.data.message);
-      toast.error(`${error.data.message}`, {
-        position: toast.POSITION.TOP_CENTER,
-      });
+      toast.error(`${error.data.message}`);
+      toast.clearWaitingQueue();
     }
   }, [error, isError]);
 

@@ -10,8 +10,8 @@ import {
   setContactFormOpen,
 } from '../../redux/isOpen/isOpen-actions';
 import {
-  useGetContactByIdQuery,
   useGetContactsQuery,
+  useGetContactsByNameQuery,
 } from '../../redux/contacts/contacts-slice';
 //# Components
 import ContactForm from '../../components/ContactForm';
@@ -31,14 +31,13 @@ import {
   AllContactsButton,
   FavoriteContactsButton,
 } from './ContactsPage.styled';
-import { light } from '../../themes';
+import { light } from '../../config/themes';
 
 const ContactsPage = ({ userLogout }) => {
   const [favorite, setFavorite] = useState(null);
   const [page, setPage] = useState(1);
-  const [skipGetContact, setSkipGetContact] = useState(true);
+  const [contacts, setContacts] = useState([]);
   let contactIdRef = useRef(null);
-  const contactID = contactIdRef.current;
   const animationTimeOut = useRef(parseInt(light.animationDuration));
   const modalRef = useRef(null);
   const dropListRef = useRef(null);
@@ -46,7 +45,6 @@ const ContactsPage = ({ userLogout }) => {
   const navigate = useNavigate();
   const userID = useSelector(({ auth }) => auth.user.id);
   const token = useSelector(({ auth }) => auth.token);
-  let contacts = [];
 
   const isDropListOpen = useSelector(
     ({ rootReducer }) => rootReducer.isOpen.dropList
@@ -64,20 +62,14 @@ const ContactsPage = ({ userLogout }) => {
   const { data, isLoading, isSuccess, error, refetch } = useGetContactsQuery(
     { userID, token, favorite, page },
     {
+      skip: true,
       pollingInterval: 60000,
       refetchOnMountOrArgChange: true,
     }
   );
 
-  const getContactByID = useGetContactByIdQuery(
-    { userID, contactID },
-    {
-      skip: skipGetContact,
-    }
-  );
-
   if (isSuccess && data.data.contacts) {
-    contacts = data.data.contacts;
+    setContacts(data.data.contacts);
   }
 
   if (error) {
@@ -99,11 +91,6 @@ const ContactsPage = ({ userLogout }) => {
     setFavorite(false);
     setPage(1);
     refetch();
-  };
-
-  const getContact = id => {
-    contactIdRef.current = id;
-    setSkipGetContact(false);
   };
 
   const handleClickClose = e => {
@@ -156,10 +143,10 @@ const ContactsPage = ({ userLogout }) => {
         <ContactForm data={contacts} ref={modalRef} />
       </CSSTransition>
       <h2>Contacts</h2>
-      <Filter />
+      <Filter onChange={data => setContacts(data)} />
       {isLoading && <NoteLoader />}
       <CSSTransition
-        in={contacts && isSuccess}
+        in={contacts}
         timeout={animationTimeOut.current}
         unmountOnExit
       >
@@ -167,7 +154,7 @@ const ContactsPage = ({ userLogout }) => {
           data={contacts}
           favorite={favorite}
           onDelete={value => (contactIdRef.current = value)}
-          onEdit={id => getContact(id)}
+          onEdit={id => (contactIdRef.current = id)}
           animationTimeOut={animationTimeOut.current}
         />
       </CSSTransition>
@@ -185,18 +172,24 @@ const ContactsPage = ({ userLogout }) => {
       </CSSTransition>
       <CSSTransition
         nodeRef={modalRef}
-        in={isContactInfoOpen && getContactByID.isSuccess}
+        in={isContactInfoOpen}
         timeout={animationTimeOut.current}
         classNames="fade"
         unmountOnExit
       >
         <ContactInfo
-          id={contactIdRef.current}
-          data={getContactByID.data}
+          contactID={contactIdRef.current}
+          data={contacts}
           ref={modalRef}
         />
       </CSSTransition>
-      <ContactsNavigation page={page} onClick={page => setPage(page)} />
+      {contacts.length > 0 && (
+        <ContactsNavigation
+          data={contacts}
+          page={page}
+          onClick={page => setPage(page)}
+        />
+      )}
     </Container>
   );
 };

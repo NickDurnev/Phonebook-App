@@ -27,9 +27,7 @@ const ChangePasswordPage = () => {
 
   const onSubmit = ({ password, repeatedPassword }) => {
     if (password !== repeatedPassword) {
-      toast.error('Passwords has to match', {
-        position: toast.POSITION.TOP_CENTER,
-      });
+      toast.error('Passwords has to match');
       return;
     }
     setPassword(password);
@@ -38,9 +36,7 @@ const ChangePasswordPage = () => {
 
   if (isSuccess) {
     navigate('/login', { replace: true });
-    toast.success(`${data.message}`, {
-      position: toast.POSITION.TOP_CENTER,
-    });
+    toast.success(`${data.message}`);
   }
 
   const {

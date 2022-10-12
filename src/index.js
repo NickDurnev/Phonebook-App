@@ -14,7 +14,11 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       <PersistGate loading={null} persistor={persistor}>
         <BrowserRouter>
           <App />
-          <StyledToastContainer autoClose={3000} />
+          <StyledToastContainer
+            autoClose={3000}
+            position={'top-center'}
+            limit={1}
+          />
         </BrowserRouter>
       </PersistGate>
     </Provider>

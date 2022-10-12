@@ -7,7 +7,7 @@ import { Container, UserIcon, Icon } from './UserMenu.styled';
 import { addAvatar } from 'redux/addAvatar/avatars-slice';
 import AvatarList from 'components/AvatarList';
 import avatars from 'avatars/avatars';
-import { light } from '../../themes';
+import { light } from '../../config/themes';
 
 const UserMenu = ({ userLogout }) => {
   const [isAvatarList, setIsAvatarList] = useState(false);

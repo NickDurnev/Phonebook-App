@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { device } from 'deviceSizes';
+import { device } from 'config/deviceSizes';
 
 export const List = styled.ul`
   position: absolute;

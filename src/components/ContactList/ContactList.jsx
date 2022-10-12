@@ -17,15 +17,9 @@ const ContactList = ({
   animationTimeOut,
   favorite,
 }) => {
-  const [contacts, setContacts] = useState([]);
-  const rootState = useSelector(state => state.rootReducer);
-  const filteredContacts = getFilteredContacts(contacts, rootState, favorite);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    setContacts([...data]);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data]);
+  console.log(data);
 
   const openModalAgreement = id => {
     dispatch(setModalOpen(true));
@@ -40,7 +34,7 @@ const ContactList = ({
   return (
     <Container>
       <TransitionGroup component="ul" className="contactsList">
-        {filteredContacts.map(item => (
+        {data.map(item => (
           <Contact
             key={item._id}
             item={item}

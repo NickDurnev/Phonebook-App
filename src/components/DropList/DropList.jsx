@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { forwardRef } from 'react';
 import changeTheme from 'redux/theme/theme-actions';
 import { setDropListOpen } from 'redux/isOpen/isOpen-actions';
-import { light, dark, blue } from '../../themes';
+import { light, dark, blue } from '../../config/themes';
 import List from './DropList.styled';
 import Button from 'components/Button';
 

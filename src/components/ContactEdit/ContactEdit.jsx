@@ -30,14 +30,17 @@ import {
 
 const modalRoot = document.querySelector('#modal-root');
 
-const ContactInfo = forwardRef(({ id, data }, ref) => {
+const ContactInfo = forwardRef(({ contactID, data }, ref) => {
   const dispatch = useDispatch();
   const { token } = useSelector(({ auth }) => auth);
   // eslint-disable-next-line no-unused-vars
   const [editPicture, editResult] = useAddAvatarMutation();
   // eslint-disable-next-line no-unused-vars
   const [editContact, result] = useEditContactMutation();
-  const { name, email, phone, surname, avatarURL } = data.data.contact;
+  const contact = data.find(contact => contact._id === contactID);
+  console.log(data);
+  console.log(contact);
+  const { name, email, phone, surname, avatarURL } = contact;
   const [imageURL, setImageURL] = useState(avatarURL ?? null);
 
   const {
@@ -52,7 +55,7 @@ const ContactInfo = forwardRef(({ id, data }, ref) => {
     formData.append('prevURL', imageURL ?? '');
     const { avatarURL } = await editPicture({
       token,
-      id,
+      contactID,
       formData,
     }).unwrap();
     setTimeout(() => {
@@ -60,13 +63,16 @@ const ContactInfo = forwardRef(({ id, data }, ref) => {
     }, 1000);
   };
 
-  const onSubmit = async contact => {
+  const onSubmit = async ({ name, surname, email, phone }) => {
+    const nameData = name.trim().toLowerCase();
+    const surnameData = surname.trim().toLowerCase();
+    const emailData = email.trim().toLowerCase();
     const formattedNumber = phone.replace(/[^0-9]/g, '');
     if (formattedNumber.length < 12) {
       toast.error('Enter full telephone number');
       return;
     }
-    const patchtData = { id, contact };
+    const patchtData = { contactID, nameData, surnameData, emailData, phone };
     await editContact(patchtData);
     dispatch(setContactInfoOpen(false));
   };
@@ -173,7 +179,7 @@ const ContactInfo = forwardRef(({ id, data }, ref) => {
             />
           </InfoLabel>
           <FileUploader handleFile={image => handleFile(image)}>
-            <Avatar imageURL={imageURL} width="100px" />
+            <Avatar imageURL={imageURL} wcontactIDth="100px" />
           </FileUploader>
           {errors.exampleRequired && <span>This field is required</span>}
           <InfoButton type="submit">Submit</InfoButton>
@@ -185,7 +191,7 @@ const ContactInfo = forwardRef(({ id, data }, ref) => {
 });
 
 ContactInfo.propTypes = {
-  id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  contactID: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   data: PropTypes.arrayOf(
     PropTypes.shape({
       name: PropTypes.string.isRequired,

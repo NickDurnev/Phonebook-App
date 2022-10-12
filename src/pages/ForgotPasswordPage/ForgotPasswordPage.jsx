@@ -25,9 +25,7 @@ const ForgotPasswordPage = () => {
   };
 
   if (isSuccess) {
-    toast.success(`${data.message}`, {
-      position: toast.POSITION.TOP_CENTER,
-    });
+    toast.success(`${data.message}`);
   }
 
   const {

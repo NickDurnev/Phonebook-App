@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components';
 import { ToastContainer } from 'react-toastify';
-import { device } from 'deviceSizes';
-import { slideInTop, slideInBottom } from 'animations';
+import { device } from 'config/deviceSizes';
+import { slideInTop, slideInBottom } from 'config/animations';
 
 const enterAnimation = css`
   ${slideInTop} ${({ theme }) => theme.animationDuration}
