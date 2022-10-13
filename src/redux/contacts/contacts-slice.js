@@ -7,8 +7,6 @@ export const contactsApi = createApi({
     baseUrl: `${url}`,
     prepareHeaders: (headers, { getState }) => {
       const token = getState().auth.token;
-      console.log(token);
-      // If we have a token set in state, let's assume that we should be passing it.
       if (token) {
         headers.set('authorization', `Bearer ${token}`);
       }
@@ -36,6 +34,7 @@ export const contactsApi = createApi({
           },
         };
       },
+      keepUnusedDataFor: 0,
       providesTags: ['Contacts'],
     }),
     getContactById: builder.query({
@@ -67,13 +66,16 @@ export const contactsApi = createApi({
       invalidatesTags: ['Contacts'],
     }),
     editContact: builder.mutation({
-      query: ({ contactID, contact }) => ({
-        url: `api/contacts/${contactID}`,
-        method: 'PATCH',
-        body: {
-          ...contact,
-        },
-      }),
+      query: ({ contactID, contact }) => {
+        console.log(contact);
+        return {
+          url: `api/contacts/${contactID}`,
+          method: 'PATCH',
+          body: {
+            ...contact,
+          },
+        };
+      },
       invalidatesTags: ['Contacts'],
     }),
     addAvatar: builder.mutation({

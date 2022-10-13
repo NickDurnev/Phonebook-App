@@ -14,7 +14,14 @@ import {
   FavoriteIcon,
 } from './Contact.styled';
 
-const Contact = ({ item, onEdit, onDelete, animationTimeOut, ...rest }) => {
+const Contact = ({
+  item,
+  onDelete,
+  onEdit,
+  onSetSkipQuery,
+  animationTimeOut,
+  ...rest
+}) => {
   const { _id, name, phone, avatarURL, favorite } = item;
   // eslint-disable-next-line no-unused-vars
   const [onAdd, result] = useAddFavoriteMutation();
@@ -22,6 +29,7 @@ const Contact = ({ item, onEdit, onDelete, animationTimeOut, ...rest }) => {
   const addToFavorite = id => {
     const bool = !favorite;
     onAdd({ id, bool });
+    onSetSkipQuery(false);
   };
 
   const nodeRef = useRef(null);
@@ -60,9 +68,6 @@ Contact.propTypes = {
     avatarURL: PropTypes.string,
     favorite: PropTypes.bool.isRequired,
   }),
-  onEdit: PropTypes.func.isRequired,
-  onDelete: PropTypes.func.isRequired,
-  animationTimeOut: PropTypes.number.isRequired,
 };
 
 export default Contact;

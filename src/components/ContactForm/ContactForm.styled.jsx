@@ -30,6 +30,7 @@ export const Input = styled(InputMask)`
   padding: 5px;
   font-size: 15px;
   font-weight: 500;
+  text-transform: capitalize;
   border: solid 1px;
   border-radius: 5px;
   color: #a7a3a3a9;

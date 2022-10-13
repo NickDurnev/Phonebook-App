@@ -9,14 +9,11 @@ import {
   setDropListOpen,
   setContactFormOpen,
 } from '../../redux/isOpen/isOpen-actions';
-import {
-  useGetContactsQuery,
-  useGetContactsByNameQuery,
-} from '../../redux/contacts/contacts-slice';
+import { useGetContactsQuery } from '../../redux/contacts/contacts-slice';
 //# Components
 import ContactForm from '../../components/ContactForm';
 import ContactList from '../../components/ContactList';
-import ContactInfo from '../../components/ContactEdit';
+import ContactEdit from '../../components/ContactEdit';
 import Filter from '../../components/Filter';
 import AgreementModal from '../../components/AgreementModal';
 import DropList from '../../components/DropList';
@@ -35,6 +32,7 @@ import { light } from '../../config/themes';
 
 const ContactsPage = ({ userLogout }) => {
   const [favorite, setFavorite] = useState(null);
+  const [skipQuery, setSkipQuery] = useState(false);
   const [page, setPage] = useState(1);
   const [contacts, setContacts] = useState([]);
   let contactIdRef = useRef(null);
@@ -52,8 +50,8 @@ const ContactsPage = ({ userLogout }) => {
   const isModalOpen = useSelector(
     ({ rootReducer }) => rootReducer.isOpen.agreement
   );
-  const isContactInfoOpen = useSelector(
-    ({ rootReducer }) => rootReducer.isOpen.contactInfo
+  const isContactEditOpen = useSelector(
+    ({ rootReducer }) => rootReducer.isOpen.contactEdit
   );
   const isContactFormOpen = useSelector(
     ({ rootReducer }) => rootReducer.isOpen.contactForm
@@ -62,7 +60,7 @@ const ContactsPage = ({ userLogout }) => {
   const { data, isLoading, isSuccess, error, refetch } = useGetContactsQuery(
     { userID, token, favorite, page },
     {
-      skip: true,
+      skip: skipQuery,
       pollingInterval: 60000,
       refetchOnMountOrArgChange: true,
     }
@@ -70,6 +68,7 @@ const ContactsPage = ({ userLogout }) => {
 
   if (isSuccess && data.data.contacts) {
     setContacts(data.data.contacts);
+    setSkipQuery(true);
   }
 
   if (error) {
@@ -84,12 +83,14 @@ const ContactsPage = ({ userLogout }) => {
   const getFavoriteContacts = () => {
     setFavorite(true);
     setPage(1);
+    setSkipQuery(false);
     refetch();
   };
 
   const getAllContacts = () => {
     setFavorite(false);
     setPage(1);
+    setSkipQuery(false);
     refetch();
   };
 
@@ -140,13 +141,22 @@ const ContactsPage = ({ userLogout }) => {
         classNames="fade"
         unmountOnExit
       >
-        <ContactForm data={contacts} ref={modalRef} />
+        <ContactForm
+          data={contacts}
+          onSetSkipQuery={bool => setSkipQuery(bool)}
+          ref={modalRef}
+        />
       </CSSTransition>
       <h2>Contacts</h2>
-      <Filter onChange={data => setContacts(data)} />
+      <Filter
+        onChange={data => setContacts(data)}
+        page={page}
+        onSetPage={number => setPage(number)}
+        onSetSkipQuery={bool => setSkipQuery(bool)}
+      />
       {isLoading && <NoteLoader />}
       <CSSTransition
-        in={contacts}
+        in={contacts.length > 0}
         timeout={animationTimeOut.current}
         unmountOnExit
       >
@@ -155,6 +165,7 @@ const ContactsPage = ({ userLogout }) => {
           favorite={favorite}
           onDelete={value => (contactIdRef.current = value)}
           onEdit={id => (contactIdRef.current = id)}
+          onSetSkipQuery={bool => setSkipQuery(bool)}
           animationTimeOut={animationTimeOut.current}
         />
       </CSSTransition>
@@ -167,19 +178,21 @@ const ContactsPage = ({ userLogout }) => {
       >
         <AgreementModal
           id={contactIdRef.current}
+          onSetSkipQuery={bool => setSkipQuery(bool)}
           ref={modalRef}
         ></AgreementModal>
       </CSSTransition>
       <CSSTransition
         nodeRef={modalRef}
-        in={isContactInfoOpen}
+        in={isContactEditOpen}
         timeout={animationTimeOut.current}
         classNames="fade"
         unmountOnExit
       >
-        <ContactInfo
+        <ContactEdit
           contactID={contactIdRef.current}
           data={contacts}
+          onSetSkipQuery={bool => setSkipQuery(bool)}
           ref={modalRef}
         />
       </CSSTransition>

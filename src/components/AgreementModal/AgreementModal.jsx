@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import PropTypes from 'prop-types';
 import { forwardRef } from 'react';
 import { createPortal } from 'react-dom';
@@ -10,15 +11,14 @@ import Button from 'components/Button';
 
 const modalRoot = document.querySelector('#modal-root');
 
-const AgreementModal = forwardRef(({ id }, ref) => {
+const AgreementModal = forwardRef(({ id, onSetSkipQuery }, ref) => {
   const [deleteContact, result] = useDeleteContactMutation();
-  console.log(result);
-  console.log(id);
   const dispatch = useDispatch();
 
   const checkAgreement = answear => {
     if (answear) {
       deleteContact(id);
+      onSetSkipQuery(false);
       toast.success('Contact was deleted', {
         position: toast.POSITION.TOP_CENTER,
       });
@@ -52,6 +52,7 @@ const AgreementModal = forwardRef(({ id }, ref) => {
 
 AgreementModal.propTypes = {
   id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  onSetSkipQuery: PropTypes.func.isRequired,
 };
 
 export default AgreementModal;

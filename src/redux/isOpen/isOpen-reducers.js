@@ -2,7 +2,7 @@ import { createReducer, combineReducers } from '@reduxjs/toolkit';
 import {
   setModalOpen,
   setDropListOpen,
-  setContactInfoOpen,
+  setContactEditOpen,
   setContactFormOpen,
 } from './isOpen-actions';
 
@@ -14,8 +14,8 @@ const dropList = createReducer(false, {
   [setDropListOpen]: (_, { payload }) => payload,
 });
 
-const contactInfo = createReducer(false, {
-  [setContactInfoOpen]: (_, { payload }) => payload,
+const contactEdit = createReducer(false, {
+  [setContactEditOpen]: (_, { payload }) => payload,
 });
 
 const contactForm = createReducer(false, {
@@ -25,6 +25,6 @@ const contactForm = createReducer(false, {
 export default combineReducers({
   agreement,
   dropList,
-  contactInfo,
+  contactEdit,
   contactForm,
 });

@@ -15,6 +15,7 @@ export const Item = styled.li`
 
   & > span {
     width: 35%;
+    text-transform: capitalize;
   }
 `;
 

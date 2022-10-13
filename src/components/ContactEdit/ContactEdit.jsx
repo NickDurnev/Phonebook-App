@@ -10,7 +10,7 @@ import { toast } from 'react-toastify';
 import { forwardRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
-import { setContactInfoOpen } from 'redux/isOpen/isOpen-actions';
+import { setContactEditOpen } from 'redux/isOpen/isOpen-actions';
 //# Components
 import FileUploader from 'components/FileUploader';
 import Button from 'components/Button';
@@ -30,7 +30,7 @@ import {
 
 const modalRoot = document.querySelector('#modal-root');
 
-const ContactInfo = forwardRef(({ contactID, data }, ref) => {
+const ContactEdit = forwardRef(({ contactID, data, onSetSkipQuery }, ref) => {
   const dispatch = useDispatch();
   const { token } = useSelector(({ auth }) => auth);
   // eslint-disable-next-line no-unused-vars
@@ -38,8 +38,6 @@ const ContactInfo = forwardRef(({ contactID, data }, ref) => {
   // eslint-disable-next-line no-unused-vars
   const [editContact, result] = useEditContactMutation();
   const contact = data.find(contact => contact._id === contactID);
-  console.log(data);
-  console.log(contact);
   const { name, email, phone, surname, avatarURL } = contact;
   const [imageURL, setImageURL] = useState(avatarURL ?? null);
 
@@ -72,16 +70,23 @@ const ContactInfo = forwardRef(({ contactID, data }, ref) => {
       toast.error('Enter full telephone number');
       return;
     }
-    const patchtData = { contactID, nameData, surnameData, emailData, phone };
-    await editContact(patchtData);
-    dispatch(setContactInfoOpen(false));
+    const contact = {
+      name: nameData,
+      surname: surnameData,
+      email: emailData,
+      phone: phone,
+    };
+    console.log(contact);
+    await editContact({ contactID, contact });
+    onSetSkipQuery(false);
+    dispatch(setContactEditOpen(false));
   };
 
   return createPortal(
     <Backdrop ref={ref}>
       <Modal>
         <Button
-          onClick={() => dispatch(setContactInfoOpen(false))}
+          onClick={() => dispatch(setContactEditOpen(false))}
           bgColor={false}
         >
           <CloseIcon />
@@ -190,7 +195,7 @@ const ContactInfo = forwardRef(({ contactID, data }, ref) => {
   );
 });
 
-ContactInfo.propTypes = {
+ContactEdit.propTypes = {
   contactID: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   data: PropTypes.arrayOf(
     PropTypes.shape({
@@ -201,6 +206,7 @@ ContactInfo.propTypes = {
       company: PropTypes.string,
     })
   ),
+  onSetSkipQuery: PropTypes.func.isRequired,
 };
 
-export default ContactInfo;
+export default ContactEdit;

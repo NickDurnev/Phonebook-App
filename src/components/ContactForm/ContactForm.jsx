@@ -16,7 +16,7 @@ import { Form, Label, StyledButton, Input, Loader } from './ContactForm.styled';
 
 const modalRoot = document.querySelector('#modal-root');
 
-const ContactForm = forwardRef(({ data = [] }, ref) => {
+const ContactForm = forwardRef(({ data = [], onSetSkipQuery }, ref) => {
   const [name, setName] = useState('');
   const [phone, setNumber] = useState('');
   const dispatch = useDispatch();
@@ -56,6 +56,7 @@ const ContactForm = forwardRef(({ data = [] }, ref) => {
       return;
     }
     createContact({ userID, name, phone });
+    onSetSkipQuery(false);
     reset();
     dispatch(setContactFormOpen(false));
     toast.success('Contact was added', {
@@ -122,6 +123,7 @@ ContactForm.propTypes = {
       name: PropTypes.string.isRequired,
     })
   ),
+  onSetSkipQuery: PropTypes.func.isRequired,
 };
 
 export default ContactForm;
