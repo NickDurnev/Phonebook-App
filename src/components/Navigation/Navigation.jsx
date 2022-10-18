@@ -10,7 +10,7 @@ const Navigation = () => {
       {!isLoggedIn && (
         <div>
           <NavLink to="/register">Registration</NavLink>
-          <NavLink to="/login">Login</NavLink>
+          <NavLink to="/login/null">Login</NavLink>
         </div>
       )}
     </Container>

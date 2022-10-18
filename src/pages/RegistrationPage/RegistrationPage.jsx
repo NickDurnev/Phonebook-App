@@ -4,6 +4,8 @@ import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { ErrorMessage } from '@hookform/error-message';
 import { useUserSignupMutation } from 'redux/auth/auth';
+import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-toastify';
 import {
   Wrap,
   Title,
@@ -33,7 +35,9 @@ const RegistrationPage = () => {
   useEffect(() => {
     if (status === 'fulfilled') {
       dispatch(setCredentials(data));
-      navigate('/login', { replace: true });
+      toast.info('Check your email for the verification letter');
+      toast.clearWaitingQueue();
+      navigate('/login/null', { replace: true });
     }
   }, [data, dispatch, navigate, status]);
 

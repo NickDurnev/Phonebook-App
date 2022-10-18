@@ -46,4 +46,9 @@ export const CloseIcon = styled(IoMdClose)`
 `;
 
 export const InfoInput = styled(Input)``;
+
+export const EmailInput = styled(InfoInput)`
+  text-transform: none;
+`;
+
 export const InfoButton = styled(StyledButton)``;

@@ -42,6 +42,7 @@ export const Label = styled(InfoLabel)``;
 
 export const Input = styled(InfoInput)`
   margin-top: 10px;
+  text-transform: none;
 `;
 
 export const Button = styled(InfoButton)`

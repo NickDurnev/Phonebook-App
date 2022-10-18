@@ -23,6 +23,7 @@ import {
 import {
   InfoForm,
   InfoInput,
+  EmailInput,
   InfoButton,
   InfoLabel,
   CloseIcon,
@@ -161,7 +162,7 @@ const ContactEdit = forwardRef(({ contactID, data, onSetSkipQuery }, ref) => {
           </InfoLabel>
           <InfoLabel>
             Email
-            <InfoInput
+            <EmailInput
               defaultValue={email}
               {...register('email', {
                 pattern:

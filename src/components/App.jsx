@@ -60,7 +60,7 @@ export function App() {
     dispatch(setCredentials(userReset));
     dispatch(setLoggedIn(false));
     persistor.purge();
-    navigate('/login', { replace: true });
+    navigate('/login/null', { replace: true });
   }
   return (
     <ThemeProvider theme={theme}>
@@ -70,7 +70,7 @@ export function App() {
           <Routes>
             <Route path="/register" element={<RegistrationPage />} />
             <Route
-              path="/login"
+              path="/login/:verifyToken"
               element={<LoginPage setSkip={() => setSkip(true)} />}
             />
             <Route
@@ -88,7 +88,7 @@ export function App() {
                 isLogged ? (
                   <Navigate to="/contacts" replace />
                 ) : (
-                  <Navigate to="/login" replace />
+                  <Navigate to="/login/null" replace />
                 )
               }
             />

@@ -22,10 +22,15 @@ const ForgotPasswordPage = () => {
   const onSubmit = ({ email }) => {
     setEmail(email);
     setSkip(false);
+    setTimeout(() => {
+      setEmail(null);
+    }, 60000);
   };
 
-  if (isSuccess) {
+  if (isSuccess && email) {
     toast.success(`${data.message}`);
+    toast.clearWaitingQueue();
+    setEmail(null);
   }
 
   const {
@@ -62,7 +67,11 @@ const ForgotPasswordPage = () => {
             />
           </StyledLabel>
           {errors.exampleRequired && <span>This field is required</span>}
-          <StyledButton type="submit">Send email</StyledButton>
+          {email ? (
+            <p>Check your email</p>
+          ) : (
+            <StyledButton type="submit">Send email</StyledButton>
+          )}
         </StyledForm>
       </StyledContainer>
     </Wrap>

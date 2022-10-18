@@ -10,6 +10,12 @@ import {
 
 export const Wrap = styled.div`
   padding: 30px 0;
+
+  & p {
+    margin-top: 10px;
+    font-size: 20px;
+    font-weight: 500;
+  }
 `;
 
 export const StyledTitle = styled(Title)``;

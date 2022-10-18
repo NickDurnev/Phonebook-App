@@ -62,6 +62,12 @@ export const authApi = createApi({
         providesTags: ['Users'],
       }),
     }),
+    verifyEmail: builder.query({
+      query: verifyToken => ({
+        url: `users/verify/${verifyToken}`,
+        providesTags: ['Users'],
+      }),
+    }),
   }),
 });
 
@@ -72,4 +78,5 @@ export const {
   useUserSignupMutation,
   useResetPasswordQuery,
   useChangePasswordQuery,
+  useVerifyEmailQuery,
 } = authApi;
