@@ -33,14 +33,16 @@ const modalRoot = document.querySelector('#modal-root');
 
 const ContactEdit = forwardRef(({ contactID, data, onSetSkipQuery }, ref) => {
   const dispatch = useDispatch();
+  const { contactEdit } = useSelector(({ rootReducer }) => rootReducer.isOpen);
   const { token } = useSelector(({ auth }) => auth);
   // eslint-disable-next-line no-unused-vars
-  const [editPicture, editResult] = useAddAvatarMutation();
+  const [editPicture, addPicture] = useAddAvatarMutation();
   // eslint-disable-next-line no-unused-vars
   const [editContact, result] = useEditContactMutation();
   const contact = data.find(contact => contact._id === contactID);
   const { name, email, phone, surname, avatarURL } = contact;
   const [imageURL, setImageURL] = useState(avatarURL ?? null);
+  const [rerender, setRerender] = useState(false);
 
   const {
     register,
@@ -49,6 +51,9 @@ const ContactEdit = forwardRef(({ contactID, data, onSetSkipQuery }, ref) => {
   } = useForm({ criteriaMode: 'all' });
 
   const handleFile = async image => {
+    if (!image) {
+      return;
+    }
     const formData = new FormData();
     formData.append('avatar', image);
     formData.append('prevURL', imageURL ?? '');
@@ -59,8 +64,17 @@ const ContactEdit = forwardRef(({ contactID, data, onSetSkipQuery }, ref) => {
     }).unwrap();
     setTimeout(() => {
       setImageURL(avatarURL);
+      setRerender(!rerender);
     }, 1000);
   };
+
+  if (addPicture.isError && contactEdit) {
+    toast.error(`${addPicture.error.data.message}`);
+    toast.clearWaitingQueue();
+  }
+
+  console.log(addPicture.isError);
+  console.log(contactEdit);
 
   const onSubmit = async ({ name, surname, email, phone }) => {
     const nameData = name.trim().toLowerCase();
@@ -185,7 +199,7 @@ const ContactEdit = forwardRef(({ contactID, data, onSetSkipQuery }, ref) => {
             />
           </InfoLabel>
           <FileUploader handleFile={image => handleFile(image)}>
-            <Avatar imageURL={imageURL} wcontactIDth="100px" />
+            <Avatar imageURL={imageURL} width="100px" />
           </FileUploader>
           {errors.exampleRequired && <span>This field is required</span>}
           <InfoButton type="submit">Submit</InfoButton>

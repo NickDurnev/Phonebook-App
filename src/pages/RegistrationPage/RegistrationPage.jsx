@@ -18,7 +18,7 @@ import {
 import { setCredentials } from 'redux/auth/auth-slice';
 
 const RegistrationPage = () => {
-  const [userSignup, { status, data }] = useUserSignupMutation();
+  const [userSignup, { isSuccess, data }] = useUserSignupMutation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const {
@@ -33,13 +33,13 @@ const RegistrationPage = () => {
   };
 
   useEffect(() => {
-    if (status === 'fulfilled') {
+    if (isSuccess) {
       dispatch(setCredentials(data));
       toast.info('Check your email for the verification letter');
       toast.clearWaitingQueue();
       navigate('/login/null', { replace: true });
     }
-  }, [data, dispatch, navigate, status]);
+  }, [data, dispatch, navigate, isSuccess]);
 
   return (
     <Wrap>

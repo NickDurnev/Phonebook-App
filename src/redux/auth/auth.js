@@ -62,6 +62,16 @@ export const authApi = createApi({
         providesTags: ['Users'],
       }),
     }),
+    sendVerifyEmail: builder.query({
+      query: email => ({
+        url: `users/verify`,
+        method: 'POST',
+        body: {
+          email,
+        },
+        providesTags: ['Users'],
+      }),
+    }),
     verifyEmail: builder.query({
       query: verifyToken => ({
         url: `users/verify/${verifyToken}`,
@@ -78,5 +88,6 @@ export const {
   useUserSignupMutation,
   useResetPasswordQuery,
   useChangePasswordQuery,
+  useSendVerifyEmailQuery,
   useVerifyEmailQuery,
 } = authApi;

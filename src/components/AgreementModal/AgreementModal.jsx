@@ -18,12 +18,12 @@ const AgreementModal = forwardRef(({ id, onSetSkipQuery }, ref) => {
   const checkAgreement = answear => {
     if (answear) {
       deleteContact(id);
-      onSetSkipQuery(false);
       toast.success('Contact was deleted', {
         position: toast.POSITION.TOP_CENTER,
       });
     }
     dispatch(setModalOpen(false));
+    onSetSkipQuery(false);
   };
 
   const handleClose = e => {

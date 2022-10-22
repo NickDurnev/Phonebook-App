@@ -1,5 +1,4 @@
 import styled, { css } from 'styled-components';
-import { ToastContainer } from 'react-toastify';
 import { device } from 'config/deviceSizes';
 import { slideInTop, slideInBottom } from 'config/animations';
 
@@ -63,15 +62,6 @@ export const AllContactsButton = styled(PositionedButton)`
 export const FavoriteContactsButton = styled(PositionedButton)`
   animation: ${({ favorite }) => (favorite ? enterAnimation : exitAnimation)};
   animation-fill-mode: forwards;
-`;
-
-export const StyledToastContainer = styled(ToastContainer)`
-  &&&.Toastify__toast-container {
-  }
-  .Toastify__toast {
-    color: ${({ theme }) => theme.textColor};
-    background-color: ${({ theme }) => theme.bgColor};
-  }
 `;
 
 export const ButtonWrap = styled.div`

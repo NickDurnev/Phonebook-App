@@ -1,10 +1,19 @@
 import PropTypes from 'prop-types';
+import { forwardRef } from 'react';
 import Wrap from './Button.styled';
 
-const Button = ({ children, onClick, padding = '5px', bgColor = true }) => (
-  <Wrap type="button" onClick={onClick} padding={padding} bgColor={bgColor}>
-    {children}
-  </Wrap>
+const Button = forwardRef(
+  ({ children, onClick, padding = '5px', bgColor = true }, ref) => (
+    <Wrap
+      type="button"
+      onClick={onClick}
+      padding={padding}
+      bgColor={bgColor}
+      ref={ref}
+    >
+      {children}
+    </Wrap>
+  )
 );
 
 Button.propTypes = {

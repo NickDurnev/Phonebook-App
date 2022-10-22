@@ -12,6 +12,12 @@ import {
 export const Wrap = styled.div`
   position: relative;
   padding: 30px 0;
+  & > button {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    font-size: 16px;
+  }
 `;
 
 export const StyledTitle = styled(Title)``;

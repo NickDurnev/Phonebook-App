@@ -1,12 +1,18 @@
 import PropTypes from 'prop-types';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { ErrorMessage } from '@hookform/error-message';
-import { useUserLoginMutation, useVerifyEmailQuery } from 'redux/auth/auth';
+import { CSSTransition } from 'react-transition-group';
+import {
+  useUserLoginMutation,
+  useVerifyEmailQuery,
+  useSendVerifyEmailQuery,
+} from 'redux/auth/auth';
 import 'react-toastify/dist/ReactToastify.css';
 import { toast } from 'react-toastify';
+import Button from 'components/Button';
 import {
   Wrap,
   StyledTitle,
@@ -17,38 +23,52 @@ import {
   StyledButton,
   StyledLink,
 } from './LoginPage.styled';
-import { setCredentials } from 'redux/auth/auth-slice';
+import { setCredentials, setVerify } from 'redux/auth/auth-slice';
 import { setLoggedIn } from 'redux/auth/logged-slice';
+import { light } from 'config/themes';
 
 const LoginPage = ({ setSkip }) => {
   const [skipVerify, setSkipVerify] = useState(true);
+  const [skipVerifyEmailSent, setSkipVerifyEmailSent] = useState(true);
+  const [isVerifyButton, setIsVerifyButton] = useState(false);
+
+  const animationTimeOut = useRef(parseInt(light.animationDuration));
+  const buttonRef = useRef(null);
+
   const { verifyToken } = useParams();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { email, verify } = useSelector(({ auth }) => auth.user);
+
   const [userLogin, { data, isError, isSuccess, error }] =
     useUserLoginMutation();
+
   const verifyEmailQuery = useVerifyEmailQuery(verifyToken, {
     skip: skipVerify,
   });
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const userEmail = useSelector(({ auth }) => auth.user.email);
+
+  const sendVerifyEmailQuery = useSendVerifyEmailQuery(email, {
+    skip: skipVerifyEmailSent,
+  });
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm({ criteriaMode: 'all' });
+  console.log(verify);
 
   useEffect(() => {
     if (verifyToken !== 'null') {
       setSkipVerify(false);
     }
+    if (!verify) {
+      setTimeout(() => {
+        setIsVerifyButton(true);
+      }, 10000);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  if (verifyEmailQuery.isSuccess) {
-    setSkipVerify(true);
-    toast.success('Verification success');
-    toast.clearWaitingQueue();
-  }
 
   useEffect(() => {
     if (isSuccess) {
@@ -56,13 +76,27 @@ const LoginPage = ({ setSkip }) => {
       dispatch(setLoggedIn(true));
       navigate('/contacts', { replace: true });
     }
-    if (isError) {
-      console.log(error.data.message);
-      toast.error(`${error.data.message}`);
-      toast.clearWaitingQueue();
-    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, navigate, setSkip, isSuccess, isError]);
+
+  if (verifyEmailQuery.isSuccess) {
+    setSkipVerify(true);
+    dispatch(setVerify(true));
+    toast.success('Verification success');
+    toast.clearWaitingQueue();
+  }
+
+  if (sendVerifyEmailQuery.isSuccess) {
+    setSkipVerifyEmailSent(true);
+    toast.info('Check your email for the verification letter');
+    toast.clearWaitingQueue();
+  }
+
+  if (isError) {
+    console.log(error.data.message);
+    toast.error(`${error.data.message}`);
+    toast.clearWaitingQueue();
+  }
 
   const onSubmit = formData => {
     const fetchData = { ...formData };
@@ -70,15 +104,31 @@ const LoginPage = ({ setSkip }) => {
     setSkip();
   };
 
+  const onButton = () => {
+    setSkipVerifyEmailSent(false);
+    setIsVerifyButton(false);
+  };
+
   return (
     <Wrap>
+      <CSSTransition
+        nodeRef={buttonRef}
+        in={isVerifyButton}
+        timeout={animationTimeOut.current}
+        classNames="fade"
+        unmountOnExit
+      >
+        <Button padding={'10px'} onClick={() => onButton()} ref={buttonRef}>
+          Send verify email
+        </Button>
+      </CSSTransition>
       <StyledTitle>Login form</StyledTitle>
       <StyledContainer>
         <StyledForm onSubmit={handleSubmit(onSubmit)}>
           <StyledLabel>
             Email
             <StyledInput
-              defaultValue={userEmail}
+              defaultValue={email}
               {...register('email', {
                 required: 'Email is required.',
                 pattern: /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/,

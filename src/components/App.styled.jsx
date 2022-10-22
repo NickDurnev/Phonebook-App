@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { ToastContainer } from 'react-toastify';
 import { device } from 'config/deviceSizes';
 
 export const Container = styled.div`
@@ -20,5 +21,17 @@ export const Container = styled.div`
   h2 {
     margin-bottom: 10px;
     color: ${props => props.theme.textColor};
+  }
+`;
+
+export const StyledToastContainer = styled(ToastContainer)`
+  &&&.Toastify__toast-container {
+  }
+  .Toastify__toast {
+    color: ${({ theme }) => theme.textColor};
+    background-color: ${({ theme }) => theme.bgColor};
+    & > button {
+      color: ${({ theme }) => theme.textColor};
+    }
   }
 `;

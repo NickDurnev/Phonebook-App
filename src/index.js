@@ -5,7 +5,6 @@ import { PersistGate } from 'redux-persist/integration/react';
 import { Provider } from 'react-redux';
 import { store, persistor } from './redux/store';
 import { App } from 'components/App';
-import { StyledToastContainer } from 'pages/ContactsPage/ContactsPage.styled';
 import './index.css';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
@@ -14,11 +13,6 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       <PersistGate loading={null} persistor={persistor}>
         <BrowserRouter>
           <App />
-          <StyledToastContainer
-            autoClose={3000}
-            position={'top-center'}
-            limit={1}
-          />
         </BrowserRouter>
       </PersistGate>
     </Provider>

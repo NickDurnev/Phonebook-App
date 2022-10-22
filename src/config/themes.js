@@ -5,7 +5,7 @@ const base = {
   marksBgColor: '#D0CD94',
   hoverTransition: '300ms',
   hoverTimeFunction: 'linear',
-  animationDuration: '300ms',
+  animationDuration: '500ms',
   longAnimationDuration: '5000ms',
   animationTimeFunction: 'linear',
 };

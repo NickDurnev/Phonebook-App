@@ -35,7 +35,9 @@ const Filter = ({ onChange, page, onSetPage, onSetSkipQuery }) => {
     onSetPage(1);
     setSkipSearch(true);
     onSetSkipQuery(false);
-    toast.info("Contacts weren't found");
+    if (query !== '') {
+      toast.info("Contacts weren't found");
+    }
     toast.clearWaitingQueue();
   }
 
@@ -44,7 +46,7 @@ const Filter = ({ onChange, page, onSetPage, onSetSkipQuery }) => {
       Find contacts by name
       <DebounceInput
         maxLength={15}
-        debounceTimeout={300}
+        debounceTimeout={500}
         onChange={e => setFilters(e)}
       />
     </Label>

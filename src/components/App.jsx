@@ -9,6 +9,7 @@ import { ThemeProvider } from 'styled-components';
 import { Container } from './App.styled';
 import AppBar from './AppBar/AppBar';
 import NoteLoader from './NoteLoader';
+import { StyledToastContainer } from './App.styled';
 
 const RegistrationPage = lazy(() =>
   import(
@@ -95,6 +96,11 @@ export function App() {
           </Routes>
         </Suspense>
       </Container>
+      <StyledToastContainer
+        autoClose={3000}
+        position={'top-center'}
+        limit={1}
+      />
     </ThemeProvider>
   );
 }

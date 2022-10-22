@@ -8,6 +8,26 @@ const Wrap = styled.button`
   transition: background-color ${({ theme }) => theme.hoverTransition}
     ${({ theme }) => theme.hoverTimeFunction};
 
+  &.fade-enter {
+    opacity: 0;
+  }
+
+  &.fade-enter-active {
+    opacity: 1;
+    transition: opacity ${({ theme }) => theme.animationDuration}
+      ${({ theme }) => theme.animationTimeFunction};
+  }
+
+  &.fade-exit {
+    opacity: 1;
+  }
+
+  &.fade-exit-active {
+    opacity: 0;
+    transition: opacity ${({ theme }) => theme.animationDuration}
+      ${({ theme }) => theme.animationTimeFunction};
+  }
+
   &:hover,
   &:focus {
     background-color: ${({ bgColor, theme }) =>

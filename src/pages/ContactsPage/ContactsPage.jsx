@@ -35,10 +35,12 @@ const ContactsPage = ({ userLogout }) => {
   const [skipQuery, setSkipQuery] = useState(false);
   const [page, setPage] = useState(1);
   const [contacts, setContacts] = useState([]);
+
   let contactIdRef = useRef(null);
   const animationTimeOut = useRef(parseInt(light.animationDuration));
   const modalRef = useRef(null);
   const dropListRef = useRef(null);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const userID = useSelector(({ auth }) => auth.user.id);
@@ -67,6 +69,7 @@ const ContactsPage = ({ userLogout }) => {
   );
 
   if (isSuccess && data.data.contacts) {
+    console.log(data);
     setContacts(data.data.contacts);
     setSkipQuery(true);
   }
@@ -156,7 +159,7 @@ const ContactsPage = ({ userLogout }) => {
       />
       {isLoading && <NoteLoader />}
       <CSSTransition
-        in={contacts.length > 0}
+        in={contacts.length >= 0}
         timeout={animationTimeOut.current}
         unmountOnExit
       >

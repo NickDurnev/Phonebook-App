@@ -21,6 +21,7 @@ const ContactForm = forwardRef(({ data = [], onSetSkipQuery }, ref) => {
   const [phone, setNumber] = useState('');
   const dispatch = useDispatch();
   const userID = useSelector(({ auth }) => auth.user.id);
+  const { contactForm } = useSelector(({ rootReducer }) => rootReducer.isOpen);
   const names = data.map(({ name }) => name.toLowerCase());
 
   const [createContact, { isLoading }] = useAddContactMutation();
@@ -41,7 +42,7 @@ const ContactForm = forwardRef(({ data = [], onSetSkipQuery }, ref) => {
 
   const handleSubmit = async e => {
     e.preventDefault();
-    if (names.includes(name.toLowerCase())) {
+    if (names.includes(name.toLowerCase()) && contactForm) {
       toast.error(`${name} is already in contacts`, {
         position: toast.POSITION.TOP_CENTER,
       });
@@ -56,12 +57,12 @@ const ContactForm = forwardRef(({ data = [], onSetSkipQuery }, ref) => {
       return;
     }
     createContact({ userID, name, phone });
-    onSetSkipQuery(false);
     reset();
     dispatch(setContactFormOpen(false));
     toast.success('Contact was added', {
       position: toast.POSITION.TOP_CENTER,
     });
+    onSetSkipQuery(false);
   };
 
   const reset = () => {
