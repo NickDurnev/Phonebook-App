@@ -61,7 +61,7 @@ export function App() {
     dispatch(setCredentials(userReset));
     dispatch(setLoggedIn(false));
     persistor.purge();
-    navigate('/login/null', { replace: true });
+    navigate('/login', { replace: true });
   }
   return (
     <ThemeProvider theme={theme}>

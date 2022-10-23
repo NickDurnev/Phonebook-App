@@ -71,6 +71,7 @@ const LoginPage = ({ setSkip }) => {
   }, []);
 
   useEffect(() => {
+    setSkip();
     if (isSuccess) {
       dispatch(setCredentials(data));
       dispatch(setLoggedIn(true));
@@ -101,7 +102,6 @@ const LoginPage = ({ setSkip }) => {
   const onSubmit = formData => {
     const fetchData = { ...formData };
     userLogin(fetchData);
-    setSkip();
   };
 
   const onButton = () => {
