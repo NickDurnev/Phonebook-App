@@ -57,6 +57,7 @@ const LoginPage = ({ setSkip }) => {
     formState: { errors },
   } = useForm({ criteriaMode: 'all' });
   console.log(verify);
+  console.log(data);
 
   useEffect(() => {
     if (verifyToken !== 'null') {

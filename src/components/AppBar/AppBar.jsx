@@ -6,7 +6,6 @@ import { Container } from './AppBar.styled';
 
 const AppBar = ({ userLogout }) => {
   const isLoggedIn = useSelector(({ isLoggedIn }) => isLoggedIn.logged);
-  console.log(isLoggedIn);
   return (
     <Container>
       <Navigation />

@@ -3,7 +3,6 @@ import { Container, NavLink } from './Navigation.styled';
 
 const Navigation = () => {
   const isLoggedIn = useSelector(({ isLoggedIn }) => isLoggedIn.logged);
-  console.log(isLoggedIn);
   return (
     <Container>
       {isLoggedIn && <NavLink to="/contacts">Contacts</NavLink>}

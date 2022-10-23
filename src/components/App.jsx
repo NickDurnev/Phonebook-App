@@ -45,7 +45,13 @@ export function App() {
   const isLogged = useSelector(({ isLoggedIn }) => isLoggedIn.logged);
   const { token, user } = useSelector(({ auth }) => auth);
   const userReset = {
-    user: { id: '', email: user.email, name: '', subscription: '' },
+    user: {
+      id: '',
+      email: user.email,
+      name: '',
+      subscription: '',
+      verify: user.verify,
+    },
     token: '',
   };
 
