@@ -199,7 +199,7 @@ const ContactsPage = ({ userLogout }) => {
           ref={modalRef}
         />
       </CSSTransition>
-      {contacts.length > 0 && (
+      {contacts.length > 10 && (
         <ContactsNavigation
           data={contacts}
           page={page}
