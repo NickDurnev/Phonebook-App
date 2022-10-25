@@ -2,14 +2,14 @@ import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { createPortal } from 'react-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  useEditContactMutation,
-  useAddAvatarMutation,
-} from 'redux/contacts/contacts-slice';
 import { toast } from 'react-toastify';
 import { forwardRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
+import {
+  useEditContactMutation,
+  useAddAvatarMutation,
+} from 'redux/contacts/contacts-slice';
 import { setContactEditOpen } from 'redux/isOpen/isOpen-actions';
 //# Components
 import FileUploader from 'components/FileUploader';
@@ -91,7 +91,6 @@ const ContactEdit = forwardRef(({ contactID, data, onSetSkipQuery }, ref) => {
       email: emailData,
       phone: phone,
     };
-    console.log(contact);
     await editContact({ contactID, contact });
     onSetSkipQuery(false);
     dispatch(setContactEditOpen(false));
@@ -113,7 +112,6 @@ const ContactEdit = forwardRef(({ contactID, data, onSetSkipQuery }, ref) => {
               defaultValue={name}
               {...register('name', {
                 required: 'Name is required.',
-                pattern: /[A-Za-z]{3}/,
                 maxLength: {
                   value: 20,
                   message: 'This input exceed maxLength.',

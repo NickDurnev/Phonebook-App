@@ -36,22 +36,35 @@ export const Container = styled.div`
 export const PositionedWrap = styled.div`
   position: absolute;
   top: 0;
-  left: 100px;
-  width: 200px;
+  left: 30px;
+  width: 140px;
+  @media ${device.tablet} {
+    left: 100px;
+    width: 200px;
+  }
   & > button + button {
     margin-left: 10px;
   }
 `;
 
 export const PositionedButton = styled.button`
-  width: 90px;
-  height: 100px;
-  padding: 60px 5px 10px 5px;
+  width: 60px;
+  height: 65px;
+  padding: 50px 5px 10px 5px;
   background-color: ${({ theme }) => theme.marksBgColor};
   color: ${({ theme }) => theme.textColor};
-  transform: translateY(-30px);
+  transform: translateY(-20px);
   text-transform: uppercase;
-  font-weight: 600;
+  font-size: 9px;
+  font-weight: 500;
+  @media ${device.tablet} {
+    width: 90px;
+    height: 100px;
+    padding: 60px 5px 10px 5px;
+    transform: translateY(-30px);
+    font-size: 12px;
+    font-weight: 600;
+  }
 `;
 
 export const AllContactsButton = styled(PositionedButton)`

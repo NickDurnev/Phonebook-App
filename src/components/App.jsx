@@ -1,4 +1,4 @@
-import { useState, Suspense, lazy } from 'react';
+import { useState, useEffect, Suspense, lazy } from 'react';
 import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { useUserLogoutQuery } from '../redux/auth/auth';
@@ -63,12 +63,17 @@ export function App() {
     setSkip(false);
   };
 
-  if (isSuccess) {
-    dispatch(setCredentials(userReset));
-    dispatch(setLoggedIn(false));
-    persistor.purge();
-    navigate('/login', { replace: true });
-  }
+  useEffect(() => {
+    if (isSuccess) {
+      setSkip(true);
+      dispatch(setCredentials(userReset));
+      dispatch(setLoggedIn(false));
+      persistor.purge();
+      navigate('/login', { replace: true });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isSuccess]);
+
   return (
     <ThemeProvider theme={theme}>
       <Container>
@@ -76,10 +81,7 @@ export function App() {
         <Suspense fallback={<NoteLoader />}>
           <Routes>
             <Route path="/register" element={<RegistrationPage />} />
-            <Route
-              path="/login/:verifyToken"
-              element={<LoginPage setSkip={() => setSkip(true)} />}
-            />
+            <Route path="/login/:verifyToken" element={<LoginPage />} />
             <Route
               path="/contacts"
               element={<ContactsPage userLogout={userLogout} />}

@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
@@ -12,6 +11,10 @@ import {
 } from 'redux/auth/auth';
 import 'react-toastify/dist/ReactToastify.css';
 import { toast } from 'react-toastify';
+import { setCredentials, setVerify } from 'redux/auth/auth-slice';
+import { setLoggedIn } from 'redux/auth/logged-slice';
+import { light } from 'config/themes';
+import IconButton from 'components/IconButton';
 import Button from 'components/Button';
 import {
   Wrap,
@@ -23,13 +26,15 @@ import {
   StyledButton,
   StyledLink,
 } from './LoginPage.styled';
-import { setCredentials, setVerify } from 'redux/auth/auth-slice';
-import { setLoggedIn } from 'redux/auth/logged-slice';
-import { light } from 'config/themes';
+import {
+  OffVisibleIcon,
+  OnVisibleIcon,
+} from 'pages/RegistrationPage/RegistrationPage.styled';
 
-const LoginPage = ({ setSkip }) => {
+const LoginPage = () => {
   const [skipVerify, setSkipVerify] = useState(true);
   const [skipVerifyEmailSent, setSkipVerifyEmailSent] = useState(true);
+  const [isVisiblePassword, setIsVisiblePassword] = useState(false);
   const [isVerifyButton, setIsVerifyButton] = useState(false);
 
   const animationTimeOut = useRef(parseInt(light.animationDuration));
@@ -56,8 +61,12 @@ const LoginPage = ({ setSkip }) => {
     handleSubmit,
     formState: { errors },
   } = useForm({ criteriaMode: 'all' });
-  console.log(verify);
-  console.log(data);
+
+  const toggleVisibility = () => {
+    isVisiblePassword
+      ? setIsVisiblePassword(false)
+      : setIsVisiblePassword(true);
+  };
 
   useEffect(() => {
     if (verifyToken !== 'null') {
@@ -72,14 +81,13 @@ const LoginPage = ({ setSkip }) => {
   }, []);
 
   useEffect(() => {
-    setSkip();
     if (isSuccess) {
       dispatch(setCredentials(data));
       dispatch(setLoggedIn(true));
       navigate('/contacts', { replace: true });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch, navigate, setSkip, isSuccess, isError]);
+  }, [dispatch, navigate, isSuccess, isError]);
 
   if (verifyEmailQuery.isSuccess) {
     setSkipVerify(true);
@@ -94,15 +102,13 @@ const LoginPage = ({ setSkip }) => {
     toast.clearWaitingQueue();
   }
 
-  if (isError) {
-    console.log(error.data.message);
-    toast.error(`${error.data.message}`);
-    toast.clearWaitingQueue();
-  }
-
   const onSubmit = formData => {
     const fetchData = { ...formData };
     userLogin(fetchData);
+    if (isError) {
+      toast.error(`${error.data.message}`);
+      toast.clearWaitingQueue();
+    }
   };
 
   const onButton = () => {
@@ -152,8 +158,15 @@ const LoginPage = ({ setSkip }) => {
           </StyledLabel>
           <StyledLabel>
             Password
+            <IconButton width="8%">
+              {isVisiblePassword ? (
+                <OnVisibleIcon onClick={toggleVisibility} />
+              ) : (
+                <OffVisibleIcon onClick={toggleVisibility} />
+              )}
+            </IconButton>
             <StyledInput
-              type="password"
+              type={isVisiblePassword ? 'text' : 'password'}
               {...register('password', {
                 required: 'Password is required.',
                 pattern: {
@@ -192,10 +205,6 @@ const LoginPage = ({ setSkip }) => {
       </StyledContainer>
     </Wrap>
   );
-};
-
-LoginPage.propTypes = {
-  setSkip: PropTypes.func.isRequired,
 };
 
 export default LoginPage;

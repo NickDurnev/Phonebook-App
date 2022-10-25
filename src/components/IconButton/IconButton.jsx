@@ -9,7 +9,7 @@ const IconButton = ({ children, onClick, width = '100%' }) => (
 
 IconButton.propTypes = {
   children: PropTypes.node.isRequired,
-  onClick: PropTypes.func.isRequired,
+  onClick: PropTypes.func,
   width: PropTypes.string,
 };
 

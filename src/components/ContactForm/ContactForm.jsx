@@ -18,7 +18,7 @@ const modalRoot = document.querySelector('#modal-root');
 
 const ContactForm = forwardRef(({ data = [], onSetSkipQuery }, ref) => {
   const [name, setName] = useState('');
-  const [phone, setNumber] = useState('');
+  const [phone, setNumber] = useState('380');
   const dispatch = useDispatch();
   const userID = useSelector(({ auth }) => auth.user.id);
   const { contactForm } = useSelector(({ rootReducer }) => rootReducer.isOpen);
@@ -85,7 +85,6 @@ const ContactForm = forwardRef(({ data = [], onSetSkipQuery }, ref) => {
             <Input
               type="text"
               name="name"
-              pattern="^[a-zA-Z0-9äöüÄÖÜ]*$"
               title="Name doesn't may contain special symbols"
               maxLength="20"
               required
@@ -128,3 +127,5 @@ ContactForm.propTypes = {
 };
 
 export default ContactForm;
+
+//    "react-input-mask": "^2.0.4",
