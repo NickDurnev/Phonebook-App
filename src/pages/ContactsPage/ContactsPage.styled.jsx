@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components';
-import { device } from 'config/deviceSizes';
-import { slideInTop, slideInBottom } from 'config/animations';
+import { device } from '../../config/deviceSizes';
+import { slideInTop, slideInBottom } from '../../config/animations';
 
 const enterAnimation = css`
   ${slideInTop} ${({ theme }) => theme.animationDuration}

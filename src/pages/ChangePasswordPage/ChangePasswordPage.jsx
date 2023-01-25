@@ -2,9 +2,10 @@ import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
-import { useChangePasswordQuery } from 'redux/auth/auth';
 import 'react-toastify/dist/ReactToastify.css';
 import { toast } from 'react-toastify';
+
+import { useChangePasswordQuery } from '../../redux/auth/auth';
 import {
   Wrap,
   StyledTitle,

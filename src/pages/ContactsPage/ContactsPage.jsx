@@ -19,7 +19,7 @@ import AgreementModal from '../../components/AgreementModal';
 import DropList from '../../components/DropList';
 import Button from '../../components/Button';
 import NoteLoader from '../../components/NoteLoader';
-import ContactsNavigation from 'components/ContactsNavigation';
+import ContactsNavigation from '../../components/ContactsNavigation';
 //# Styles
 import {
   Container,

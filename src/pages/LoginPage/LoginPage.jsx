@@ -4,18 +4,19 @@ import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { ErrorMessage } from '@hookform/error-message';
 import { CSSTransition } from 'react-transition-group';
+import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-toastify';
+
 import {
   useUserLoginMutation,
   useVerifyEmailQuery,
   useSendVerifyEmailQuery,
-} from 'redux/auth/auth';
-import 'react-toastify/dist/ReactToastify.css';
-import { toast } from 'react-toastify';
-import { setCredentials, setVerify } from 'redux/auth/auth-slice';
-import { setLoggedIn } from 'redux/auth/logged-slice';
-import { light } from 'config/themes';
-import IconButton from 'components/IconButton';
-import Button from 'components/Button';
+} from '../../redux/auth/auth';
+import { setCredentials, setVerify } from '../../redux/auth/auth-slice';
+import { setLoggedIn } from '../../redux/auth/logged-slice';
+import { light } from '../../config/themes';
+import IconButton from '../../components/IconButton';
+import Button from '../../components/Button';
 import {
   Wrap,
   StyledTitle,
@@ -29,7 +30,7 @@ import {
 import {
   OffVisibleIcon,
   OnVisibleIcon,
-} from 'pages/RegistrationPage/RegistrationPage.styled';
+} from '../RegistrationPage/RegistrationPage.styled';
 
 const LoginPage = () => {
   const [skipVerify, setSkipVerify] = useState(true);

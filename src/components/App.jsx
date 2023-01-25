@@ -18,22 +18,22 @@ const RegistrationPage = lazy(() =>
 );
 
 const LoginPage = lazy(() =>
-  import('pages/LoginPage' /* webpackChunkName: "login-page" */)
+  import('../pages/LoginPage' /* webpackChunkName: "login-page" */)
 );
 
 const ContactsPage = lazy(() =>
-  import('pages/ContactsPage' /* webpackChunkName: "contacts-page" */)
+  import('../pages/ContactsPage' /* webpackChunkName: "contacts-page" */)
 );
 
 const ForgotPasswordPage = lazy(() =>
   import(
-    'pages/ForgotPasswordPage' /* webpackChunkName: "forgot-password-page" */
+    '../pages/ForgotPasswordPage' /* webpackChunkName: "forgot-password-page" */
   )
 );
 
 const ChangePasswordPage = lazy(() =>
   import(
-    'pages/ChangePasswordPage' /* webpackChunkName: "change-password-page" */
+    '../pages/ChangePasswordPage' /* webpackChunkName: "change-password-page" */
   )
 );
 
@@ -41,9 +41,13 @@ export function App() {
   const [skip, setSkip] = useState(true);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const state = useSelector(({ rootReducer }) => rootReducer);
+  console.log(state);
   const theme = useSelector(({ rootReducer }) => rootReducer.theme);
-  const isLogged = useSelector(({ isLoggedIn }) => isLoggedIn.logged);
-  const { token, user } = useSelector(({ auth }) => auth);
+  const isLogged = useSelector(
+    ({ rootReducer }) => rootReducer.isLoggedIn.logged
+  );
+  const { token, user } = useSelector(({ rootReducer }) => rootReducer.auth);
   const userReset = {
     user: {
       id: '',

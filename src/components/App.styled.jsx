@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { ToastContainer } from 'react-toastify';
-import { device } from 'config/deviceSizes';
+import { device } from '../config/deviceSizes';
 
 export const Container = styled.div`
   position: relative;

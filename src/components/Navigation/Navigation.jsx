@@ -2,11 +2,13 @@ import { useSelector } from 'react-redux';
 import { Container, NavLink } from './Navigation.styled';
 
 const Navigation = () => {
-  const isLoggedIn = useSelector(({ isLoggedIn }) => isLoggedIn.logged);
+  const isLogged = useSelector(
+    ({ rootReducer }) => rootReducer.isLoggedIn.logged
+  );
   return (
     <Container>
-      {isLoggedIn && <NavLink to="/contacts">Contacts</NavLink>}
-      {!isLoggedIn && (
+      {isLogged && <NavLink to="/contacts">Contacts</NavLink>}
+      {!isLogged && (
         <div>
           <NavLink to="/register">Registration</NavLink>
           <NavLink to="/login/null">Login</NavLink>

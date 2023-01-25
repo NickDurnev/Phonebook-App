@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
-import { useResetPasswordQuery } from 'redux/auth/auth';
+import { useResetPasswordQuery } from '../../redux/auth/auth';
 import 'react-toastify/dist/ReactToastify.css';
 import { toast } from 'react-toastify';
 import {

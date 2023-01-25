@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
-import { jelloHorizontal } from 'config/animations';
+import { jelloHorizontal } from '../../config/animations';
 
 export const NavWrap = styled.div`
   position: fixed;

@@ -7,7 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import {
   useGetContactsByNameQuery,
   useGetContactsQuery,
-} from 'redux/contacts/contacts-slice';
+} from '../../redux/contacts/contacts-slice';
 import { Label } from './Filter.styled';
 
 const Filter = ({ onChange, page, onSetPage, onSetSkipQuery }) => {

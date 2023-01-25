@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { BiUserCircle } from 'react-icons/bi';
-import { device } from 'config/deviceSizes';
+import { device } from '../../config/deviceSizes';
 
 export const Container = styled.div`
   display: flex;

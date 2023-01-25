@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { useEffect } from 'react';
-import IconButton from 'components/IconButton';
+import IconButton from '../IconButton';
 import { NavWrap, LeftIcon, RightIcon } from './ContactsNavigation.styled';
 
 const ContactsNavigation = ({ page, onClick, data }) => {

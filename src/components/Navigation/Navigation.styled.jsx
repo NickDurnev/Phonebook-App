@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { NavLink as BaseNavLink } from 'react-router-dom';
-import { device } from 'config/deviceSizes';
+import { device } from '../../config/deviceSizes';
 
 export const Container = styled.nav`
   display: flex;

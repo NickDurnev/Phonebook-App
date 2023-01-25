@@ -6,7 +6,7 @@ import {
   setContactEditOpen,
 } from '../../redux/isOpen/isOpen-actions';
 import { Container } from './ContactList.styled';
-import Contact from 'components/Contact';
+import Contact from '../Contact';
 
 const ContactList = ({
   data,

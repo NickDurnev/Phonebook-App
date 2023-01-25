@@ -9,17 +9,14 @@ import { ErrorMessage } from '@hookform/error-message';
 import {
   useEditContactMutation,
   useAddAvatarMutation,
-} from 'redux/contacts/contacts-slice';
-import { setContactEditOpen } from 'redux/isOpen/isOpen-actions';
+} from '../../redux/contacts/contacts-slice';
+import { setContactEditOpen } from '../../redux/isOpen/isOpen-actions';
 //# Components
-import FileUploader from 'components/FileUploader';
-import Button from 'components/Button';
-import Avatar from 'components/Avatar';
+import FileUploader from '../FileUploader';
+import Button from '../Button';
+import Avatar from '../Avatar';
 //# Styles
-import {
-  Backdrop,
-  Modal,
-} from 'components/AgreementModal/AgreementModal.styled';
+import { Backdrop, Modal } from '..//AgreementModal/AgreementModal.styled';
 import {
   InfoForm,
   InfoInput,

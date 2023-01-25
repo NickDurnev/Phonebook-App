@@ -1,10 +1,10 @@
 import { useRef } from 'react';
 import PropTypes from 'prop-types';
 import { CSSTransition } from 'react-transition-group';
-import { useAddFavoriteMutation } from 'redux/contacts/contacts-slice';
+import { useAddFavoriteMutation } from '../../redux/contacts/contacts-slice';
 //# Components
-import Avatar from 'components/Avatar';
-import IconButton from 'components/IconButton';
+import Avatar from '../Avatar';
+import IconButton from '../IconButton';
 //# Styles
 import {
   Item,

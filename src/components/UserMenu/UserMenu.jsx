@@ -2,11 +2,12 @@ import PropTypes from 'prop-types';
 import { useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { CSSTransition } from 'react-transition-group';
-import Button from 'components/Button';
+
+import Button from '../Button';
 import { Container, UserIcon, Icon } from './UserMenu.styled';
-import { addAvatar } from 'redux/addAvatar/avatars-slice';
-import AvatarList from 'components/AvatarList';
-import avatars from 'avatars/avatars';
+import { addAvatar } from '../../redux/addAvatar/avatars-slice';
+import AvatarList from '../AvatarList';
+import avatars from '../../avatars/avatars';
 import { light } from '../../config/themes';
 
 const UserMenu = ({ userLogout }) => {

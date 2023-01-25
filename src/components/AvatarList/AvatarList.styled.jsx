@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { device } from 'config/deviceSizes';
+import { device } from '../../config/deviceSizes';
 
 const List = styled.ul`
   width: 400px;

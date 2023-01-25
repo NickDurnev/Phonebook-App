@@ -1,12 +1,9 @@
 import PropTypes from 'prop-types';
 import { createPortal } from 'react-dom';
 import { forwardRef } from 'react';
-import avatars from 'avatars/avatars';
+import avatars from '../../avatars/avatars';
 import List from './AvatarList.styled';
-import {
-  Backdrop,
-  Modal,
-} from 'components/AgreementModal/AgreementModal.styled';
+import { Backdrop, Modal } from '../AgreementModal/AgreementModal.styled';
 
 const modalRoot = document.querySelector('#modal-root');
 

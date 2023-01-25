@@ -1,21 +1,25 @@
 /* eslint-disable no-unused-vars */
-import PropTypes from 'prop-types';
-import { forwardRef } from 'react';
+import { forwardRef, MouseEvent } from 'react';
 import { createPortal } from 'react-dom';
 import { useDispatch } from 'react-redux';
-import { useDeleteContactMutation } from 'redux/contacts/contacts-slice';
+import { useDeleteContactMutation } from '../../redux/contacts/contacts-slice';
 import { toast } from 'react-toastify';
 import { setModalOpen } from '../../redux/isOpen/isOpen-actions';
 import { Modal, Backdrop } from './AgreementModal.styled';
-import Button from 'components/Button';
+import Button from '../Button';
 
 const modalRoot = document.querySelector('#modal-root');
 
-const AgreementModal = forwardRef(({ id, onSetSkipQuery }, ref) => {
+interface IProps  {
+  id: string | number;
+  onSetSkipQuery: (a: boolean) => void;
+}
+
+const AgreementModal = forwardRef<HTMLInputElement, IProps>(({ id, onSetSkipQuery }, ref) => {
   const [deleteContact, result] = useDeleteContactMutation();
   const dispatch = useDispatch();
 
-  const checkAgreement = answear => {
+  const checkAgreement = (answear: boolean) :void => {
     if (answear) {
       deleteContact(id);
       toast.success('Contact was deleted', {
@@ -26,14 +30,14 @@ const AgreementModal = forwardRef(({ id, onSetSkipQuery }, ref) => {
     onSetSkipQuery(false);
   };
 
-  const handleClose = e => {
+  const handleClose = (e: MouseEvent<HTMLButtonElement>) => {
     if (e.target === e.currentTarget) {
       dispatch(setModalOpen(false));
     }
   };
 
   return createPortal(
-    <Backdrop ref={ref} onClick={e => handleClose(e)}>
+    <Backdrop ref={ref} onClick={(e: MouseEvent<HTMLButtonElement>) => handleClose(e)}>
       <Modal>
         <p>Do you really want delete this contact?</p>
         <div>
@@ -46,13 +50,8 @@ const AgreementModal = forwardRef(({ id, onSetSkipQuery }, ref) => {
         </div>
       </Modal>
     </Backdrop>,
-    modalRoot
+    modalRoot!
   );
 });
-
-AgreementModal.propTypes = {
-  id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  onSetSkipQuery: PropTypes.func.isRequired,
-};
 
 export default AgreementModal;

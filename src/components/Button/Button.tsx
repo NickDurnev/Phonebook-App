@@ -1,8 +1,14 @@
-import PropTypes from 'prop-types';
-import { forwardRef } from 'react';
+import { forwardRef, ReactNode } from 'react';
 import Wrap from './Button.styled';
 
-const Button = forwardRef(
+export interface IButton {
+  children: ReactNode;
+  onClick: React.MouseEventHandler<HTMLElement>;
+  padding: string,
+  bgColor?: boolean
+}
+
+const Button: React.FC<IButton> = forwardRef(
   ({ children, onClick, padding = '5px', bgColor = true }, ref) => (
     <Wrap
       type="button"
@@ -15,12 +21,5 @@ const Button = forwardRef(
     </Wrap>
   )
 );
-
-Button.propTypes = {
-  children: PropTypes.node.isRequired,
-  onClick: PropTypes.func.isRequired,
-  padding: PropTypes.string,
-  bgColor: PropTypes.bool,
-};
 
 export default Button;

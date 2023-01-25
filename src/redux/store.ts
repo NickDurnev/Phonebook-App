@@ -42,6 +42,9 @@ const avatarsPersistConfig = {
 
 const rootReducer = combineReducers({
   theme: persistReducer(themePersistConfig, themeReducer),
+  auth: persistReducer(authPersistConfig, authReducer),
+  isLoggedIn: persistReducer(loggedPersistConfig, loggedReducer),
+  userAvatarID: persistReducer(avatarsPersistConfig, avatarsReducer),
   isOpen: isOpenReducer,
 });
 
@@ -50,9 +53,6 @@ export const store = configureStore({
     rootReducer,
     [contactsApi.reducerPath]: contactsApi.reducer,
     [authApi.reducerPath]: authApi.reducer,
-    auth: persistReducer(authPersistConfig, authReducer),
-    isLoggedIn: persistReducer(loggedPersistConfig, loggedReducer),
-    userAvatarID: persistReducer(avatarsPersistConfig, avatarsReducer),
   },
   middleware: getDefaultMiddleware => [
     ...getDefaultMiddleware({
@@ -70,3 +70,7 @@ export const rootState = store.getState;
 
 export let persistor = persistStore(store);
 setupListeners(store.dispatch);
+
+export type RootState = ReturnType<typeof store.getState>
+
+export type AppDispatch = typeof store.dispatch

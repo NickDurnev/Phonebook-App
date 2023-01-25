@@ -1,4 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { RootState } from '../store';
+import {IContact, IQuery} from '../../interfaces'
+
 const url = process.env.REACT_APP_WEB_SERVER_URL;
 
 export const contactsApi = createApi({
@@ -6,7 +9,7 @@ export const contactsApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: `${url}`,
     prepareHeaders: (headers, { getState }) => {
-      const token = getState().auth.token;
+      const token = (getState() as RootState).rootReducer.auth.token;
       if (token) {
         headers.set('authorization', `Bearer ${token}`);
       }
@@ -17,7 +20,7 @@ export const contactsApi = createApi({
   keepUnusedDataFor: 60,
   refetchOnMountOrArgChange: 60,
   endpoints: builder => ({
-    getContacts: builder.query({
+    getContacts: builder.query<IContact[], Pick<IQuery, 'userID'| 'token' | 'favorite'| 'page'>>({
       query: ({ userID, token, favorite, page }) => {
         let filter = {};
         if (favorite) {
@@ -37,25 +40,25 @@ export const contactsApi = createApi({
       keepUnusedDataFor: 0,
       providesTags: ['Contacts'],
     }),
-    getContactById: builder.query({
+    getContactById: builder.query<IContact, Pick <IQuery, 'userID'| 'contactID'>>({
       query: ({ userID, contactID }) => ({
         url: `api/contacts/${userID}/${contactID}`,
       }),
     }),
-    getContactsByName: builder.query({
+    getContactsByName: builder.query<IContact[], Pick<IQuery, 'userID' | 'query' | 'page'>>({
       query: ({ userID, query, page }) => ({
         url: `api/contacts/${userID}/search/${query}`,
         params: { page: page },
       }),
     }),
-    deleteContact: builder.mutation({
+    deleteContact: builder.mutation<void, Pick <IQuery, 'contactID'>>({
       query: contactId => ({
         url: `api/contacts/${contactId}`,
         method: 'DELETE',
       }),
       invalidatesTags: ['Contacts'],
     }),
-    addContact: builder.mutation({
+    addContact: builder.mutation<IContact, IContact>({
       query: contact => ({
         url: 'api/contacts',
         method: 'POST',
@@ -65,7 +68,7 @@ export const contactsApi = createApi({
       }),
       invalidatesTags: ['Contacts'],
     }),
-    editContact: builder.mutation({
+    editContact: builder.mutation<IContact, { contactID: Pick<IQuery, 'contactID'>, contact: IContact } >({
       query: ({ contactID, contact }) => {
         console.log(contact);
         return {
@@ -78,18 +81,18 @@ export const contactsApi = createApi({
       },
       invalidatesTags: ['Contacts'],
     }),
-    addAvatar: builder.mutation({
+    addAvatar: builder.mutation<Pick<IContact, 'avatarURL'>, Pick<IQuery, 'contactID' | 'formData'>>({
       query: ({ contactID, formData }) => ({
         url: `contacts/avatars/${contactID}`,
         method: 'PATCH',
         body: formData,
       }),
     }),
-    addFavorite: builder.mutation({
-      query: ({ id, bool }) => ({
-        url: `api/contacts/${id}/favorite`,
+    addFavorite: builder.mutation<IContact, Pick<IQuery, 'contactID'| 'favorite'>>({
+      query: ({ contactID, favorite }) => ({
+        url: `api/contacts/${contactID}/favorite`,
         method: 'PATCH',
-        body: { favorite: bool },
+        body: { favorite },
       }),
       invalidatesTags: ['Contacts'],
     }),

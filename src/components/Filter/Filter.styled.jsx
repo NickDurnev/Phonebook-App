@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { device } from 'config/deviceSizes';
+import { device } from '../../config/deviceSizes';
 
 export const Label = styled.label`
   font-weight: ${props => props.theme.mainTextFontWeight};

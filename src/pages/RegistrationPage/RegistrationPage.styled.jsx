@@ -5,7 +5,7 @@ import {
   InfoLabel,
   InfoButton,
 } from '../../components/ContactEdit/ContactEdit.styled';
-import { device } from 'config/deviceSizes';
+import { device } from '../../config/deviceSizes';
 
 export const Wrap = styled.div`
   padding: 30px 0;

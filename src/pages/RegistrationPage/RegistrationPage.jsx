@@ -3,11 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { ErrorMessage } from '@hookform/error-message';
-import { useUserSignupMutation } from 'redux/auth/auth';
-import { setCredentials } from 'redux/auth/auth-slice';
 import 'react-toastify/dist/ReactToastify.css';
 import { toast } from 'react-toastify';
-import IconButton from 'components/IconButton';
+
+import { useUserSignupMutation } from '../../redux/auth/auth';
+import { setCredentials } from '../../redux/auth/auth-slice';
+import IconButton from '../../components/IconButton';
 import {
   Wrap,
   Title,

@@ -3,14 +3,12 @@ import { createPortal } from 'react-dom';
 import { useDispatch } from 'react-redux';
 import { useState, forwardRef } from 'react';
 import { useSelector } from 'react-redux';
-import { setContactFormOpen } from 'redux/isOpen/isOpen-actions';
-import { useAddContactMutation } from 'redux/contacts/contacts-slice';
+import { setContactFormOpen } from '../../redux/isOpen/isOpen-actions';
+import { useAddContactMutation } from '../../redux/contacts/contacts-slice';
 import { toast } from 'react-toastify';
+
 import Button from '../Button';
-import {
-  Backdrop,
-  Modal,
-} from 'components/AgreementModal/AgreementModal.styled';
+import { Backdrop, Modal } from '../AgreementModal/AgreementModal.styled';
 import { CloseIcon } from '../ContactEdit/ContactEdit.styled';
 import { Form, Label, StyledButton, Input, Loader } from './ContactForm.styled';
 
@@ -127,5 +125,3 @@ ContactForm.propTypes = {
 };
 
 export default ContactForm;
-
-//    "react-input-mask": "^2.0.4",
