@@ -16,8 +16,7 @@ export const Backdrop = styled.div`
 
   &.fade-enter-active {
     opacity: 1;
-    transition: opacity ${({ theme }) => theme.animationDuration}
-      ${({ theme }) => theme.animationTimeFunction};
+    transition: opacity ${({ theme }) => theme.animationDuration} ${({ theme }) => theme.animationTimeFunction};
   }
 
   &.fade-exit {
@@ -26,8 +25,7 @@ export const Backdrop = styled.div`
 
   &.fade-exit-active {
     opacity: 0;
-    transition: opacity ${({ theme }) => theme.animationDuration}
-      ${({ theme }) => theme.animationTimeFunction};
+    transition: opacity ${({ theme }) => theme.animationDuration} ${({ theme }) => theme.animationTimeFunction};
   }
 `;
 

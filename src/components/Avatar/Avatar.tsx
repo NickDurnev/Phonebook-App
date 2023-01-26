@@ -1,17 +1,17 @@
-import PropTypes from 'prop-types';
+import React from 'react';
 import { Wrap, Icon, DefaultIcon } from './Avatar.styled';
 
-const Avatar = ({ imageURL, width }) => {
+interface IProps {
+  imageURL: string,
+  width: string
+}
+
+const Avatar:React.FC<IProps> = ({ imageURL, width }) => {
   return (
     <Wrap width={width}>
       {imageURL ? <Icon src={imageURL} /> : <DefaultIcon size="100" />}
     </Wrap>
   );
-};
-
-Avatar.propTypes = {
-  imageURL: PropTypes.string,
-  width: PropTypes.string,
 };
 
 export default Avatar;

@@ -1,15 +1,18 @@
 import styled from 'styled-components';
 import { BiUserCircle } from 'react-icons/bi';
 
-export const Wrap = styled.div`
+interface IProps {
+  width: string
+}
+
+export const Wrap = styled.div<IProps>`
   width: ${props => props.width};
 `;
 
 export const Icon = styled.img`
   width: 100%;
   transform: scale(1);
-  transition: transform ${({ theme }) => theme.animationDuration}
-    ${({ theme }) => theme.animationTimeFunction};
+  transition: transform ${({ theme }) => theme.animationDuration} ${({ theme }) => theme.animationTimeFunction};
 
   &:hover,
   &:focus {
@@ -23,8 +26,7 @@ export const DefaultIcon = styled(BiUserCircle)`
 
   color: ${({ theme }) => theme.bgElementColor};
   transform: scale(1);
-  transition: transform ${({ theme }) => theme.animationDuration}
-    ${({ theme }) => theme.animationTimeFunction};
+  transition: transform ${({ theme }) => theme.animationDuration} ${({ theme }) => theme.animationTimeFunction};
 
   &:hover,
   &:focus {

@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { RootState } from '../store';
-import {IContact, IQuery} from '../../interfaces'
+import { IContact, IUser, IQuery } from '../../interfaces';
 
 const url = process.env.REACT_APP_WEB_SERVER_URL;
 
@@ -20,7 +20,10 @@ export const contactsApi = createApi({
   keepUnusedDataFor: 60,
   refetchOnMountOrArgChange: 60,
   endpoints: builder => ({
-    getContacts: builder.query<IContact[], Pick<IQuery, 'userID'| 'token' | 'favorite'| 'page'>>({
+    getContacts: builder.query<
+      IContact[],
+      Pick<IQuery, 'userID' | 'token' | 'favorite' | 'page'>
+    >({
       query: ({ userID, token, favorite, page }) => {
         let filter = {};
         if (favorite) {
@@ -40,18 +43,24 @@ export const contactsApi = createApi({
       keepUnusedDataFor: 0,
       providesTags: ['Contacts'],
     }),
-    getContactById: builder.query<IContact, Pick <IQuery, 'userID'| 'contactID'>>({
+    getContactById: builder.query<
+      IContact,
+      Pick<IQuery, 'userID' | 'contactID'>
+    >({
       query: ({ userID, contactID }) => ({
         url: `api/contacts/${userID}/${contactID}`,
       }),
     }),
-    getContactsByName: builder.query<IContact[], Pick<IQuery, 'userID' | 'query' | 'page'>>({
+    getContactsByName: builder.query<
+      IContact[],
+      Pick<IQuery, 'userID' | 'query' | 'page'>
+    >({
       query: ({ userID, query, page }) => ({
         url: `api/contacts/${userID}/search/${query}`,
         params: { page: page },
       }),
     }),
-    deleteContact: builder.mutation<void, Pick <IQuery, 'contactID'>>({
+    deleteContact: builder.mutation<void, string>({
       query: contactId => ({
         url: `api/contacts/${contactId}`,
         method: 'DELETE',
@@ -68,7 +77,10 @@ export const contactsApi = createApi({
       }),
       invalidatesTags: ['Contacts'],
     }),
-    editContact: builder.mutation<IContact, { contactID: Pick<IQuery, 'contactID'>, contact: IContact } >({
+    editContact: builder.mutation<
+      IContact,
+      { contactID: Pick<IQuery, 'contactID'>; contact: IContact }
+    >({
       query: ({ contactID, contact }) => {
         console.log(contact);
         return {
@@ -81,14 +93,20 @@ export const contactsApi = createApi({
       },
       invalidatesTags: ['Contacts'],
     }),
-    addAvatar: builder.mutation<Pick<IContact, 'avatarURL'>, Pick<IQuery, 'contactID' | 'formData'>>({
+    addAvatar: builder.mutation<
+      Pick<IContact, 'avatarURL'>,
+      Pick<IQuery, 'contactID' | 'formData'>
+    >({
       query: ({ contactID, formData }) => ({
         url: `contacts/avatars/${contactID}`,
         method: 'PATCH',
         body: formData,
       }),
     }),
-    addFavorite: builder.mutation<IContact, Pick<IQuery, 'contactID'| 'favorite'>>({
+    addFavorite: builder.mutation<
+      IContact,
+      Pick<IQuery, 'contactID' | 'favorite'>
+    >({
       query: ({ contactID, favorite }) => ({
         url: `api/contacts/${contactID}/favorite`,
         method: 'PATCH',

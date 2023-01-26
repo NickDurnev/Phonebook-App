@@ -1,11 +1,15 @@
-import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
+import React from 'react';
+import { useAppSelector } from '../../hooks/rtkQueryHooks'
 import Navigation from '../Navigation';
 import UserMenu from '../UserMenu';
 import { Container } from './AppBar.styled';
 
-const AppBar = ({ userLogout }) => {
-  const isLogged = useSelector(
+interface IProps  {
+  userLogout: () => void;
+}
+
+const AppBar: React.FC<IProps>  = ({ userLogout}) => {
+  const isLogged = useAppSelector(
     ({ rootReducer }) => rootReducer.isLoggedIn.logged
   );
   return (
@@ -14,10 +18,6 @@ const AppBar = ({ userLogout }) => {
       {isLogged && <UserMenu userLogout={() => userLogout()} />}
     </Container>
   );
-};
-
-AppBar.propTypes = {
-  userLogout: PropTypes.func.isRequired,
 };
 
 export default AppBar;

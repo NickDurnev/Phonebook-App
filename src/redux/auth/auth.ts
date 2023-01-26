@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { IUser } from '../../interfaces';
 
 const url = process.env.REACT_APP_WEB_SERVER_URL;
 
@@ -11,11 +12,14 @@ export const authApi = createApi({
   keepUnusedDataFor: 10,
   refetchOnMountOrArgChange: 10,
   endpoints: builder => ({
-    currentUser: builder.query({
+    currentUser: builder.query<Pick<IUser, 'email' | 'subscription'>, void>({
       query: () => 'api/users/current',
       providesTags: ['Users'],
     }),
-    userSignup: builder.mutation({
+    userSignup: builder.mutation<
+      Pick<IUser, 'email' | 'subscription' | 'verify'>,
+      Pick<IUser, 'email' | 'name' | 'password'>
+    >({
       query: credentials => ({
         url: 'api/users/signup',
         method: 'POST',
@@ -25,7 +29,13 @@ export const authApi = createApi({
       }),
       invalidatesTags: ['Users'],
     }),
-    userLogin: builder.mutation({
+    userLogin: builder.mutation<
+      Pick<IUser, 'email' | 'password'>,
+      {
+        token: Pick<IUser, 'token'>;
+        user: Pick<IUser, 'email' | 'name' | 'password'>;
+      }
+    >({
       query: user => ({
         url: 'api/users/login',
         method: 'POST',
@@ -35,14 +45,14 @@ export const authApi = createApi({
         providesTags: ['Users'],
       }),
     }),
-    userLogout: builder.query({
+    userLogout: builder.query<void, Pick <IUser, 'token' | 'email'>>({
       query: token => ({
         url: 'api/users/logout',
         headers: { Authorization: `Bearer ${token}` },
         providesTags: ['Users'],
       }),
     }),
-    resetPassword: builder.query({
+    resetPassword: builder.query<void, Pick<IUser, 'email'>>({
       query: email => ({
         url: 'users/res_password',
         method: 'POST',
@@ -52,9 +62,9 @@ export const authApi = createApi({
         providesTags: ['Users'],
       }),
     }),
-    changePassword: builder.query({
-      query: ({ password, passwordToken }) => ({
-        url: `users/res_password/${passwordToken}`,
+    changePassword: builder.query<void, Pick<IUser, 'password' | 'resetPasswordToken'>>({
+      query: ({ password, resetPasswordToken }) => ({
+        url: `users/res_password/${resetPasswordToken}`,
         method: 'POST',
         body: {
           password,
@@ -62,7 +72,7 @@ export const authApi = createApi({
         providesTags: ['Users'],
       }),
     }),
-    sendVerifyEmail: builder.query({
+    sendVerifyEmail: builder.query<void, Pick<IUser, 'email'>>({
       query: email => ({
         url: `users/verify`,
         method: 'POST',
@@ -72,9 +82,9 @@ export const authApi = createApi({
         providesTags: ['Users'],
       }),
     }),
-    verifyEmail: builder.query({
-      query: verifyToken => ({
-        url: `users/verify/${verifyToken}`,
+    verifyEmail: builder.query<void, Pick<IUser, 'verificationToken'>>({
+      query: verificationToken => ({
+        url: `users/verify/${verificationToken}`,
         providesTags: ['Users'],
       }),
     }),

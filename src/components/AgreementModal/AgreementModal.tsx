@@ -11,7 +11,7 @@ import Button from '../Button';
 const modalRoot = document.querySelector('#modal-root');
 
 interface IProps  {
-  id: string | number;
+  id: string;
   onSetSkipQuery: (a: boolean) => void;
 }
 
@@ -30,14 +30,14 @@ const AgreementModal = forwardRef<HTMLInputElement, IProps>(({ id, onSetSkipQuer
     onSetSkipQuery(false);
   };
 
-  const handleClose = (e: MouseEvent<HTMLButtonElement>) => {
+  const handleClose = (e: MouseEvent<HTMLDivElement>) => {
     if (e.target === e.currentTarget) {
       dispatch(setModalOpen(false));
     }
   };
 
   return createPortal(
-    <Backdrop ref={ref} onClick={(e: MouseEvent<HTMLButtonElement>) => handleClose(e)}>
+    <Backdrop ref={ref} onClick={(e: MouseEvent<HTMLDivElement>) => handleClose(e)}>
       <Modal>
         <p>Do you really want delete this contact?</p>
         <div>
