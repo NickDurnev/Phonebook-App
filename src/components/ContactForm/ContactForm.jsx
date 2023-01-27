@@ -8,7 +8,7 @@ import { useAddContactMutation } from '../../redux/contacts/contacts-slice';
 import { toast } from 'react-toastify';
 
 import Button from '../Button';
-import { Backdrop, Modal } from '../AgreementModal/AgreementModal.styled';
+import { Backdrop, Modal } from '../Agreement/Agreement.styled';
 import { CloseIcon } from '../ContactEdit/ContactEdit.styled';
 import { Form, Label, StyledButton, Input, Loader } from './ContactForm.styled';
 

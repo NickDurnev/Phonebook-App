@@ -16,7 +16,7 @@ import FileUploader from '../FileUploader';
 import Button from '../Button';
 import Avatar from '../Avatar';
 //# Styles
-import { Backdrop, Modal } from '..//AgreementModal/AgreementModal.styled';
+import { Backdrop, Modal } from '../Agreement/Agreement.styled';
 import {
   InfoForm,
   InfoInput,

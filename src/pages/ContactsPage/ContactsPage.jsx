@@ -15,7 +15,7 @@ import ContactForm from '../../components/ContactForm';
 import ContactList from '../../components/ContactList';
 import ContactEdit from '../../components/ContactEdit';
 import Filter from '../../components/Filter';
-import AgreementModal from '../../components/AgreementModal';
+import AgreementModal from '../../components/Agreement';
 import DropList from '../../components/DropList';
 import Button from '../../components/Button';
 import NoteLoader from '../../components/NoteLoader';

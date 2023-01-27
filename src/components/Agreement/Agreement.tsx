@@ -1,21 +1,19 @@
-/* eslint-disable no-unused-vars */
-import { forwardRef, MouseEvent } from 'react';
-import { createPortal } from 'react-dom';
+
+import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useDeleteContactMutation } from '../../redux/contacts/contacts-slice';
 import { toast } from 'react-toastify';
 import { setModalOpen } from '../../redux/isOpen/isOpen-actions';
-import { Modal, Backdrop } from './AgreementModal.styled';
+import Modal from '../Modal';
 import Button from '../Button';
-
-const modalRoot = document.querySelector('#modal-root');
+import {Wrap } from './Agreement.styled';
 
 interface IProps  {
   id: string;
   onSetSkipQuery: (a: boolean) => void;
 }
 
-const AgreementModal = forwardRef<HTMLInputElement, IProps>(({ id, onSetSkipQuery }, ref) => {
+const Agreement: React.FC<IProps> = (({ id, onSetSkipQuery }) => {
   const [deleteContact, result] = useDeleteContactMutation();
   const dispatch = useDispatch();
 
@@ -30,15 +28,9 @@ const AgreementModal = forwardRef<HTMLInputElement, IProps>(({ id, onSetSkipQuer
     onSetSkipQuery(false);
   };
 
-  const handleClose = (e: MouseEvent<HTMLDivElement>) => {
-    if (e.target === e.currentTarget) {
-      dispatch(setModalOpen(false));
-    }
-  };
-
-  return createPortal(
-    <Backdrop ref={ref} onClick={(e: MouseEvent<HTMLDivElement>) => handleClose(e)}>
-      <Modal>
+  return (
+    <Modal>
+      <Wrap>
         <p>Do you really want delete this contact?</p>
         <div>
           <Button onClick={() => checkAgreement(false)} padding={'5px 15px'}>
@@ -48,10 +40,9 @@ const AgreementModal = forwardRef<HTMLInputElement, IProps>(({ id, onSetSkipQuer
             Yes
           </Button>
         </div>
+        </Wrap>
       </Modal>
-    </Backdrop>,
-    modalRoot!
   );
 });
 
-export default AgreementModal;
+export default Agreement;

@@ -29,7 +29,7 @@ export const Backdrop = styled.div`
   }
 `;
 
-export const Modal = styled.div`
+export const Container = styled.div`
   position: absolute;
   top: 50%;
   left: 50%;
@@ -40,17 +40,4 @@ export const Modal = styled.div`
   text-align: center;
   background-color: ${({ theme }) => theme.bgColor};
   font-weight: ${({ theme }) => theme.mainTextFontWeight};
-
-  & > p {
-    margin-bottom: 10px;
-  }
-
-  & button + button {
-    margin-left: 50px;
-  }
-
-  & > button {
-    display: block;
-    margin-left: auto;
-  }
 `;

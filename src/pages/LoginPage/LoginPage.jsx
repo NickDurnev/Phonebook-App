@@ -74,6 +74,7 @@ const LoginPage = () => {
       setSkipVerify(false);
     }
     if (!verify) {
+      //TODO Fix - button should appearance in timeout if user didn't verify and disappear after click for a while
       setTimeout(() => {
         setIsVerifyButton(true);
       }, 10000);
