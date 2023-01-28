@@ -2,7 +2,7 @@ import React from 'react';
 import { Wrap, Icon, DefaultIcon } from './Avatar.styled';
 
 interface IProps {
-  imageURL: string,
+  imageURL?: string| null,
   width: string
 }
 

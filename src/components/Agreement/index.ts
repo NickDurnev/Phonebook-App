@@ -1,1 +1,1 @@
-export { default } from './AgreementModal';
+export { default } from './Agreement';

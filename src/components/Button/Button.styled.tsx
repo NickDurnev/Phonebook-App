@@ -1,12 +1,16 @@
 import styled from 'styled-components';
 
-const Wrap = styled.button`
+interface IProps {
+  padding: string
+  bgColor: boolean
+}
+
+const Wrap = styled.button<IProps>`
   padding: ${props => props.padding};
   color: ${({ theme }) => theme.elementColor};
   background-color: ${({ bgColor, theme }) =>
     bgColor ? theme.bgElementColor : 'inherit'};
-  transition: background-color ${({ theme }) => theme.hoverTransition}
-    ${({ theme }) => theme.hoverTimeFunction};
+  transition: background-color ${({ theme }) => theme.hoverTransition} ${({ theme }) => theme.hoverTimeFunction};
 
   &.fade-enter {
     opacity: 0;
@@ -14,8 +18,7 @@ const Wrap = styled.button`
 
   &.fade-enter-active {
     opacity: 1;
-    transition: opacity ${({ theme }) => theme.animationDuration}
-      ${({ theme }) => theme.animationTimeFunction};
+    transition: opacity ${({ theme }) => theme.animationDuration} ${({ theme }) => theme.animationTimeFunction};
   }
 
   &.fade-exit {
@@ -24,8 +27,7 @@ const Wrap = styled.button`
 
   &.fade-exit-active {
     opacity: 0;
-    transition: opacity ${({ theme }) => theme.animationDuration}
-      ${({ theme }) => theme.animationTimeFunction};
+    transition: opacity ${({ theme }) => theme.animationDuration} ${({ theme }) => theme.animationTimeFunction};
   }
 
   &:hover,

@@ -9,8 +9,8 @@ export const Container = styled.div`
 
   box-shadow: ${props => props.theme.boxShadow};
   text-align: center;
-  color: ${props => props.theme.textColor};
-  background-color: ${props => props.theme.bgColor};
+  color: ${({ theme }) => theme.textColor};
+  background-color: ${({ theme }) => theme.bgColor};
 
   @media ${device.laptop} {
     max-width: 60vw;
@@ -20,7 +20,7 @@ export const Container = styled.div`
   & > h1,
   h2 {
     margin-bottom: 10px;
-    color: ${props => props.theme.textColor};
+    color: ${({ theme }) => theme.textColor};
   }
 `;
 

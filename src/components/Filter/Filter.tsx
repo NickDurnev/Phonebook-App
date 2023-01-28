@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
-import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useState, useEffect, FC, ChangeEvent } from 'react';
 import { DebounceInput } from 'react-debounce-input';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -8,14 +7,32 @@ import {
   useGetContactsByNameQuery,
   useGetContactsQuery,
 } from '../../redux/contacts/contacts-slice';
+import { useAppSelector } from '../../hooks/rtkQueryHooks';
+import { IContact } from '../../services/interfaces';
+import { isErrorWithMessage } from '../../services/helpers';
+
 import { Label } from './Filter.styled';
 
-const Filter = ({ onChange, page, onSetPage, onSetSkipQuery }) => {
+interface IProps {
+  onChange: (a: IContact[]) => void;
+  favorite: boolean;
+  page: number;
+  onSetPage: (a: number) => void;
+  onSetSkipQuery: (a: boolean) => void;
+}
+
+const Filter: FC<IProps> = ({
+  onChange,
+  favorite,
+  page,
+  onSetPage,
+  onSetSkipQuery,
+}) => {
   const [skipSearch, setSkipSearch] = useState(true);
   const [skipQuery, setSkipQuery] = useState(true);
   const [query, setQuery] = useState('');
-  const userID = useSelector(({ auth }) => auth.user.id);
-  const token = useSelector(({ auth }) => auth.token);
+  const userID = useAppSelector(({ rootReducer }) => rootReducer.auth.user.id);
+  const token = useAppSelector(({ rootReducer }) => rootReducer.auth.token);
 
   const getContactByName = useGetContactsByNameQuery(
     { userID, query, page },
@@ -25,13 +42,29 @@ const Filter = ({ onChange, page, onSetPage, onSetSkipQuery }) => {
   );
 
   const getAllContacts = useGetContactsQuery(
-    { userID, token, page },
+    { userID, token, favorite, page },
     {
       skip: skipQuery,
     }
   );
 
-  const setFilters = e => {
+  useEffect(() => {
+    if (
+      isErrorWithMessage(getContactByName.error) &&
+      getContactByName.error.status === 404
+    ) {
+      onSetPage(1);
+      setSkipSearch(true);
+      onSetSkipQuery(false);
+      if (query !== '') {
+        toast.info("Contacts weren't found");
+      }
+      toast.clearWaitingQueue();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [getContactByName.error]);
+
+  const setFilters = (e: ChangeEvent<HTMLInputElement>) => {
     const filter = e.target.value.trim();
     if (filter === '') {
       setSkipQuery(false);
@@ -53,16 +86,6 @@ const Filter = ({ onChange, page, onSetPage, onSetSkipQuery }) => {
     setSkipQuery(true);
     const contacts = data.contacts;
     onChange([...contacts]);
-  }
-
-  if (getContactByName.error && getContactByName.error.status === 404) {
-    onSetPage(1);
-    setSkipSearch(true);
-    onSetSkipQuery(false);
-    if (query !== '') {
-      toast.info("Contacts weren't found");
-    }
-    toast.clearWaitingQueue();
   }
 
   return (

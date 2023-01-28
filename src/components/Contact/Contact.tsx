@@ -1,7 +1,7 @@
-import { useRef } from 'react';
-import PropTypes from 'prop-types';
+import { useRef, FC } from 'react';
 import { CSSTransition } from 'react-transition-group';
 import { useAddFavoriteMutation } from '../../redux/contacts/contacts-slice';
+import {IContact} from '../../services/interfaces';
 //# Components
 import Avatar from '../Avatar';
 import IconButton from '../IconButton';
@@ -14,7 +14,15 @@ import {
   FavoriteIcon,
 } from './Contact.styled';
 
-const Contact = ({
+interface IProps {
+  item: IContact,
+  onDelete: (_id: string) => void,
+  onEdit: (_id: string) => void,
+  onSetSkipQuery: (a: boolean) => void,
+  animationTimeOut: number
+}
+
+const Contact: FC<IProps> = ({
   item,
   onDelete,
   onEdit,
@@ -22,13 +30,13 @@ const Contact = ({
   animationTimeOut,
   ...rest
 }) => {
-  const { _id, name, phone, avatarURL, favorite } = item;
+  const { _id, name, phone, avatarURL } = item;
   // eslint-disable-next-line no-unused-vars
   const [onAdd, result] = useAddFavoriteMutation();
 
-  const addToFavorite = id => {
-    const bool = !favorite;
-    onAdd({ id, bool });
+  const addToFavorite = (contactID: string): void => {
+    const favorite = !item.favorite;
+    onAdd({ contactID, favorite });
     onSetSkipQuery(false);
   };
 
@@ -49,7 +57,7 @@ const Contact = ({
             <EditIcon />
           </IconButton>
           <IconButton onClick={() => addToFavorite(_id)} width="30%">
-            <FavoriteIcon favorite={favorite ? 1 : 0} />
+            <FavoriteIcon favorite={item.favorite ? 1 : 0} />
           </IconButton>
           <IconButton onClick={() => onDelete(_id)} width="30%">
             <DeleteIcon />
@@ -58,16 +66,6 @@ const Contact = ({
       </Item>
     </CSSTransition>
   );
-};
-
-Contact.propTypes = {
-  item: PropTypes.shape({
-    _id: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    phone: PropTypes.string.isRequired,
-    avatarURL: PropTypes.string,
-    favorite: PropTypes.bool.isRequired,
-  }),
 };
 
 export default Contact;

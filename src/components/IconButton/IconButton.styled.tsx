@@ -1,6 +1,10 @@
 import styled from 'styled-components';
 
-const Wrap = styled.button`
+interface IProps {
+  width: string;
+}
+
+const Wrap = styled.button<IProps>`
   width: ${({ width }) => width};
   padding: 0;
   pointer-events: auto;

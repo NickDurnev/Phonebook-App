@@ -1,101 +1,125 @@
-import PropTypes from 'prop-types';
-import { useState } from 'react';
-import { createPortal } from 'react-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import { forwardRef } from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, SubmitHandler } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
 import {
   useEditContactMutation,
   useAddAvatarMutation,
 } from '../../redux/contacts/contacts-slice';
 import { setContactEditOpen } from '../../redux/isOpen/isOpen-actions';
+import { useAppSelector, useAppDispatch } from '../../hooks/rtkQueryHooks';
+import { IContact } from '../../services/interfaces';
+import { isErrorWithMessage } from '../../services/helpers';
 //# Components
 import FileUploader from '../FileUploader';
 import Button from '../Button';
 import Avatar from '../Avatar';
+import Modal from '../Modal';
 //# Styles
-import { Backdrop, Modal } from '../Agreement/Agreement.styled';
+import {
+  Input,
+  MaskedInput,
+  StyledButton,
+} from '../ContactForm/ContactForm.styled';
 import {
   InfoForm,
-  InfoInput,
   EmailInput,
-  InfoButton,
   InfoLabel,
   CloseIcon,
 } from './ContactEdit.styled';
 
-const modalRoot = document.querySelector('#modal-root');
+interface IProps {
+  contactID: IContact['_id'];
+  data: IContact[];
+  onSetSkipQuery: (a: boolean) => void;
+}
 
-const ContactEdit = forwardRef(({ contactID, data, onSetSkipQuery }, ref) => {
-  const dispatch = useDispatch();
-  const { contactEdit } = useSelector(({ rootReducer }) => rootReducer.isOpen);
-  const { token } = useSelector(({ auth }) => auth);
-  // eslint-disable-next-line no-unused-vars
-  const [editPicture, addPicture] = useAddAvatarMutation();
-  // eslint-disable-next-line no-unused-vars
-  const [editContact, result] = useEditContactMutation();
-  const contact = data.find(contact => contact._id === contactID);
-  const { name, email, phone, surname, avatarURL } = contact;
-  const [imageURL, setImageURL] = useState(avatarURL ?? null);
-  const [rerender, setRerender] = useState(false);
+interface FormValues {
+  name: string;
+  email: string;
+  surname: string;
+  phone: string;
+}
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({ criteriaMode: 'all' });
-
-  const handleFile = async image => {
-    if (!image) {
-      return;
-    }
-    const formData = new FormData();
-    formData.append('avatar', image);
-    formData.append('prevURL', imageURL ?? '');
-    const { avatarURL } = await editPicture({
-      token,
-      contactID,
-      formData,
-    }).unwrap();
-    setTimeout(() => {
-      setImageURL(avatarURL);
-      setRerender(!rerender);
-    }, 1000);
-  };
-
-  if (addPicture.isError && contactEdit) {
-    toast.error(`${addPicture.error.data.message}`);
-    toast.clearWaitingQueue();
-  }
-
-  console.log(addPicture.isError);
-  console.log(contactEdit);
-
-  const onSubmit = async ({ name, surname, email, phone }) => {
-    const nameData = name.trim().toLowerCase();
-    const surnameData = surname.trim().toLowerCase();
-    const emailData = email.trim().toLowerCase();
-    const formattedNumber = phone.replace(/[^0-9]/g, '');
-    if (formattedNumber.length < 12) {
-      toast.error('Enter full telephone number');
-      return;
-    }
-    const contact = {
-      name: nameData,
-      surname: surnameData,
-      email: emailData,
-      phone: phone,
+const ContactEdit = forwardRef<HTMLDivElement, IProps>(
+  ({ contactID, data, onSetSkipQuery }, ref) => {
+    const dispatch = useAppDispatch();
+    const { contactEdit } = useAppSelector(
+      ({ rootReducer }) => rootReducer.isOpen
+    );
+    const { token } = useAppSelector(({ rootReducer }) => rootReducer.auth);
+    // eslint-disable-next-line no-unused-vars
+    const [editPicture, { error }] = useAddAvatarMutation();
+    // eslint-disable-next-line no-unused-vars
+    const [editContact, result] = useEditContactMutation();
+    const contact = data.find(contact => contact._id === contactID);
+    const { name, email, phone, surname, avatarURL } = contact ?? {
+      name: '',
+      email: '',
+      phone: '',
+      surname: '',
+      avatarURL: '',
     };
-    await editContact({ contactID, contact });
-    onSetSkipQuery(false);
-    dispatch(setContactEditOpen(false));
-  };
+    const [imageURL, setImageURL] = useState(avatarURL ?? null);
+    const [rerender, setRerender] = useState(false);
 
-  return createPortal(
-    <Backdrop ref={ref}>
-      <Modal>
+    useEffect(() => {
+      if (isErrorWithMessage(error) && contactEdit) {
+        toast.error(`${error.message}`);
+        toast.clearWaitingQueue();
+      }
+    }, [contactEdit, error]);
+
+    const {
+      register,
+      handleSubmit,
+      formState: { errors },
+    } = useForm<FormValues>({ criteriaMode: 'all' });
+
+    const handleFile = async (image?: File) => {
+      if (!image) {
+        return;
+      }
+      const formData = new FormData();
+      formData.append('avatar', image);
+      formData.append('prevURL', imageURL ?? '');
+      const { avatarURL } = await editPicture({
+        token,
+        contactID,
+        formData,
+      }).unwrap();
+      setTimeout(() => {
+        if (avatarURL) {
+          setImageURL(avatarURL);
+          setRerender(!rerender);
+        }
+      }, 1000);
+    };
+
+    const onSubmit: SubmitHandler<FormValues> = async data => {
+      const { name, surname, email, phone } = data;
+      const nameData = name.trim().toLowerCase();
+      const surnameData = surname.trim().toLowerCase();
+      const emailData = email.trim().toLowerCase();
+      const formattedNumber = phone.replace(/[^0-9]/g, '');
+      if (formattedNumber.length < 12) {
+        toast.error('Enter full telephone number');
+        return;
+      }
+      const contact = {
+        name: nameData,
+        surname: surnameData,
+        email: emailData,
+        phone: phone,
+      };
+      await editContact({ contactID, contact });
+      onSetSkipQuery(false);
+      dispatch(setContactEditOpen(false));
+    };
+
+    return (
+      <Modal ref={ref}>
         <Button
           onClick={() => dispatch(setContactEditOpen(false))}
           bgColor={false}
@@ -105,7 +129,7 @@ const ContactEdit = forwardRef(({ contactID, data, onSetSkipQuery }, ref) => {
         <InfoForm onSubmit={handleSubmit(onSubmit)}>
           <InfoLabel>
             Name
-            <InfoInput
+            <Input
               defaultValue={name}
               {...register('name', {
                 required: 'Name is required.',
@@ -128,7 +152,7 @@ const ContactEdit = forwardRef(({ contactID, data, onSetSkipQuery }, ref) => {
           </InfoLabel>
           <InfoLabel>
             Surname
-            <InfoInput
+            <Input
               defaultValue={surname}
               {...register('surname', {
                 pattern: /[A-Za-z]{3}/,
@@ -151,7 +175,7 @@ const ContactEdit = forwardRef(({ contactID, data, onSetSkipQuery }, ref) => {
           </InfoLabel>
           <InfoLabel>
             Phone
-            <InfoInput
+            <MaskedInput
               defaultValue={phone}
               mask="+ 999-99-99-99-999"
               {...register('phone', {
@@ -196,27 +220,12 @@ const ContactEdit = forwardRef(({ contactID, data, onSetSkipQuery }, ref) => {
           <FileUploader handleFile={image => handleFile(image)}>
             <Avatar imageURL={imageURL} width="100px" />
           </FileUploader>
-          {errors.exampleRequired && <span>This field is required</span>}
-          <InfoButton type="submit">Submit</InfoButton>
+          {(errors.name || errors.phone) && <span>This field is required</span>}
+          <StyledButton type="submit">Submit</StyledButton>
         </InfoForm>
       </Modal>
-    </Backdrop>,
-    modalRoot
-  );
-});
-
-ContactEdit.propTypes = {
-  contactID: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  data: PropTypes.arrayOf(
-    PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      phone: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
-        .isRequired,
-      homePhone: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-      company: PropTypes.string,
-    })
-  ),
-  onSetSkipQuery: PropTypes.func.isRequired,
-};
+    );
+  }
+);
 
 export default ContactEdit;

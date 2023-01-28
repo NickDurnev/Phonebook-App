@@ -18,8 +18,7 @@ const List = styled.ul`
 
   &.fade-enter-active {
     opacity: 1;
-    transition: opacity ${({ theme }) => theme.animationDuration}
-      ${({ theme }) => theme.animationTimeFunction};
+    transition: opacity ${({ theme }) => theme.animationDuration} ${({ theme }) => theme.animationTimeFunction};
   }
 
   &.fade-exit {
@@ -28,8 +27,7 @@ const List = styled.ul`
 
   &.fade-exit-active {
     opacity: 0;
-    transition: opacity ${({ theme }) => theme.animationDuration}
-      ${({ theme }) => theme.animationTimeFunction};
+    transition: opacity ${({ theme }) => theme.animationDuration} ${({ theme }) => theme.animationTimeFunction};
   }
 
   & > li {
@@ -39,8 +37,7 @@ const List = styled.ul`
   & img {
     max-width: 64px;
     transform: scale(1);
-    transition: transform ${({ theme }) => theme.animationDuration}
-      ${({ theme }) => theme.animationTimeFunction};
+    transition: transform ${({ theme }) => theme.animationDuration} ${({ theme }) => theme.animationTimeFunction};
   }
 
   & img:hover,

@@ -6,13 +6,14 @@ import { setDropListOpen } from '../../redux/isOpen/isOpen-actions';
 import { light, dark, blue } from '../../config/themes';
 import List from './DropList.styled';
 import Button from '../Button';
+import { ITheme } from '../../services/interfaces';
 
-const DropList = forwardRef((props, ref) => {
+const DropList = forwardRef<HTMLUListElement>((props, ref) => {
   const themes = useRef([light, dark, blue]);
 
   const dispatch = useDispatch();
 
-  const handleChangeTheme = ({ theme }) => {
+  const handleChangeTheme = (theme: ITheme) => {
     dispatch(changeTheme(theme));
     dispatch(setDropListOpen(false));
   };
@@ -24,7 +25,7 @@ const DropList = forwardRef((props, ref) => {
           <Button
             key={theme.name}
             onClick={() => {
-              handleChangeTheme({ theme });
+              handleChangeTheme(theme);
             }}
             padding="5px 10px"
           >

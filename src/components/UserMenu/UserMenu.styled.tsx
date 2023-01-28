@@ -22,8 +22,7 @@ export const UserIcon = styled(BiUserCircle)`
   width: 35px;
   height: 35px;
   color: ${({ theme }) => theme.bgElementColor};
-  transition: color ${({ theme }) => theme.hoverTransition}
-    ${({ theme }) => theme.hoverTimeFunction};
+  transition: color ${({ theme }) => theme.hoverTransition}${({ theme }) => theme.hoverTimeFunction};
 
   &:hover {
     color: ${({ theme }) => theme.bgElementHoverColor};

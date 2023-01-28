@@ -1,5 +1,5 @@
 
-import React from 'react';
+import {forwardRef} from 'react';
 import { useDispatch } from 'react-redux';
 import { useDeleteContactMutation } from '../../redux/contacts/contacts-slice';
 import { toast } from 'react-toastify';
@@ -13,7 +13,7 @@ interface IProps  {
   onSetSkipQuery: (a: boolean) => void;
 }
 
-const Agreement: React.FC<IProps> = (({ id, onSetSkipQuery }) => {
+const Agreement =forwardRef<HTMLDivElement, IProps> (({ id, onSetSkipQuery }, ref) => {
   const [deleteContact, result] = useDeleteContactMutation();
   const dispatch = useDispatch();
 
@@ -29,7 +29,7 @@ const Agreement: React.FC<IProps> = (({ id, onSetSkipQuery }) => {
   };
 
   return (
-    <Modal>
+    <Modal ref={ref}>
       <Wrap>
         <p>Do you really want delete this contact?</p>
         <div>

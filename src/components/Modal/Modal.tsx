@@ -12,7 +12,7 @@ interface IProps {
   setIsAvatarList?: (a: boolean) => void;
 }
 
-const Modal = forwardRef<HTMLInputElement, IProps>(
+const Modal = forwardRef<HTMLDivElement, IProps>(
   ({ children, setIsAvatarList }, ref) => {
     const dispatch = useDispatch();
 

@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types';
+import { FC } from 'react';
 import { useDispatch } from 'react-redux';
 import { TransitionGroup } from 'react-transition-group';
 import {
@@ -7,23 +7,31 @@ import {
 } from '../../redux/isOpen/isOpen-actions';
 import { Container } from './ContactList.styled';
 import Contact from '../Contact';
+import { IContact } from '../../services/interfaces';
 
-const ContactList = ({
+interface IProps {
+  data: IContact[];
+  onDelete: (id: string) => void;
+  onEdit: (id: string) => void;
+  onSetSkipQuery: (a: boolean) => void;
+  animationTimeOut: number;
+}
+
+const ContactList: FC<IProps> = ({
   data,
   onDelete,
   onEdit,
   onSetSkipQuery,
   animationTimeOut,
-  favorite,
 }) => {
   const dispatch = useDispatch();
 
-  const openModalAgreement = id => {
+  const openModalAgreement = (id: string) => {
     dispatch(setModalOpen(true));
     onDelete(id);
   };
 
-  const openContactInfo = id => {
+  const openContactInfo = (id: string) => {
     dispatch(setContactEditOpen(true));
     onEdit(id);
   };
@@ -44,15 +52,6 @@ const ContactList = ({
       </TransitionGroup>
     </Container>
   );
-};
-
-ContactList.propTypes = {
-  data: PropTypes.array,
-  onDelete: PropTypes.func.isRequired,
-  onEdit: PropTypes.func.isRequired,
-  onSetSkipQuery: PropTypes.func.isRequired,
-  animationTimeOut: PropTypes.number.isRequired,
-  favorite: PropTypes.oneOf([null, true, false]),
 };
 
 export default ContactList;

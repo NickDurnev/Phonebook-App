@@ -1,8 +1,10 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { RootState } from '../store';
-import { IContact, IUser, IQuery } from '../../interfaces';
+import { IContact, IQuery } from '../../services/interfaces';
 
 const url = process.env.REACT_APP_WEB_SERVER_URL;
+
+interface IData  { data: { contacts: IContact[] } }
 
 export const contactsApi = createApi({
   reducerPath: 'contactsApi',
@@ -21,7 +23,7 @@ export const contactsApi = createApi({
   refetchOnMountOrArgChange: 60,
   endpoints: builder => ({
     getContacts: builder.query<
-      IContact[],
+      IData,
       Pick<IQuery, 'userID' | 'token' | 'favorite' | 'page'>
     >({
       query: ({ userID, token, favorite, page }) => {
@@ -52,7 +54,7 @@ export const contactsApi = createApi({
       }),
     }),
     getContactsByName: builder.query<
-      IContact[],
+      IData,
       Pick<IQuery, 'userID' | 'query' | 'page'>
     >({
       query: ({ userID, query, page }) => ({
@@ -67,7 +69,7 @@ export const contactsApi = createApi({
       }),
       invalidatesTags: ['Contacts'],
     }),
-    addContact: builder.mutation<IContact, IContact>({
+    addContact: builder.mutation<IContact, Pick<IContact, 'userID' | 'name' | 'phone'>>({
       query: contact => ({
         url: 'api/contacts',
         method: 'POST',
@@ -79,7 +81,7 @@ export const contactsApi = createApi({
     }),
     editContact: builder.mutation<
       IContact,
-      { contactID: Pick<IQuery, 'contactID'>; contact: IContact }
+      { contactID: IQuery['contactID']; contact: Pick<IContact, 'name' | 'surname' | 'email' | 'phone'> }
     >({
       query: ({ contactID, contact }) => {
         console.log(contact);
@@ -95,7 +97,7 @@ export const contactsApi = createApi({
     }),
     addAvatar: builder.mutation<
       Pick<IContact, 'avatarURL'>,
-      Pick<IQuery, 'contactID' | 'formData'>
+      Pick<IQuery, 'token'|'contactID' | 'formData'>
     >({
       query: ({ contactID, formData }) => ({
         url: `contacts/avatars/${contactID}`,

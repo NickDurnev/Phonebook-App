@@ -153,6 +153,7 @@ const ContactsPage = ({ userLogout }) => {
       <h2>Contacts</h2>
       <Filter
         onChange={data => setContacts(data)}
+        favorite={favorite}
         page={page}
         onSetPage={number => setPage(number)}
         onSetSkipQuery={bool => setSkipQuery(bool)}
@@ -165,7 +166,6 @@ const ContactsPage = ({ userLogout }) => {
       >
         <ContactList
           data={contacts}
-          favorite={favorite}
           onDelete={value => (contactIdRef.current = value)}
           onEdit={id => (contactIdRef.current = id)}
           onSetSkipQuery={bool => setSkipQuery(bool)}

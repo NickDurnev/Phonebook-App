@@ -1,8 +1,8 @@
-import { useSelector } from 'react-redux';
+import { useAppSelector } from '../../hooks/rtkQueryHooks';
 import { Container, NavLink } from './Navigation.styled';
 
 const Navigation = () => {
-  const isLogged = useSelector(
+  const isLogged = useAppSelector(
     ({ rootReducer }) => rootReducer.isLoggedIn.logged
   );
   return (

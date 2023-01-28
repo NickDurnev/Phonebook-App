@@ -1,9 +1,15 @@
-import PropTypes from 'prop-types';
-import { useEffect } from 'react';
+import { useEffect, FC } from 'react';
 import IconButton from '../IconButton';
 import { NavWrap, LeftIcon, RightIcon } from './ContactsNavigation.styled';
+import { IContact } from '../../services/interfaces';
 
-const ContactsNavigation = ({ page, onClick, data }) => {
+interface IProps {
+  page: number;
+  onClick: (a: number) => void;
+  data: IContact[];
+}
+
+const ContactsNavigation: FC<IProps> = ({ page, onClick, data }) => {
   useEffect(() => {
     if (data.length === 0 && page > 1) {
       const count = page - 1;
@@ -40,9 +46,4 @@ const ContactsNavigation = ({ page, onClick, data }) => {
   );
 };
 
-ContactsNavigation.propTypes = {
-  data: PropTypes.array,
-  page: PropTypes.number.isRequired,
-  onClick: PropTypes.func.isRequired,
-};
 export default ContactsNavigation;

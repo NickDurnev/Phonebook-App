@@ -14,8 +14,7 @@ export const Label = styled.label`
     color: ${props => props.theme.textColor};
     border-color: ${props => props.theme.bgElementColor};
     background-color: ${props => props.theme.bgColor};
-    transition: border-color ${props => props.theme.hoverTransition}
-      ${props => props.theme.hoverTimeFunction};
+    transition: border-color ${props => props.theme.hoverTransition}${props => props.theme.hoverTimeFunction};
 
     &:hover,
     &:focus {

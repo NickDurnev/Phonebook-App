@@ -1,5 +1,6 @@
 export interface IAuth {
   user: {
+    id: string;
     name: string;
     email: string;
     verify: string;
@@ -29,7 +30,7 @@ export interface ITheme {
 }
 
 export interface IContact {
-  contactID: string;
+  _id: string;
   userID: string;
   name: string;
   phone: string;
@@ -53,7 +54,7 @@ export interface IUser {
 
 export interface IQuery {
   favorite: boolean;
-  page: string;
+  page: number;
   query: string;
   formData: object;
   contactID: string;

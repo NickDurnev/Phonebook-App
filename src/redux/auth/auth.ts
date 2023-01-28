@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { IUser } from '../../interfaces';
+import { IUser } from '../../services/interfaces';
 
 const url = process.env.REACT_APP_WEB_SERVER_URL;
 
@@ -45,7 +45,7 @@ export const authApi = createApi({
         providesTags: ['Users'],
       }),
     }),
-    userLogout: builder.query<void, Pick <IUser, 'token' | 'email'>>({
+    userLogout: builder.query<void, IUser['token']>({
       query: token => ({
         url: 'api/users/logout',
         headers: { Authorization: `Bearer ${token}` },
@@ -62,7 +62,7 @@ export const authApi = createApi({
         providesTags: ['Users'],
       }),
     }),
-    changePassword: builder.query<void, Pick<IUser, 'password' | 'resetPasswordToken'>>({
+    changePassword: builder.query<{message: string}, Pick<IUser, 'password' | 'resetPasswordToken'>>({
       query: ({ password, resetPasswordToken }) => ({
         url: `users/res_password/${resetPasswordToken}`,
         method: 'POST',

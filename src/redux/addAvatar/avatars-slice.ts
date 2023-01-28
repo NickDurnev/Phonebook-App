@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface State {
-  userAvatarID: number | null;
+  userAvatarID: string | null;
 }
 
 const initialState: State = { userAvatarID: null };
@@ -10,8 +10,8 @@ const avatarsSlice = createSlice({
   name: 'avatarsID',
   initialState,
   reducers: {
-    addAvatar: (state, { payload }: PayloadAction<number| null>) => {
-        state.userAvatarID = payload;
+    addAvatar: (state, { payload }: PayloadAction<string | null>) => {
+      state.userAvatarID = payload;
     },
   },
 });

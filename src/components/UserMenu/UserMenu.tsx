@@ -1,8 +1,6 @@
-import PropTypes from 'prop-types';
-import { useState, useRef } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useState, useRef, FC } from 'react';
 import { CSSTransition } from 'react-transition-group';
-
+import { useAppDispatch, useAppSelector } from '../../hooks/rtkQueryHooks';
 import Button from '../Button';
 import { Container, UserIcon, Icon } from './UserMenu.styled';
 import { addAvatar } from '../../redux/addAvatar/avatars-slice';
@@ -10,21 +8,25 @@ import AvatarList from '../AvatarList';
 import avatars from '../../avatars/avatars';
 import { light } from '../../config/themes';
 
-const UserMenu = ({ userLogout }) => {
+interface IProps {
+  userLogout: () => void;
+}
+
+const UserMenu: FC<IProps> = ({ userLogout }) => {
   const [isAvatarList, setIsAvatarList] = useState(false);
   const animationTimeOut = useRef(parseInt(light.animationDuration));
   const modalRef = useRef(null);
-  const { user } = useSelector(({ auth }) => auth);
-  const userAvatar = useSelector(
-    ({ userAvatarID }) => userAvatarID.userAvatarID
+  const { user } = useAppSelector(({ rootReducer }) => rootReducer.auth);
+  const userAvatar = useAppSelector(
+    ({ rootReducer }) => rootReducer.userAvatarID.userAvatarID
   );
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const handleLogout = () => {
     userLogout();
   };
 
-  const handleAvatarClick = id => {
+  const handleAvatarClick = (id: string) => {
     dispatch(addAvatar(id));
     setIsAvatarList(false);
   };
@@ -34,7 +36,7 @@ const UserMenu = ({ userLogout }) => {
       <Container>
         <Button onClick={() => setIsAvatarList(true)} bgColor={false}>
           {userAvatar ? (
-            <Icon src={avatars[userAvatar]} alt="avatar" />
+            <Icon src={avatars[+userAvatar]} alt="avatar" />
           ) : (
             <UserIcon />
           )}
@@ -57,10 +59,6 @@ const UserMenu = ({ userLogout }) => {
       </CSSTransition>
     </>
   );
-};
-
-UserMenu.propTypes = {
-  userLogout: PropTypes.func.isRequired,
 };
 
 export default UserMenu;

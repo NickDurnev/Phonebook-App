@@ -1,14 +1,14 @@
 import { forwardRef, ReactNode } from 'react';
 import Wrap from './Button.styled';
 
-export interface IButton {
+interface IProps {
   children: ReactNode;
-  onClick: React.MouseEventHandler<HTMLElement>;
-  padding: string,
-  bgColor?: boolean
+  onClick: () => void;
+  padding?: string;
+  bgColor?: boolean;
 }
 
-const Button: React.FC<IButton> = forwardRef(
+const Button = forwardRef<HTMLButtonElement, IProps>(
   ({ children, onClick, padding = '5px', bgColor = true }, ref) => (
     <Wrap
       type="button"

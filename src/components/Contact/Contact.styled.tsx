@@ -3,14 +3,18 @@ import { FiEdit } from 'react-icons/fi';
 import { AiFillDelete } from 'react-icons/ai';
 import { AiFillStar } from 'react-icons/ai';
 
+interface IProps {
+  favorite: number;
+}
+
 export const Item = styled.li`
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 5px 10px;
-  font-weight: ${props => props.theme.mainTextFontWeight};
-  color: ${props => props.theme.textColor};
-  background-color: ${props => props.theme.listItemBcgColor};
+  font-weight: ${({ theme }) => theme.mainTextFontWeight};
+  color: ${({ theme }) => theme.textColor};
+  background-color: ${({ theme }) => theme.listItemBcgColor};
   border-radius: 5px;
 
   & > span {
@@ -55,7 +59,7 @@ export const DeleteIcon = styled(AiFillDelete)`
   }
 `;
 
-export const FavoriteIcon = styled(AiFillStar)`
+export const FavoriteIcon = styled(AiFillStar)<IProps>`
   width: 100%;
   height: auto;
 

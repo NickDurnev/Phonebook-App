@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useForm } from 'react-hook-form';
+import { useForm, SubmitHandler } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
 import 'react-toastify/dist/ReactToastify.css';
 import { toast } from 'react-toastify';
@@ -16,17 +16,26 @@ import {
   StyledButton,
 } from './ChangePasswordPage.styled';
 
+interface FormValues {
+  password: string;
+  repeatedPassword: string;
+}
+
 const ChangePasswordPage = () => {
   const [skip, setSkip] = useState(true);
-  const [password, setPassword] = useState(null);
-  const { passwordToken } = useParams();
+  const [password, setPassword] = useState('');
+  const params = useParams();
+  const resetPasswordToken = params.resetPasswordToken!;
   const navigate = useNavigate();
   const { data, isSuccess } = useChangePasswordQuery(
-    { password, passwordToken },
+    { password, resetPasswordToken },
     { skip }
   );
 
-  const onSubmit = ({ password, repeatedPassword }) => {
+  const onSubmit: SubmitHandler<FormValues> = ({
+    password,
+    repeatedPassword,
+  }) => {
     if (password !== repeatedPassword) {
       toast.error('Passwords has to match');
       return;
@@ -44,7 +53,7 @@ const ChangePasswordPage = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({ criteriaMode: 'all' });
+  } = useForm<FormValues>({ criteriaMode: 'all' });
   return (
     <Wrap>
       <StyledTitle>Password reset</StyledTitle>
@@ -116,7 +125,9 @@ const ChangePasswordPage = () => {
               }
             />
           </StyledLabel>
-          {errors.exampleRequired && <span>This field is required</span>}
+          {(errors.password || errors.repeatedPassword) && (
+            <span>This field is required</span>
+          )}
           <StyledButton type="submit">Change password</StyledButton>
         </StyledForm>
       </StyledContainer>
