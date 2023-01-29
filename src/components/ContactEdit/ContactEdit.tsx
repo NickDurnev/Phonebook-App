@@ -30,7 +30,7 @@ import {
 } from './ContactEdit.styled';
 
 interface IProps {
-  contactID: IContact['_id'];
+  contactID: IContact['_id'] | null;
   data: IContact[];
   onSetSkipQuery: (a: boolean) => void;
 }
@@ -84,17 +84,20 @@ const ContactEdit = forwardRef<HTMLDivElement, IProps>(
       const formData = new FormData();
       formData.append('avatar', image);
       formData.append('prevURL', imageURL ?? '');
-      const { avatarURL } = await editPicture({
-        token,
-        contactID,
-        formData,
-      }).unwrap();
-      setTimeout(() => {
-        if (avatarURL) {
-          setImageURL(avatarURL);
-          setRerender(!rerender);
-        }
-      }, 1000);
+      if (contactID) {
+        const { avatarURL } = await editPicture({
+          token,
+          contactID,
+          formData,
+        }).unwrap();
+
+        setTimeout(() => {
+          if (avatarURL) {
+            setImageURL(avatarURL);
+            setRerender(!rerender);
+          }
+        }, 1000);
+      }
     };
 
     const onSubmit: SubmitHandler<FormValues> = async data => {
@@ -113,9 +116,11 @@ const ContactEdit = forwardRef<HTMLDivElement, IProps>(
         email: emailData,
         phone: phone,
       };
-      await editContact({ contactID, contact });
-      onSetSkipQuery(false);
-      dispatch(setContactEditOpen(false));
+      if (contactID) {
+        await editContact({ contactID, contact });
+        onSetSkipQuery(false);
+        dispatch(setContactEditOpen(false));
+      }
     };
 
     return (

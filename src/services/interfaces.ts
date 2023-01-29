@@ -3,9 +3,18 @@ export interface IAuth {
     id: string;
     name: string;
     email: string;
-    verify: string;
+    verify: boolean;
+    subscription: string;
   };
   token: string;
+}
+
+export interface IRegistration {
+  user: {
+    email: string,
+    subscription: string;
+    verify: boolean;
+  }
 }
 
 export interface ITheme {
@@ -41,7 +50,7 @@ export interface IContact {
 }
 
 export interface IUser {
-  userID: string;
+  id: string;
   password: string;
   email: string;
   name: string;

@@ -1,7 +1,5 @@
-import PropTypes from 'prop-types';
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect, FC, MouseEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
 import { CSSTransition } from 'react-transition-group';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -10,6 +8,9 @@ import {
   setContactFormOpen,
 } from '../../redux/isOpen/isOpen-actions';
 import { useGetContactsQuery } from '../../redux/contacts/contacts-slice';
+import { useAppDispatch, useAppSelector } from '../../hooks/rtkQueryHooks';
+import { IContact } from '../../services/interfaces';
+import { isErrorWithMessage } from '../../services/helpers';
 //# Components
 import ContactForm from '../../components/ContactForm';
 import ContactList from '../../components/ContactList';
@@ -30,32 +31,36 @@ import {
 } from './ContactsPage.styled';
 import { light } from '../../config/themes';
 
-const ContactsPage = ({ userLogout }) => {
-  const [favorite, setFavorite] = useState(null);
-  const [skipQuery, setSkipQuery] = useState(false);
-  const [page, setPage] = useState(1);
-  const [contacts, setContacts] = useState([]);
+interface IProps {
+  userLogout: () => void;
+}
 
-  let contactIdRef = useRef(null);
-  const animationTimeOut = useRef(parseInt(light.animationDuration));
-  const modalRef = useRef(null);
-  const dropListRef = useRef(null);
+const ContactsPage: FC<IProps> = ({ userLogout }) => {
+  const [favorite, setFavorite] = useState<boolean>(false);
+  const [skipQuery, setSkipQuery] = useState<boolean>(false);
+  const [page, setPage] = useState<number>(1);
+  const [contacts, setContacts] = useState<IContact[]>([]);
 
-  const dispatch = useDispatch();
+  let contactIdRef = useRef<string | null>(null);
+  const animationTimeOut = useRef<number>(parseInt(light.animationDuration));
+  const modalRef = useRef<HTMLDivElement>(null);
+  const dropListRef = useRef<HTMLUListElement>(null);
+
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const userID = useSelector(({ auth }) => auth.user.id);
-  const token = useSelector(({ auth }) => auth.token);
+  const userID = useAppSelector(({ rootReducer }) => rootReducer.auth.user.id);
+  const token = useAppSelector(({ rootReducer }) => rootReducer.auth.token);
 
-  const isDropListOpen = useSelector(
+  const isDropListOpen = useAppSelector(
     ({ rootReducer }) => rootReducer.isOpen.dropList
   );
-  const isModalOpen = useSelector(
+  const isModalOpen = useAppSelector(
     ({ rootReducer }) => rootReducer.isOpen.agreement
   );
-  const isContactEditOpen = useSelector(
+  const isContactEditOpen = useAppSelector(
     ({ rootReducer }) => rootReducer.isOpen.contactEdit
   );
-  const isContactFormOpen = useSelector(
+  const isContactFormOpen = useAppSelector(
     ({ rootReducer }) => rootReducer.isOpen.contactForm
   );
 
@@ -68,19 +73,22 @@ const ContactsPage = ({ userLogout }) => {
     }
   );
 
+  useEffect(() => {
+    if (isErrorWithMessage(error)) {
+      toast.error(`${error.message}`);
+      if (error.status === 401) {
+        toast.error(`${error.message}`);
+        userLogout();
+        navigate('/login', { replace: true });
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [error]);
+
   if (isSuccess && data.data.contacts) {
     console.log(data);
     setContacts(data.data.contacts);
     setSkipQuery(true);
-  }
-
-  if (error) {
-    toast.error(`${error.data.message}`);
-    if (error.status === 401) {
-      toast.error(`${error.data.message}`);
-      userLogout();
-      navigate('/login', { replace: true });
-    }
   }
 
   const getFavoriteContacts = () => {
@@ -97,7 +105,7 @@ const ContactsPage = ({ userLogout }) => {
     refetch();
   };
 
-  const handleClickClose = e => {
+  const handleClickClose = (e: MouseEvent<HTMLDivElement>) => {
     if (e.target === e.currentTarget) {
       dispatch(setDropListOpen(false));
     }
@@ -208,10 +216,6 @@ const ContactsPage = ({ userLogout }) => {
       )}
     </Container>
   );
-};
-
-ContactsPage.propTypes = {
-  userLogout: PropTypes.func.isRequired,
 };
 
 export default ContactsPage;

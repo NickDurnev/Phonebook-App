@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { IAuth } from '../../services/interfaces';
+import { IAuth, IRegistration } from '../../services/interfaces';
 
 const initialState = {
-  user: { id: '', name: '', email: '', verify: '' },
+  user: { id: '', name: '', email: '', verify: false },
   token: '',
 };
 
@@ -14,11 +14,14 @@ const authSlice = createSlice({
       state.user = payload.user;
       state.token = payload.token;
     },
-    setVerify: (state, { payload }: PayloadAction<string>) => {
+    setRegistrationCredentials: (state, { payload }: PayloadAction<IRegistration>) => {
+      state.user = {...state.user, ...payload.user };
+    },
+    setVerify: (state, { payload }: PayloadAction<boolean>) => {
       state.user.verify = payload;
     },
   },
 });
 
-export const { setCredentials, setVerify } = authSlice.actions;
+export const { setCredentials, setRegistrationCredentials, setVerify } = authSlice.actions;
 export default authSlice.reducer;

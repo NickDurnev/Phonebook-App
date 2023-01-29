@@ -1,24 +1,25 @@
 
-import {forwardRef} from 'react';
+import { forwardRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { useDeleteContactMutation } from '../../redux/contacts/contacts-slice';
 import { toast } from 'react-toastify';
 import { setModalOpen } from '../../redux/isOpen/isOpen-actions';
+import { IContact } from '../../services/interfaces';
 import Modal from '../Modal';
 import Button from '../Button';
-import {Wrap } from './Agreement.styled';
+import { Wrap } from './Agreement.styled';
 
-interface IProps  {
-  id: string;
+interface IProps {
+  id: IContact['_id'] | null;
   onSetSkipQuery: (a: boolean) => void;
 }
 
-const Agreement =forwardRef<HTMLDivElement, IProps> (({ id, onSetSkipQuery }, ref) => {
+const Agreement = forwardRef<HTMLDivElement, IProps>(({ id, onSetSkipQuery }, ref) => {
   const [deleteContact, result] = useDeleteContactMutation();
   const dispatch = useDispatch();
 
-  const checkAgreement = (answear: boolean) :void => {
-    if (answear) {
+  const checkAgreement = (answear: boolean): void => {
+    if (answear && id) {
       deleteContact(id);
       toast.success('Contact was deleted', {
         position: toast.POSITION.TOP_CENTER,
@@ -40,8 +41,8 @@ const Agreement =forwardRef<HTMLDivElement, IProps> (({ id, onSetSkipQuery }, re
             Yes
           </Button>
         </div>
-        </Wrap>
-      </Modal>
+      </Wrap>
+    </Modal>
   );
 });
 

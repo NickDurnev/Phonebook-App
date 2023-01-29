@@ -17,8 +17,8 @@ export const authApi = createApi({
       providesTags: ['Users'],
     }),
     userSignup: builder.mutation<
-      Pick<IUser, 'email' | 'subscription' | 'verify'>,
-      Pick<IUser, 'email' | 'name' | 'password'>
+    {user:Pick<IUser, 'email' | 'subscription' | 'verify'>},
+    Pick<IUser, 'email' | 'name' | 'password'>
     >({
       query: credentials => ({
         url: 'api/users/signup',
@@ -30,11 +30,11 @@ export const authApi = createApi({
       invalidatesTags: ['Users'],
     }),
     userLogin: builder.mutation<
-      Pick<IUser, 'email' | 'password'>,
-      {
-        token: Pick<IUser, 'token'>;
-        user: Pick<IUser, 'email' | 'name' | 'password'>;
-      }
+    {
+      token: IUser['token'];
+      user: Pick<IUser, 'id' | 'email' | 'name' | 'verify' | 'subscription'>;
+    },
+      Pick<IUser, 'email' | 'password'>
     >({
       query: user => ({
         url: 'api/users/login',
@@ -52,7 +52,7 @@ export const authApi = createApi({
         providesTags: ['Users'],
       }),
     }),
-    resetPassword: builder.query<void, Pick<IUser, 'email'>>({
+    resetPassword: builder.query<{message:string}, IUser['email']>({
       query: email => ({
         url: 'users/res_password',
         method: 'POST',
@@ -72,7 +72,7 @@ export const authApi = createApi({
         providesTags: ['Users'],
       }),
     }),
-    sendVerifyEmail: builder.query<void, Pick<IUser, 'email'>>({
+    sendVerifyEmail: builder.query<void, IUser['email']>({
       query: email => ({
         url: `users/verify`,
         method: 'POST',
@@ -82,7 +82,7 @@ export const authApi = createApi({
         providesTags: ['Users'],
       }),
     }),
-    verifyEmail: builder.query<void, Pick<IUser, 'verificationToken'>>({
+    verifyEmail: builder.query<void, IUser['verificationToken']>({
       query: verificationToken => ({
         url: `users/verify/${verificationToken}`,
         providesTags: ['Users'],

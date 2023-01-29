@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useForm } from 'react-hook-form';
-import { useDispatch, useSelector } from 'react-redux';
+import { useForm, SubmitHandler } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
 import { CSSTransition } from 'react-transition-group';
 import 'react-toastify/dist/ReactToastify.css';
@@ -14,6 +13,8 @@ import {
 } from '../../redux/auth/auth';
 import { setCredentials, setVerify } from '../../redux/auth/auth-slice';
 import { setLoggedIn } from '../../redux/auth/logged-slice';
+import { useAppDispatch, useAppSelector } from '../../hooks/rtkQueryHooks';
+import { isErrorWithMessage } from '../../services/helpers';
 import { light } from '../../config/themes';
 import IconButton from '../../components/IconButton';
 import Button from '../../components/Button';
@@ -32,24 +33,31 @@ import {
   OnVisibleIcon,
 } from '../RegistrationPage/RegistrationPage.styled';
 
+interface FormValues {
+  email: string;
+  password: string;
+}
+
+
 const LoginPage = () => {
-  const [skipVerify, setSkipVerify] = useState(true);
-  const [skipVerifyEmailSent, setSkipVerifyEmailSent] = useState(true);
-  const [isVisiblePassword, setIsVisiblePassword] = useState(false);
-  const [isVerifyButton, setIsVerifyButton] = useState(false);
+  const [skipVerify, setSkipVerify] = useState<boolean>(true);
+  const [skipVerifyEmailSent, setSkipVerifyEmailSent] = useState<boolean>(true);
+  const [isVisiblePassword, setIsVisiblePassword] = useState<boolean>(false);
+  const [isVerifyButton, setIsVerifyButton] = useState<boolean>(false);
 
-  const animationTimeOut = useRef(parseInt(light.animationDuration));
-  const buttonRef = useRef(null);
+  const animationTimeOut = useRef<number>(parseInt(light.animationDuration));
+  const buttonRef = useRef<HTMLButtonElement>(null);
 
-  const { verifyToken } = useParams();
-  const dispatch = useDispatch();
+  const params = useParams();
+  const verificationToken = params.verificationToken!;
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { email, verify } = useSelector(({ auth }) => auth.user);
+  const { email, verify } = useAppSelector(({ rootReducer }) => rootReducer.auth.user);
 
-  const [userLogin, { data, isError, isSuccess, error }] =
+  const [userLogin, { data, isSuccess, error }] =
     useUserLoginMutation();
 
-  const verifyEmailQuery = useVerifyEmailQuery(verifyToken, {
+  const verifyEmailQuery = useVerifyEmailQuery(verificationToken, {
     skip: skipVerify,
   });
 
@@ -61,7 +69,7 @@ const LoginPage = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({ criteriaMode: 'all' });
+  } = useForm<FormValues>({ criteriaMode: 'all' });
 
   const toggleVisibility = () => {
     isVisiblePassword
@@ -70,7 +78,7 @@ const LoginPage = () => {
   };
 
   useEffect(() => {
-    if (verifyToken !== 'null') {
+    if (verificationToken !== 'null') {
       setSkipVerify(false);
     }
     if (!verify) {
@@ -83,13 +91,13 @@ const LoginPage = () => {
   }, []);
 
   useEffect(() => {
-    if (isSuccess) {
+    if (isSuccess && data) {
       dispatch(setCredentials(data));
       dispatch(setLoggedIn(true));
       navigate('/contacts', { replace: true });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch, navigate, isSuccess, isError]);
+  }, [dispatch, navigate, isSuccess, error]);
 
   if (verifyEmailQuery.isSuccess) {
     setSkipVerify(true);
@@ -104,11 +112,11 @@ const LoginPage = () => {
     toast.clearWaitingQueue();
   }
 
-  const onSubmit = formData => {
-    const fetchData = { ...formData };
+  const onSubmit: SubmitHandler<FormValues> = data => {
+    const fetchData = { ...data };
     userLogin(fetchData);
-    if (isError) {
-      toast.error(`${error.data.message}`);
+    if (isErrorWithMessage(error)) {
+      toast.error(`${error.message}`);
       toast.clearWaitingQueue();
     }
   };
@@ -198,7 +206,7 @@ const LoginPage = () => {
               }
             />
           </StyledLabel>
-          {errors.exampleRequired && <span>This field is required</span>}
+          {(errors.email || errors.password) && <span>This field is required</span>}
           <div>
             <StyledLink to="/password">Forgot password</StyledLink>
             <StyledButton type="submit">Submit</StyledButton>

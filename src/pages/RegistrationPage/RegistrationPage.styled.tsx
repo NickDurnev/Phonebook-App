@@ -3,8 +3,8 @@ import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 import {
   InfoForm,
   InfoLabel,
-  InfoButton,
 } from '../../components/ContactEdit/ContactEdit.styled';
+import { StyledButton } from '../../components/ContactForm/ContactForm.styled';
 import { device } from '../../config/deviceSizes';
 
 export const Wrap = styled.div`
@@ -62,8 +62,7 @@ export const Input = styled.input`
   color: #a7a3a3a9;
   border-color: ${props => props.theme.bgElementColor};
   background-color: ${props => props.theme.bgColor};
-  transition: border-color ${props => props.theme.hoverTransition}
-    ${props => props.theme.hoverTimeFunction};
+  transition: border-color ${props => props.theme.hoverTransition}${props => props.theme.hoverTimeFunction};
   transition: color 1000ms ${props => props.theme.hoverTimeFunction};
   &:hover,
   &:focus {
@@ -78,8 +77,7 @@ export const OnVisibleIcon = styled(AiOutlineEye)`
 
   color: ${({ theme }) => theme.bgElementColor};
   transform: scale(1);
-  transition: transform ${({ theme }) => theme.animationDuration}
-    ${({ theme }) => theme.animationTimeFunction};
+  transition: transform ${({ theme }) => theme.animationDuration}${({ theme }) => theme.animationTimeFunction};
 
   &:hover,
   &:focus {
@@ -93,8 +91,7 @@ export const OffVisibleIcon = styled(AiOutlineEyeInvisible)`
 
   color: ${({ theme }) => theme.bgElementColor};
   transform: scale(1);
-  transition: transform ${({ theme }) => theme.animationDuration}
-    ${({ theme }) => theme.animationTimeFunction};
+  transition: transform ${({ theme }) => theme.animationDuration}${({ theme }) => theme.animationTimeFunction};
 
   &:hover,
   &:focus {
@@ -102,7 +99,7 @@ export const OffVisibleIcon = styled(AiOutlineEyeInvisible)`
   }
 `;
 
-export const Button = styled(InfoButton)`
+export const Button = styled(StyledButton)`
   font-size: 16px;
   margin-top: 20px;
 `;

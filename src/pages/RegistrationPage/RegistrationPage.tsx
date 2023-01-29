@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useForm } from 'react-hook-form';
+import { useForm, SubmitHandler } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { ErrorMessage } from '@hookform/error-message';
 import 'react-toastify/dist/ReactToastify.css';
 import { toast } from 'react-toastify';
 
 import { useUserSignupMutation } from '../../redux/auth/auth';
-import { setCredentials } from '../../redux/auth/auth-slice';
+import { setRegistrationCredentials } from '../../redux/auth/auth-slice';
 import IconButton from '../../components/IconButton';
 import {
   Wrap,
@@ -21,6 +21,12 @@ import {
   Button,
 } from './RegistrationPage.styled';
 
+interface FormValues {
+  name: string;
+  email: string;
+  password: string;
+}
+
 const RegistrationPage = () => {
   const [isVisiblePassword, setIsVisiblePassword] = useState(false);
   const [userSignup, { isSuccess, data }] = useUserSignupMutation();
@@ -30,7 +36,7 @@ const RegistrationPage = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({ criteriaMode: 'all' });
+  } = useForm<FormValues>({ criteriaMode: 'all' });
 
   const toggleVisibility = () => {
     isVisiblePassword
@@ -38,14 +44,14 @@ const RegistrationPage = () => {
       : setIsVisiblePassword(true);
   };
 
-  const onSubmit = formData => {
-    const fetchData = { ...formData };
+  const onSubmit: SubmitHandler<FormValues> = data => {
+    const fetchData = { ...data };
     userSignup(fetchData);
   };
 
   useEffect(() => {
-    if (isSuccess) {
-      dispatch(setCredentials(data));
+    if (isSuccess && data) {
+      dispatch(setRegistrationCredentials(data));
       toast.info('Check your email for the verification letter');
       toast.clearWaitingQueue();
       navigate('/login/null', { replace: true });
@@ -63,7 +69,9 @@ const RegistrationPage = () => {
               {...register('name', {
                 required: 'Name is required.',
                 pattern: /[A-Za-z]{3}/,
-                minLength: { value: 3 },
+                minLength: {
+                  value: 3, message: 'This input exceed minLength.',
+                },
                 maxLength: {
                   value: 25,
                   message: 'This input exceed maxLength.',
@@ -144,7 +152,7 @@ const RegistrationPage = () => {
               }
             />
           </Label>
-          {errors.exampleRequired && <span>This field is required</span>}
+          {(errors.name || errors.email || errors.password) && <span>This field is required</span>}
           <Button type="submit">Submit</Button>
         </Form>
       </Container>

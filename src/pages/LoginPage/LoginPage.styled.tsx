@@ -35,12 +35,6 @@ export const StyledLink = styled(Link)`
   font-weight: 500;
   text-decoration: none;
   color: ${({ theme }) => theme.bgElementColor};
-
-  &:hover,
-  &:focus {
-    background-color: ${({ bgColor, theme }) =>
-      bgColor ? theme.bgElementHoverColor : 'inherit'};
-  }
 `;
 
 export const StyledLabel = styled(Label)``;

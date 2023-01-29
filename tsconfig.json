@@ -22,10 +22,5 @@
   },
   "include": [
     "src/**/*",
-    // "componets/**/*",
-    // "pages/**/*",
-    //  "redux/**/*",
-    //  "hooks/**/*",
-    //  "config/**/*",
   ]
 }

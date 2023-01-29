@@ -3,7 +3,7 @@ import Wrap from './IconButton.styled';
 
 interface IProps {
   children: ReactNode;
-  onClick: () => void;
+  onClick?: () => void;
   width?: string;
 }
 

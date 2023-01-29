@@ -2,15 +2,15 @@ import styled, { css } from 'styled-components';
 import { device } from '../../config/deviceSizes';
 import { slideInTop, slideInBottom } from '../../config/animations';
 
+interface IProps {
+  favorite: boolean;
+}
+
 const enterAnimation = css`
-  ${slideInTop} ${({ theme }) => theme.animationDuration}
-    ${({ theme }) => theme.animationTimeFunction}
-`;
+  ${slideInTop} ${({ theme }) => theme.animationDuration}${({ theme }) => theme.animationTimeFunction}`;
 
 const exitAnimation = css`
-  ${slideInBottom} ${({ theme }) => theme.animationDuration}
-    ${({ theme }) => theme.animationTimeFunction}
-`;
+  ${slideInBottom} ${({ theme }) => theme.animationDuration}${({ theme }) => theme.animationTimeFunction}`;
 
 export const Container = styled.div`
   position: relative;
@@ -67,12 +67,12 @@ export const PositionedButton = styled.button`
   }
 `;
 
-export const AllContactsButton = styled(PositionedButton)`
+export const AllContactsButton = styled(PositionedButton) <IProps>`
   animation: ${({ favorite }) => (favorite ? exitAnimation : enterAnimation)};
   animation-fill-mode: forwards;
 `;
 
-export const FavoriteContactsButton = styled(PositionedButton)`
+export const FavoriteContactsButton = styled(PositionedButton) <IProps>`
   animation: ${({ favorite }) => (favorite ? enterAnimation : exitAnimation)};
   animation-fill-mode: forwards;
 `;

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, SubmitHandler } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
 import { useResetPasswordQuery } from '../../redux/auth/auth';
 import 'react-toastify/dist/ReactToastify.css';
@@ -14,30 +14,34 @@ import {
   StyledButton,
 } from './ForgotPasswordPage.styled';
 
+interface FormValues {
+  email: string;
+}
+
 const ForgotPasswordPage = () => {
-  const [skip, setSkip] = useState(true);
-  const [email, setEmail] = useState(null);
+  const [skip, setSkip] = useState<boolean>(true);
+  const [email, setEmail] = useState<string>('');
   const { data, isSuccess } = useResetPasswordQuery(email, { skip });
 
-  const onSubmit = ({ email }) => {
+  const onSubmit: SubmitHandler<FormValues> = ({ email }: { email: string }) => {
     setEmail(email);
     setSkip(false);
     setTimeout(() => {
-      setEmail(null);
+      setEmail('');
     }, 60000);
   };
 
   if (isSuccess && email) {
     toast.success(`${data.message}`);
     toast.clearWaitingQueue();
-    setEmail(null);
+    setEmail('');
   }
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({ criteriaMode: 'all' });
+  } = useForm<FormValues>({ criteriaMode: 'all' });
   return (
     <Wrap>
       <StyledTitle>Password reset</StyledTitle>
@@ -66,7 +70,7 @@ const ForgotPasswordPage = () => {
               }
             />
           </StyledLabel>
-          {errors.exampleRequired && <span>This field is required</span>}
+          {errors.email && <span>This field is required</span>}
           {email ? (
             <p>Check your email</p>
           ) : (
