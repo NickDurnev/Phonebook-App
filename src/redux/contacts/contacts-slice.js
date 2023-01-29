@@ -18,13 +18,13 @@ export const contactsApi = createApi({
   refetchOnMountOrArgChange: 60,
   endpoints: builder => ({
     getContacts: builder.query({
-      query: ({ userID, token, favorite, page }) => {
+      query: ({ token, favorite, page }) => {
         let filter = {};
         if (favorite) {
           filter = { favorite: favorite };
         }
         return {
-          url: `api/contacts/${userID}`,
+          url: `api/contacts`,
           headers: {
             Authorization: `Bearer ${token}`,
           },
