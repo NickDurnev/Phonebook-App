@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { useState, useEffect, FC, ChangeEvent } from 'react';
+import { useState, FC, ChangeEvent } from 'react';
 import { DebounceInput } from 'react-debounce-input';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -9,7 +9,7 @@ import {
 } from '../../redux/contacts/contacts-slice';
 import { useAppSelector } from '../../hooks/rtkQueryHooks';
 import { IContact } from '../../services/interfaces';
-import { isErrorWithMessage } from '../../services/helpers';
+import { isFetchBaseQueryError } from '../../services/helpers';
 
 import { Label } from './Filter.styled';
 
@@ -48,21 +48,19 @@ const Filter: FC<IProps> = ({
     }
   );
 
-  useEffect(() => {
-    if (
-      isErrorWithMessage(getContactByName.error) &&
-      getContactByName.error.status === 404
-    ) {
-      onSetPage(1);
-      setSkipSearch(true);
-      onSetSkipQuery(false);
-      if (query !== '') {
-        toast.info("Contacts weren't found");
-      }
-      toast.clearWaitingQueue();
+  if (
+    isFetchBaseQueryError(getContactByName.error) &&
+    getContactByName.error.status === 404
+  ) {
+    onSetPage(1);
+    setSkipSearch(true);
+    onSetSkipQuery(false);
+    if (query !== '') {
+      toast.info("Contacts weren't found");
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [getContactByName.error]);
+    toast.clearWaitingQueue();
+  }
+
 
   const setFilters = (e: ChangeEvent<HTMLInputElement>) => {
     const filter = e.target.value.trim();

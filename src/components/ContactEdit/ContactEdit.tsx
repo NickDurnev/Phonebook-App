@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { toast } from 'react-toastify';
 import { forwardRef } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
@@ -10,7 +10,7 @@ import {
 import { setContactEditOpen } from '../../redux/isOpen/isOpen-actions';
 import { useAppSelector, useAppDispatch } from '../../hooks/rtkQueryHooks';
 import { IContact } from '../../services/interfaces';
-import { isErrorWithMessage } from '../../services/helpers';
+import { isFetchBaseQueryError } from '../../services/helpers';
 //# Components
 import FileUploader from '../FileUploader';
 import Button from '../Button';
@@ -42,17 +42,16 @@ interface FormValues {
   phone: string;
 }
 
+
+
 const ContactEdit = forwardRef<HTMLDivElement, IProps>(
   ({ contactID, data, onSetSkipQuery }, ref) => {
     const dispatch = useAppDispatch();
-    const { contactEdit } = useAppSelector(
-      ({ rootReducer }) => rootReducer.isOpen
-    );
     const { token } = useAppSelector(({ rootReducer }) => rootReducer.auth);
     // eslint-disable-next-line no-unused-vars
-    const [editPicture, { error }] = useAddAvatarMutation();
+    const [editPicture] = useAddAvatarMutation();
     // eslint-disable-next-line no-unused-vars
-    const [editContact, result] = useEditContactMutation();
+    const [editContact] = useEditContactMutation();
     const contact = data.find(contact => contact._id === contactID);
     const { name, email, phone, surname, avatarURL } = contact ?? {
       name: '',
@@ -63,13 +62,6 @@ const ContactEdit = forwardRef<HTMLDivElement, IProps>(
     };
     const [imageURL, setImageURL] = useState(avatarURL ?? null);
     const [rerender, setRerender] = useState(false);
-
-    useEffect(() => {
-      if (isErrorWithMessage(error) && contactEdit) {
-        toast.error(`${error.message}`);
-        toast.clearWaitingQueue();
-      }
-    }, [contactEdit, error]);
 
     const {
       register,
@@ -85,18 +77,25 @@ const ContactEdit = forwardRef<HTMLDivElement, IProps>(
       formData.append('avatar', image);
       formData.append('prevURL', imageURL ?? '');
       if (contactID) {
-        const { avatarURL } = await editPicture({
-          token,
-          contactID,
-          formData,
-        }).unwrap();
+        try {
+          const { avatarURL } = await editPicture({
+            token,
+            contactID,
+            formData,
+          }).unwrap();
 
-        setTimeout(() => {
-          if (avatarURL) {
-            setImageURL(avatarURL);
-            setRerender(!rerender);
+          setTimeout(() => {
+            if (avatarURL) {
+              setImageURL(avatarURL);
+              setRerender(!rerender);
+            }
+          }, 1000);
+        } catch (err) {
+          if (isFetchBaseQueryError(err)) {
+            const errMsg = 'error' in err ? err.error : err.data;
+            toast.error(`${errMsg}`);
           }
-        }, 1000);
+        }
       }
     };
 

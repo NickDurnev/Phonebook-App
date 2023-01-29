@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect, FC, MouseEvent } from 'react';
+import { useRef, useState, FC, MouseEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CSSTransition } from 'react-transition-group';
 import { toast } from 'react-toastify';
@@ -10,7 +10,7 @@ import {
 import { useGetContactsQuery } from '../../redux/contacts/contacts-slice';
 import { useAppDispatch, useAppSelector } from '../../hooks/rtkQueryHooks';
 import { IContact } from '../../services/interfaces';
-import { isErrorWithMessage } from '../../services/helpers';
+import { isFetchBaseQueryError } from '../../services/helpers';
 //# Components
 import ContactForm from '../../components/ContactForm';
 import ContactList from '../../components/ContactList';
@@ -73,17 +73,14 @@ const ContactsPage: FC<IProps> = ({ userLogout }) => {
     }
   );
 
-  useEffect(() => {
-    if (isErrorWithMessage(error)) {
-      toast.error(`${error.message}`);
-      if (error.status === 401) {
-        toast.error(`${error.message}`);
-        userLogout();
-        navigate('/login', { replace: true });
-      }
+  if (isFetchBaseQueryError(error)) {
+    const errMsg = 'error' in error ? error.error : error.data;
+    toast.error(`${errMsg}`);
+    if (error.status === 401) {
+      userLogout();
+      navigate('/login', { replace: true });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [error]);
+  }
 
   if (isSuccess && data.data.contacts) {
     console.log(data);
@@ -110,6 +107,8 @@ const ContactsPage: FC<IProps> = ({ userLogout }) => {
       dispatch(setDropListOpen(false));
     }
   };
+
+  console.log(favorite);
 
   return (
     <Container onClick={handleClickClose}>

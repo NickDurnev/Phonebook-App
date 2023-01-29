@@ -14,7 +14,7 @@ import {
 import { setCredentials, setVerify } from '../../redux/auth/auth-slice';
 import { setLoggedIn } from '../../redux/auth/logged-slice';
 import { useAppDispatch, useAppSelector } from '../../hooks/rtkQueryHooks';
-import { isErrorWithMessage } from '../../services/helpers';
+import { isFetchBaseQueryError } from '../../services/helpers';
 import { light } from '../../config/themes';
 import IconButton from '../../components/IconButton';
 import Button from '../../components/Button';
@@ -112,13 +112,17 @@ const LoginPage = () => {
     toast.clearWaitingQueue();
   }
 
+  useEffect(() => {
+    if (isFetchBaseQueryError(error)) {
+      const errMsg = 'error' in error ? error.error : error.data;
+      toast.error(`${errMsg}`);
+      toast.clearWaitingQueue();
+    }
+  }, [error])
+
   const onSubmit: SubmitHandler<FormValues> = data => {
     const fetchData = { ...data };
     userLogin(fetchData);
-    if (isErrorWithMessage(error)) {
-      toast.error(`${error.message}`);
-      toast.clearWaitingQueue();
-    }
   };
 
   const onButton = () => {

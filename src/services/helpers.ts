@@ -8,10 +8,11 @@ export function isFetchBaseQueryError(
 
 export function isErrorWithMessage(
   error: unknown
-): error is { message: string, status: number } {
+): error is { data:{message: string}, status: number } {
   return (
     typeof error === 'object' &&
     error != null &&
+    'data' in error && typeof (error as any).data === 'object' &&
     'message' in error &&
     typeof (error as any).message === 'string'
   )

@@ -22,8 +22,8 @@ interface FormValues {
 }
 
 const ChangePasswordPage = () => {
-  const [skip, setSkip] = useState(true);
-  const [password, setPassword] = useState('');
+  const [skip, setSkip] = useState<boolean>(true);
+  const [password, setPassword] = useState<string>('');
   const params = useParams();
   const resetPasswordToken = params.resetPasswordToken!;
   const navigate = useNavigate();

@@ -26,13 +26,13 @@ export const contactsApi = createApi({
       IData,
       Pick<IQuery, 'userID' | 'token' | 'favorite' | 'page'>
     >({
-      query: ({ userID, token, favorite, page }) => {
+    query: ({ userID, token, favorite, page }) => {
         let filter = {};
         if (favorite) {
           filter = { favorite: favorite };
         }
         return {
-          url: `api/contacts/${userID}`,
+          url: `api/contacts`,
           headers: {
             Authorization: `Bearer ${token}`,
           },

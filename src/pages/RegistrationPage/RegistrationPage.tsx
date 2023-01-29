@@ -28,7 +28,7 @@ interface FormValues {
 }
 
 const RegistrationPage = () => {
-  const [isVisiblePassword, setIsVisiblePassword] = useState(false);
+  const [isVisiblePassword, setIsVisiblePassword] = useState<boolean>(false);
   const [userSignup, { isSuccess, data }] = useUserSignupMutation();
   const dispatch = useDispatch();
   const navigate = useNavigate();

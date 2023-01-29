@@ -3,6 +3,8 @@ import { IUser } from '../../services/interfaces';
 
 const url = process.env.REACT_APP_WEB_SERVER_URL;
 
+console.log(url);
+
 export const authApi = createApi({
   reducerPath: 'authApi',
   baseQuery: fetchBaseQuery({
