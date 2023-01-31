@@ -1,5 +1,6 @@
-import { useRef, useState, FC, MouseEvent } from 'react';
+import { useRef, useState, useEffect, FC, MouseEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useInView } from 'react-intersection-observer';
 import { CSSTransition } from 'react-transition-group';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -24,6 +25,7 @@ import ContactsNavigation from '../../components/ContactsNavigation';
 //# Styles
 import {
   Container,
+  Wrap,
   ButtonWrap,
   PositionedWrap,
   AllContactsButton,
@@ -83,10 +85,17 @@ const ContactsPage: FC<IProps> = ({ userLogout }) => {
   }
 
   if (isSuccess && data.data.contacts) {
-    console.log(data);
+    console.log(data.data.contacts);
     setContacts(data.data.contacts);
     setSkipQuery(true);
   }
+
+  useEffect(() => {
+    console.log(data);
+    setSkipQuery(false);
+    refetch();
+  }, [page])
+
 
   const getFavoriteContacts = () => {
     setFavorite(true);
@@ -108,8 +117,6 @@ const ContactsPage: FC<IProps> = ({ userLogout }) => {
     }
   };
 
-  console.log(favorite);
-
   return (
     <Container onClick={handleClickClose}>
       <PositionedWrap>
@@ -127,7 +134,7 @@ const ContactsPage: FC<IProps> = ({ userLogout }) => {
         onClick={() => dispatch(setDropListOpen(true))}
         padding={'5px 20px'}
       >
-        Choose theme
+        CHOOSE THEME
       </Button>
       <CSSTransition
         nodeRef={dropListRef}
@@ -138,81 +145,83 @@ const ContactsPage: FC<IProps> = ({ userLogout }) => {
       >
         <DropList ref={dropListRef}></DropList>
       </CSSTransition>
-      <h1>Phonebook</h1>
-      <ButtonWrap>
-        <Button onClick={() => dispatch(setContactFormOpen(true))}>
-          Add contact
-        </Button>
-      </ButtonWrap>
-      <CSSTransition
-        nodeRef={modalRef}
-        in={isContactFormOpen}
-        timeout={animationTimeOut.current}
-        classNames="fade"
-        unmountOnExit
-      >
-        <ContactForm
-          data={contacts}
-          onSetSkipQuery={bool => setSkipQuery(bool)}
-          ref={modalRef}
-        />
-      </CSSTransition>
-      <h2>Contacts</h2>
-      <Filter
-        onChange={data => setContacts(data)}
-        favorite={favorite}
-        page={page}
-        onSetPage={number => setPage(number)}
-        onSetSkipQuery={bool => setSkipQuery(bool)}
-      />
-      {isLoading && <NoteLoader />}
-      <CSSTransition
-        in={contacts.length >= 0}
-        timeout={animationTimeOut.current}
-        unmountOnExit
-      >
-        <ContactList
-          data={contacts}
-          onDelete={value => (contactIdRef.current = value)}
-          onEdit={id => (contactIdRef.current = id)}
-          onSetSkipQuery={bool => setSkipQuery(bool)}
-          animationTimeOut={animationTimeOut.current}
-        />
-      </CSSTransition>
-      <CSSTransition
-        nodeRef={modalRef}
-        in={isModalOpen}
-        timeout={animationTimeOut.current}
-        classNames="fade"
-        unmountOnExit
-      >
-        <AgreementModal
-          id={contactIdRef.current}
-          onSetSkipQuery={bool => setSkipQuery(bool)}
-          ref={modalRef}
-        ></AgreementModal>
-      </CSSTransition>
-      <CSSTransition
-        nodeRef={modalRef}
-        in={isContactEditOpen}
-        timeout={animationTimeOut.current}
-        classNames="fade"
-        unmountOnExit
-      >
-        <ContactEdit
-          contactID={contactIdRef.current}
-          data={contacts}
-          onSetSkipQuery={bool => setSkipQuery(bool)}
-          ref={modalRef}
-        />
-      </CSSTransition>
-      {contacts.length > 10 && (
-        <ContactsNavigation
-          data={contacts}
+      <Wrap>
+        <h1>PHONEBOOK</h1>
+        <ButtonWrap>
+          <Button onClick={() => dispatch(setContactFormOpen(true))}>
+            ADD CONTACT
+          </Button>
+        </ButtonWrap>
+        <CSSTransition
+          nodeRef={modalRef}
+          in={isContactFormOpen}
+          timeout={animationTimeOut.current}
+          classNames="fade"
+          unmountOnExit
+        >
+          <ContactForm
+            data={contacts}
+            onSetSkipQuery={bool => setSkipQuery(bool)}
+            ref={modalRef}
+          />
+        </CSSTransition>
+        <h2>Contacts</h2>
+        <Filter
+          onChange={data => setContacts(data)}
+          favorite={favorite}
           page={page}
-          onClick={page => setPage(page)}
+          onSetPage={number => setPage(number)}
+          onSetSkipQuery={bool => setSkipQuery(bool)}
         />
-      )}
+        {isLoading && <NoteLoader />}
+        <CSSTransition
+          in={contacts.length >= 0}
+          timeout={animationTimeOut.current}
+          unmountOnExit
+        >
+          <ContactList
+            data={contacts}
+            onDelete={value => (contactIdRef.current = value)}
+            onEdit={id => (contactIdRef.current = id)}
+            onSetSkipQuery={bool => setSkipQuery(bool)}
+            animationTimeOut={animationTimeOut.current}
+          />
+        </CSSTransition>
+        <CSSTransition
+          nodeRef={modalRef}
+          in={isModalOpen}
+          timeout={animationTimeOut.current}
+          classNames="fade"
+          unmountOnExit
+        >
+          <AgreementModal
+            id={contactIdRef.current}
+            onSetSkipQuery={bool => setSkipQuery(bool)}
+            ref={modalRef}
+          ></AgreementModal>
+        </CSSTransition>
+        <CSSTransition
+          nodeRef={modalRef}
+          in={isContactEditOpen}
+          timeout={animationTimeOut.current}
+          classNames="fade"
+          unmountOnExit
+        >
+          <ContactEdit
+            contactID={contactIdRef.current}
+            data={contacts}
+            onSetSkipQuery={bool => setSkipQuery(bool)}
+            ref={modalRef}
+          />
+        </CSSTransition>
+        {contacts.length >= 10 && (
+          <ContactsNavigation
+            data={contacts}
+            page={page}
+            onClick={page => setPage(page)}
+          />
+        )}
+      </Wrap>
     </Container>
   );
 };

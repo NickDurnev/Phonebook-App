@@ -2,13 +2,20 @@ import styled from 'styled-components';
 import { Input } from '../ContactForm/ContactForm.styled';
 import { IoMdClose } from 'react-icons/io';
 
+export const Wrap = styled.div`
+  &>button {
+    margin-left:85%;
+  }
+`
+
 export const InfoForm = styled.form`
   min-width: 350px;
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 10px;
   padding: 20px;
-  background-color: ${({ theme }) => theme.bgColor};
+  background-color: ${({ theme }) => theme.bgModalColor};
+  border-radius:5px;
 
   & p {
     color: ${({ theme }) => theme.bgElementColor};

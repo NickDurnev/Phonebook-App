@@ -8,6 +8,7 @@ import Button from '../Button';
 import Modal from '../Modal';
 import { CloseIcon } from '../ContactEdit/ContactEdit.styled';
 import {
+  Wrap,
   Form,
   Label,
   StyledButton,
@@ -81,45 +82,48 @@ const ContactForm = forwardRef<HTMLDivElement, IProps>(
     };
 
     return (
+
       <Modal ref={ref}>
-        <Button
-          onClick={() => dispatch(setContactFormOpen(false))}
-          bgColor={false}
-        >
-          <CloseIcon />
-        </Button>
-        <Form onSubmit={handleSubmit}>
-          <Label>
-            Name
-            <Input
-              type="text"
-              name="name"
-              title="Name doesn't may contain special symbols"
-              maxLength={20}
-              required
-              value={name.trim().toLowerCase()}
-              onChange={handleChange}
-            />
-          </Label>
-          <Label>
-            Phone
-            <MaskedInput
-              type="tel"
-              name="phone"
-              mask="+ 999-99-99-99-999"
-              title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
-              required
-              value={phone}
-              onChange={handleChange}
-            />
-          </Label>
-          <StyledButton type="submit">
-            Add contact
-            {isLoading && (
-              <Loader size={20} color="white" aria-label="loading" />
-            )}
-          </StyledButton>
-        </Form>
+        <Wrap>
+          <Button
+            onClick={() => dispatch(setContactFormOpen(false))}
+            bgColor={false}
+          >
+            <CloseIcon />
+          </Button>
+          <Form onSubmit={handleSubmit}>
+            <Label>
+              Name
+              <Input
+                type="text"
+                name="name"
+                title="Name doesn't may contain special symbols"
+                maxLength={20}
+                required
+                value={name.trim().toLowerCase()}
+                onChange={handleChange}
+              />
+            </Label>
+            <Label>
+              Phone
+              <MaskedInput
+                type="tel"
+                name="phone"
+                mask="+ 999-99-99-99-999"
+                title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
+                required
+                value={phone}
+                onChange={handleChange}
+              />
+            </Label>
+            <StyledButton type="submit">
+              ADD
+              {isLoading && (
+                <Loader size={20} color="white" aria-label="loading" />
+              )}
+            </StyledButton>
+          </Form>
+        </Wrap>
       </Modal>
     );
   }

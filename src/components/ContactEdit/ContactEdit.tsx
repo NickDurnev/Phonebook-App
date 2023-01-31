@@ -23,6 +23,7 @@ import {
   StyledButton,
 } from '../ContactForm/ContactForm.styled';
 import {
+  Wrap,
   InfoForm,
   EmailInput,
   InfoLabel,
@@ -124,109 +125,111 @@ const ContactEdit = forwardRef<HTMLDivElement, IProps>(
 
     return (
       <Modal ref={ref}>
-        <Button
-          onClick={() => dispatch(setContactEditOpen(false))}
-          bgColor={false}
-        >
-          <CloseIcon />
-        </Button>
-        <InfoForm onSubmit={handleSubmit(onSubmit)}>
-          <InfoLabel>
-            Name
-            <Input
-              defaultValue={name}
-              {...register('name', {
-                required: 'Name is required.',
-                maxLength: {
-                  value: 20,
-                  message: 'This input exceed maxLength.',
-                },
-              })}
-            />
-            <ErrorMessage
-              errors={errors}
-              name="name"
-              render={({ messages }) =>
-                messages &&
-                Object.entries(messages).map(([type, message]) => (
-                  <p key={type}>{message}</p>
-                ))
-              }
-            />
-          </InfoLabel>
-          <InfoLabel>
-            Surname
-            <Input
-              defaultValue={surname}
-              {...register('surname', {
-                pattern: /[A-Za-z]{3}/,
-                maxLength: {
-                  value: 20,
-                  message: 'This input exceed maxLength.',
-                },
-              })}
-            />
-            <ErrorMessage
-              errors={errors}
-              name="name"
-              render={({ messages }) =>
-                messages &&
-                Object.entries(messages).map(([type, message]) => (
-                  <p key={type}>{message}</p>
-                ))
-              }
-            />
-          </InfoLabel>
-          <InfoLabel>
-            Phone
-            <MaskedInput
-              defaultValue={phone}
-              mask="+ 999-99-99-99-999"
-              {...register('phone', {
-                required: 'Phone is required.',
-              })}
-            />
-            <ErrorMessage
-              errors={errors}
-              name="phone"
-              render={({ messages }) =>
-                messages &&
-                Object.entries(messages).map(([type, message]) => (
-                  <p key={type}>{message}</p>
-                ))
-              }
-            />
-          </InfoLabel>
-          <InfoLabel>
-            Email
-            <EmailInput
-              defaultValue={email}
-              {...register('email', {
-                pattern:
-                  /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-                maxLength: {
-                  value: 30,
-                  message: 'This input exceed maxLength.',
-                },
-              })}
-            />
-            <ErrorMessage
-              errors={errors}
-              name="email"
-              render={({ messages }) =>
-                messages &&
-                Object.entries(messages).map(([type, message]) => (
-                  <p key={type}>{message}</p>
-                ))
-              }
-            />
-          </InfoLabel>
-          <FileUploader handleFile={image => handleFile(image)}>
-            <Avatar imageURL={imageURL} width="100px" />
-          </FileUploader>
-          {(errors.name || errors.phone) && <span>This field is required</span>}
-          <StyledButton type="submit">Submit</StyledButton>
-        </InfoForm>
+        <Wrap>
+          <Button
+            onClick={() => dispatch(setContactEditOpen(false))}
+            bgColor={false}
+          >
+            <CloseIcon />
+          </Button>
+          <InfoForm onSubmit={handleSubmit(onSubmit)}>
+            <InfoLabel>
+              Name
+              <Input
+                defaultValue={name}
+                {...register('name', {
+                  required: 'Name is required.',
+                  maxLength: {
+                    value: 20,
+                    message: 'This input exceed maxLength.',
+                  },
+                })}
+              />
+              <ErrorMessage
+                errors={errors}
+                name="name"
+                render={({ messages }) =>
+                  messages &&
+                  Object.entries(messages).map(([type, message]) => (
+                    <p key={type}>{message}</p>
+                  ))
+                }
+              />
+            </InfoLabel>
+            <InfoLabel>
+              Surname
+              <Input
+                defaultValue={surname}
+                {...register('surname', {
+                  pattern: /[A-Za-z]{3}/,
+                  maxLength: {
+                    value: 20,
+                    message: 'This input exceed maxLength.',
+                  },
+                })}
+              />
+              <ErrorMessage
+                errors={errors}
+                name="name"
+                render={({ messages }) =>
+                  messages &&
+                  Object.entries(messages).map(([type, message]) => (
+                    <p key={type}>{message}</p>
+                  ))
+                }
+              />
+            </InfoLabel>
+            <InfoLabel>
+              Phone
+              <MaskedInput
+                defaultValue={phone}
+                mask="+ 999-99-99-99-999"
+                {...register('phone', {
+                  required: 'Phone is required.',
+                })}
+              />
+              <ErrorMessage
+                errors={errors}
+                name="phone"
+                render={({ messages }) =>
+                  messages &&
+                  Object.entries(messages).map(([type, message]) => (
+                    <p key={type}>{message}</p>
+                  ))
+                }
+              />
+            </InfoLabel>
+            <InfoLabel>
+              Email
+              <EmailInput
+                defaultValue={email}
+                {...register('email', {
+                  pattern:
+                    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                  maxLength: {
+                    value: 30,
+                    message: 'This input exceed maxLength.',
+                  },
+                })}
+              />
+              <ErrorMessage
+                errors={errors}
+                name="email"
+                render={({ messages }) =>
+                  messages &&
+                  Object.entries(messages).map(([type, message]) => (
+                    <p key={type}>{message}</p>
+                  ))
+                }
+              />
+            </InfoLabel>
+            <FileUploader handleFile={image => handleFile(image)}>
+              <Avatar imageURL={imageURL} width="100px" />
+            </FileUploader>
+            {(errors.name || errors.phone) && <span>This field is required</span>}
+            <StyledButton type="submit">EDIT</StyledButton>
+          </InfoForm>
+        </Wrap>
       </Modal>
     );
   }

@@ -13,6 +13,10 @@ export const Container = styled.div`
   background-color: ${({ theme }) => theme.linkActiveColor};
   border-radius: 4px;
 
+  &>p {
+    color: ${({ theme }) => theme.bgElementColor};
+  }
+
   @media ${device.mobileM} {
     width: 250px;
   }

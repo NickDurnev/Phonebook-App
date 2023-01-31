@@ -12,7 +12,7 @@ export const NavLink = styled(BaseNavLink)`
   position: relative;
   font-size: 20px;
   font-weight: 500;
-  color: ${({ theme }) => theme.elementColor};
+  color: ${({ theme }) => theme.linkActiveColor};
   text-decoration: none;
   text-transform: uppercase;
   &.active {

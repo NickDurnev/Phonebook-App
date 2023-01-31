@@ -1,5 +1,5 @@
 
-import { forwardRef } from 'react';
+import { forwardRef, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useDeleteContactMutation } from '../../redux/contacts/contacts-slice';
 import { toast } from 'react-toastify';
@@ -15,19 +15,25 @@ interface IProps {
 }
 
 const Agreement = forwardRef<HTMLDivElement, IProps>(({ id, onSetSkipQuery }, ref) => {
-  const [deleteContact, result] = useDeleteContactMutation();
+  const [deleteContact, { isSuccess }] = useDeleteContactMutation();
   const dispatch = useDispatch();
 
   const checkAgreement = (answear: boolean): void => {
     if (answear && id) {
       deleteContact(id);
+    }
+  };
+
+  useEffect(() => {
+    if (isSuccess) {
       toast.success('Contact was deleted', {
         position: toast.POSITION.TOP_CENTER,
       });
+      dispatch(setModalOpen(false));
+      onSetSkipQuery(false);
     }
-    dispatch(setModalOpen(false));
-    onSetSkipQuery(false);
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isSuccess])
 
   return (
     <Modal ref={ref}>

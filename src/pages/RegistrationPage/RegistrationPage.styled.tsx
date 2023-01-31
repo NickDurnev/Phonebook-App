@@ -24,6 +24,8 @@ export const Container = styled.div`
   width: 400px;
   margin-left: auto;
   margin-right: auto;
+  background-color: ${({ theme }) => theme.bgModalColor};
+  border-radius: 10px;
 
   @media ${device.mobileM} {
     width: 350px;
@@ -34,8 +36,8 @@ export const Form = styled(InfoForm)`
   margin-bottom: 0;
 
   width: 100%;
-  border: 2px solid ${({ theme }) => theme.bgElementColor};
-  border-radius: 5px;
+  border: 2px solid ${({ theme }) => theme.bgModalColor};
+  border-radius: 10px;
 `;
 
 export const Label = styled(InfoLabel)`
@@ -59,15 +61,14 @@ export const Input = styled.input`
   text-transform: none;
   border: solid 1px;
   border-radius: 5px;
-  color: #a7a3a3a9;
-  border-color: ${props => props.theme.bgElementColor};
-  background-color: ${props => props.theme.bgColor};
+  color: ${props => props.theme.textColor};
+  border: 1px solid ${props => props.theme.bgElementColor};
+  background-color: transparent;
   transition: border-color ${props => props.theme.hoverTransition}${props => props.theme.hoverTimeFunction};
   transition: color 1000ms ${props => props.theme.hoverTimeFunction};
   &:hover,
   &:focus {
     border-color: ${props => props.theme.bgElementHoverColor};
-    color: inherit;
   }
 `;
 

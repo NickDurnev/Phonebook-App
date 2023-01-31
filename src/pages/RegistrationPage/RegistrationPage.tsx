@@ -60,7 +60,7 @@ const RegistrationPage = () => {
 
   return (
     <Wrap>
-      <Title>Registration form</Title>
+      <Title>Registration</Title>
       <Container>
         <Form onSubmit={handleSubmit(onSubmit)}>
           <Label>
@@ -153,7 +153,7 @@ const RegistrationPage = () => {
             />
           </Label>
           {(errors.name || errors.email || errors.password) && <span>This field is required</span>}
-          <Button type="submit">Submit</Button>
+          <Button type="submit">REGISTER</Button>
         </Form>
       </Container>
     </Wrap>

@@ -17,6 +17,10 @@ export const Item = styled.li`
   background-color: ${({ theme }) => theme.listItemBcgColor};
   border-radius: 5px;
 
+  &>div {
+    margin-right:10px;
+  }
+
   & > span {
     width: 35%;
     text-transform: capitalize;
@@ -25,6 +29,7 @@ export const Item = styled.li`
 
 export const ButtonWrap = styled.div`
   width: 20%;
+  margin-left:10px;
   display: flex;
   justify-content: space-between;
 `;
@@ -59,7 +64,7 @@ export const DeleteIcon = styled(AiFillDelete)`
   }
 `;
 
-export const FavoriteIcon = styled(AiFillStar)<IProps>`
+export const FavoriteIcon = styled(AiFillStar) <IProps>`
   width: 100%;
   height: auto;
 

@@ -10,7 +10,7 @@ export const NavWrap = styled.div`
   transform: translate(-50%, -50%);
   display: flex;
   justify-content: space-between;
-  width: 60%;
+  width: 65%;
 `;
 
 export const LeftIcon = styled(IoIosArrowBack)`

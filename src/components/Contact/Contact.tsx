@@ -1,7 +1,7 @@
-import { useRef, FC } from 'react';
+import { useRef, useEffect, FC } from 'react';
 import { CSSTransition } from 'react-transition-group';
 import { useAddFavoriteMutation } from '../../redux/contacts/contacts-slice';
-import {IContact} from '../../services/interfaces';
+import { IContact } from '../../services/interfaces';
 //# Components
 import Avatar from '../Avatar';
 import IconButton from '../IconButton';
@@ -32,13 +32,19 @@ const Contact: FC<IProps> = ({
 }) => {
   const { _id, name, phone, avatarURL } = item;
   // eslint-disable-next-line no-unused-vars
-  const [onAdd, result] = useAddFavoriteMutation();
+  const [onAdd, { isSuccess }] = useAddFavoriteMutation();
 
   const addToFavorite = (contactID: string): void => {
     const favorite = !item.favorite;
     onAdd({ contactID, favorite });
-    onSetSkipQuery(false);
   };
+
+  useEffect(() => {
+    if (isSuccess) {
+      onSetSkipQuery(false);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isSuccess])
 
   const nodeRef = useRef(null);
   return (

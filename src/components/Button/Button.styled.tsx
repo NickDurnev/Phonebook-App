@@ -7,7 +7,8 @@ interface IProps {
 
 const Wrap = styled.button<IProps>`
   padding: ${props => props.padding};
-  color: ${({ theme }) => theme.elementColor};
+  color: ${({ theme }) => theme.textColor};
+  font-family: 'NeutralFace',sans-serif;
   background-color: ${({ bgColor, theme }) =>
     bgColor ? theme.bgElementColor : 'inherit'};
   transition: background-color ${({ theme }) => theme.hoverTransition} ${({ theme }) => theme.hoverTimeFunction};
@@ -33,7 +34,7 @@ const Wrap = styled.button<IProps>`
   &:hover,
   &:focus {
     background-color: ${({ bgColor, theme }) =>
-      bgColor ? theme.bgElementHoverColor : 'inherit'};
+    bgColor ? theme.bgElementHoverColor : 'inherit'};
   }
 `;
 

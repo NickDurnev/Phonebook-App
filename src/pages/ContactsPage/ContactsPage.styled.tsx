@@ -33,6 +33,15 @@ export const Container = styled.div`
   }
 `;
 
+export const Wrap = styled.div`
+  margin-top:100px;
+
+  & button {
+    margin-top:20px;
+    margin-bottom:30px;
+  }
+`;
+
 export const PositionedWrap = styled.div`
   position: absolute;
   top: 0;
@@ -51,9 +60,10 @@ export const PositionedButton = styled.button`
   width: 60px;
   height: 65px;
   padding: 50px 5px 10px 5px;
-  background-color: ${({ theme }) => theme.marksBgColor};
-  color: ${({ theme }) => theme.textColor};
+  background-color: ${({ theme }) => theme.linkActiveColor};
+  color: ${({ theme }) => theme.bgElementColor};
   transform: translateY(-20px);
+  font-family: 'NeutralFace',sans-serif;
   text-transform: uppercase;
   font-size: 9px;
   font-weight: 500;
@@ -87,7 +97,3 @@ export const ButtonWrap = styled.div`
   }
 `;
 
-export const FetchMarker = styled.div`
-  width: 5px;
-  height: 5px;
-`;

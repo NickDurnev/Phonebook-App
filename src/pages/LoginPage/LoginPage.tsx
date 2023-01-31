@@ -18,11 +18,9 @@ import { isFetchBaseQueryError } from '../../services/helpers';
 import { light } from '../../config/themes';
 import IconButton from '../../components/IconButton';
 import Button from '../../components/Button';
+import { Title, Container, Form } from '../RegistrationPage/RegistrationPage.styled'
 import {
   Wrap,
-  StyledTitle,
-  StyledContainer,
-  StyledForm,
   StyledLabel,
   StyledInput,
   StyledButton,
@@ -143,9 +141,9 @@ const LoginPage = () => {
           Send verify email
         </Button>
       </CSSTransition>
-      <StyledTitle>Login form</StyledTitle>
-      <StyledContainer>
-        <StyledForm onSubmit={handleSubmit(onSubmit)}>
+      <Title>Login</Title>
+      <Container>
+        <Form onSubmit={handleSubmit(onSubmit)}>
           <StyledLabel>
             Email
             <StyledInput
@@ -213,10 +211,10 @@ const LoginPage = () => {
           {(errors.email || errors.password) && <span>This field is required</span>}
           <div>
             <StyledLink to="/password">Forgot password</StyledLink>
-            <StyledButton type="submit">Submit</StyledButton>
+            <StyledButton type="submit">LOGIN</StyledButton>
           </div>
-        </StyledForm>
-      </StyledContainer>
+        </Form>
+      </Container>
     </Wrap>
   );
 };

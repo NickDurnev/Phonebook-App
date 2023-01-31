@@ -38,6 +38,6 @@ export const Container = styled.div`
   padding: 10px;
   border-radius: 5px;
   text-align: center;
-  background-color: ${({ theme }) => theme.bgColor};
+  background-color: ${({ theme }) => theme.bgModalColor};
   font-weight: ${({ theme }) => theme.mainTextFontWeight};
 `;

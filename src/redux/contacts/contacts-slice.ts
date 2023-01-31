@@ -4,7 +4,9 @@ import { IContact, IQuery } from '../../services/interfaces';
 
 const url = process.env.REACT_APP_WEB_SERVER_URL;
 
-interface IData  { data: { contacts: IContact[] } }
+interface IData {
+  data: { contacts: IContact[] };
+}
 
 export const contactsApi = createApi({
   reducerPath: 'contactsApi',
@@ -26,7 +28,7 @@ export const contactsApi = createApi({
       IData,
       Pick<IQuery, 'userID' | 'token' | 'favorite' | 'page'>
     >({
-    query: ({ userID, token, favorite, page }) => {
+      query: ({ token, favorite, page }) => {
         let filter = {};
         if (favorite) {
           filter = { favorite: favorite };
@@ -43,7 +45,17 @@ export const contactsApi = createApi({
         };
       },
       keepUnusedDataFor: 0,
-      providesTags: ['Contacts'],
+      providesTags: result =>
+        result
+          ? // successful query
+            [
+              ...result.data.contacts.map(
+                ({ _id }) => ({ type: 'Contacts', _id } as const)
+              ),
+              { type: 'Contacts', id: 'LIST' },
+            ]
+          : // an error occurred, but we still want to refetch this query when `{ type: 'Posts', id: 'LIST' }` is invalidated
+            [{ type: 'Contacts', id: 'LIST' }],
     }),
     getContactById: builder.query<
       IContact,
@@ -67,9 +79,12 @@ export const contactsApi = createApi({
         url: `api/contacts/${contactId}`,
         method: 'DELETE',
       }),
-      invalidatesTags: ['Contacts'],
+      invalidatesTags: [{ type: 'Contacts', id: 'LIST' }],
     }),
-    addContact: builder.mutation<IContact, Pick<IContact, 'userID' | 'name' | 'phone'>>({
+    addContact: builder.mutation<
+      IContact,
+      Pick<IContact, 'userID' | 'name' | 'phone'>
+    >({
       query: contact => ({
         url: 'api/contacts',
         method: 'POST',
@@ -77,11 +92,14 @@ export const contactsApi = createApi({
           ...contact,
         },
       }),
-      invalidatesTags: ['Contacts'],
+      invalidatesTags: [{ type: 'Contacts', id: 'LIST' }],
     }),
     editContact: builder.mutation<
       IContact,
-      { contactID: IQuery['contactID']; contact: Pick<IContact, 'name' | 'surname' | 'email' | 'phone'> }
+      {
+        contactID: IQuery['contactID'];
+        contact: Pick<IContact, 'name' | 'surname' | 'email' | 'phone'>;
+      }
     >({
       query: ({ contactID, contact }) => {
         console.log(contact);
@@ -93,11 +111,13 @@ export const contactsApi = createApi({
           },
         };
       },
-      invalidatesTags: ['Contacts'],
+      invalidatesTags: (result, error, { contactID }) => [
+        { type: 'Contacts', contactID },
+      ],
     }),
     addAvatar: builder.mutation<
       Pick<IContact, 'avatarURL'>,
-      Pick<IQuery, 'token'|'contactID' | 'formData'>
+      Pick<IQuery, 'token' | 'contactID' | 'formData'>
     >({
       query: ({ contactID, formData }) => ({
         url: `contacts/avatars/${contactID}`,
@@ -114,7 +134,9 @@ export const contactsApi = createApi({
         method: 'PATCH',
         body: { favorite },
       }),
-      invalidatesTags: ['Contacts'],
+      invalidatesTags: (result, error, { favorite }) => [
+        { type: 'Contacts', favorite },
+      ],
     }),
   }),
 });

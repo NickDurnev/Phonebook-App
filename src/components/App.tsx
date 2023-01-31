@@ -6,7 +6,7 @@ import { setCredentials } from '../redux/auth/auth-slice';
 import { setLoggedIn } from '../redux/auth/logged-slice';
 import { persistor } from '../redux/store';
 import { ThemeProvider } from 'styled-components';
-import { Container } from './App.styled';
+import { Background, Container } from './App.styled';
 import AppBar from './AppBar/AppBar';
 import NoteLoader from './NoteLoader';
 import { StyledToastContainer } from './App.styled';
@@ -83,34 +83,36 @@ export function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <Container>
-        <AppBar userLogout={userLogout} />
-        <Suspense fallback={<NoteLoader />}>
-          <Routes>
-            <Route path="/register" element={<RegistrationPage />} />
-            <Route path="/login/:verificationToken" element={<LoginPage />} />
-            <Route
-              path="/contacts"
-              element={<ContactsPage userLogout={userLogout} />}
-            />
-            <Route path="/password" element={<ForgotPasswordPage />} />
-            <Route
-              path="/password/:resetPasswordToken"
-              element={<ChangePasswordPage />}
-            />
-            <Route
-              path="*"
-              element={
-                isLogged ? (
-                  <Navigate to="/contacts" replace />
-                ) : (
-                  <Navigate to="/login/null" replace />
-                )
-              }
-            />
-          </Routes>
-        </Suspense>
-      </Container>
+      <Background>
+        <Container>
+          <AppBar userLogout={userLogout} />
+          <Suspense fallback={<NoteLoader />}>
+            <Routes>
+              <Route path="/register" element={<RegistrationPage />} />
+              <Route path="/login/:verificationToken" element={<LoginPage />} />
+              <Route
+                path="/contacts"
+                element={<ContactsPage userLogout={userLogout} />}
+              />
+              <Route path="/password" element={<ForgotPasswordPage />} />
+              <Route
+                path="/password/:resetPasswordToken"
+                element={<ChangePasswordPage />}
+              />
+              <Route
+                path="*"
+                element={
+                  isLogged ? (
+                    <Navigate to="/contacts" replace />
+                  ) : (
+                    <Navigate to="/login/null" replace />
+                  )
+                }
+              />
+            </Routes>
+          </Suspense>
+        </Container>
+      </Background>
       <StyledToastContainer
         autoClose={3000}
         position={'top-center'}

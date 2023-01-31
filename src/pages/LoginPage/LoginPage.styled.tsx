@@ -1,9 +1,6 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import {
-  Title,
-  Container,
-  Form,
   Label,
   Input,
   Button,
@@ -19,12 +16,6 @@ export const Wrap = styled.div`
     font-size: 16px;
   }
 `;
-
-export const StyledTitle = styled(Title)``;
-
-export const StyledContainer = styled(Container)``;
-
-export const StyledForm = styled(Form)``;
 
 export const StyledLink = styled(Link)`
   display: block;

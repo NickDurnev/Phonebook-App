@@ -2,19 +2,25 @@ import styled from 'styled-components';
 import InputMask from 'react-input-mask';
 import RingLoader from 'react-spinners/RingLoader';
 
+export const Wrap = styled.div`
+  & > button {
+    margin-left: 85%;
+  }
+`;
+
 export const Form = styled.form`
   max-width: 300px;
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 10px;
   padding: 20px;
-  background-color: ${({theme}) => theme.bgColor};
+  background-color: ${({ theme }) => theme.bgModalColor};
 `;
 
 export const Label = styled.label`
   display: block;
-  font-weight: ${({theme}) => theme.mainTextFontWeight};
-  color: ${({theme}) => theme.textColor};
+  font-weight: ${({ theme }) => theme.mainTextFontWeight};
+  color: ${({ theme }) => theme.textColor};
   text-align: center;
   & + & {
     margin-top: 10px;
@@ -33,20 +39,18 @@ export const Input = styled.input`
   text-transform: capitalize;
   border: solid 1px;
   border-radius: 5px;
-  color: #a7a3a3a9;
-  border-color: ${({theme}) => theme.bgElementColor};
-  background-color: ${({theme}) => theme.bgColor};
-  transition: border-color ${({theme}) => theme.hoverTransition} ${({theme}) => theme.hoverTimeFunction};
-  transition: color 1000ms ${({theme}) => theme.hoverTimeFunction};
+    color: ${props => props.theme.textColor};
+  border: 1px solid ${props => props.theme.bgElementColor};
+  background-color: transparent;
+  transition: border-color ${({ theme }) => theme.hoverTransition}${({ theme }) => theme.hoverTimeFunction};
   &:hover,
   &:focus {
-    border-color: ${({theme}) => theme.bgElementHoverColor};
-    color: inherit;
+    border-color: ${({ theme }) => theme.bgElementHoverColor};
   }
 `;
 
 export const MaskedInput = styled(InputMask)`
-    display: block;
+  display: block;
   margin-top: 5px;
   width: 100%;
   height: 30px;
@@ -56,30 +60,29 @@ export const MaskedInput = styled(InputMask)`
   text-transform: capitalize;
   border: solid 1px;
   border-radius: 5px;
-  color: #a7a3a3a9;
-  border-color: ${({theme}) => theme.bgElementColor};
-  background-color: ${({theme}) => theme.bgColor};
-  transition: border-color ${({theme}) => theme.hoverTransition} ${({theme}) => theme.hoverTimeFunction};
-  transition: color 1000ms ${({theme}) => theme.hoverTimeFunction};
+  color: ${props => props.theme.textColor};
+  border: 1px solid ${props => props.theme.bgElementColor};
+  background-color: transparent;
+  transition: border-color ${({ theme }) => theme.hoverTransition}${({ theme }) => theme.hoverTimeFunction};
   &:hover,
   &:focus {
-    border-color: ${({theme}) => theme.bgElementHoverColor};
-    color: inherit;
+    border-color: ${({ theme }) => theme.bgElementHoverColor};
   }
-`
+`;
 
 export const StyledButton = styled.button`
-  width: 120px;
+  width: 100%;
   padding: 10px;
   margin-right: 5px;
   margin-left: auto;
   margin-right: auto;
-  color: ${({theme}) => theme.elementColor};
-  background-color: ${({theme}) => theme.bgElementColor};
-  transition: background-color ${({theme}) => theme.hoverTransition} ${({theme}) => theme.hoverTimeFunction};
+  color: ${({ theme }) => theme.textColor};
+  background-color: ${({ theme }) => theme.bgElementColor};
+  transition: background-color ${({ theme }) => theme.hoverTransition}
+    ${({ theme }) => theme.hoverTimeFunction};
   &:hover,
   &:focus {
-    background-color: ${({theme}) => theme.bgElementHoverColor};
+    background-color: ${({ theme }) => theme.bgElementHoverColor};
   }
 `;
 
