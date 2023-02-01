@@ -6,14 +6,10 @@ import 'react-toastify/dist/ReactToastify.css';
 import { toast } from 'react-toastify';
 
 import { useChangePasswordQuery } from '../../redux/auth/auth';
+import { Title, Container, Form, Label, Input } from '../../generalStyles.styled'
 import {
   Wrap,
-  StyledTitle,
-  StyledContainer,
-  StyledForm,
-  StyledLabel,
-  StyledInput,
-  StyledButton,
+  SubmitButton,
 } from './ChangePasswordPage.styled';
 
 interface FormValues {
@@ -56,12 +52,12 @@ const ChangePasswordPage = () => {
   } = useForm<FormValues>({ criteriaMode: 'all' });
   return (
     <Wrap>
-      <StyledTitle>Password reset</StyledTitle>
-      <StyledContainer>
-        <StyledForm onSubmit={handleSubmit(onSubmit)}>
-          <StyledLabel>
+      <Title>Password reset</Title>
+      <Container>
+        <Form onSubmit={handleSubmit(onSubmit)}>
+          <Label>
             Password
-            <StyledInput
+            <Input
               type="password"
               {...register('password', {
                 required: 'Password is required.',
@@ -91,10 +87,10 @@ const ChangePasswordPage = () => {
                 ))
               }
             />
-          </StyledLabel>
-          <StyledLabel>
+          </Label>
+          <Label>
             Repeat Password
-            <StyledInput
+            <Input
               type="password"
               {...register('repeatedPassword', {
                 required: 'Repeat your password',
@@ -106,11 +102,11 @@ const ChangePasswordPage = () => {
                 },
                 maxLength: {
                   value: 16,
-                  message: 'This input exceed maxLength.',
+                  message: 'Maximum number of symbols - 16',
                 },
                 minLength: {
                   value: 6,
-                  message: 'This input exceed maxLength.',
+                  message: 'Minimum number of symbols - 6',
                 },
               })}
             />
@@ -124,13 +120,10 @@ const ChangePasswordPage = () => {
                 ))
               }
             />
-          </StyledLabel>
-          {(errors.password || errors.repeatedPassword) && (
-            <span>This field is required</span>
-          )}
-          <StyledButton type="submit">Change password</StyledButton>
-        </StyledForm>
-      </StyledContainer>
+          </Label>
+          <SubmitButton type="submit">Change password</SubmitButton>
+        </Form>
+      </Container>
     </Wrap>
   );
 };

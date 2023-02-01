@@ -40,7 +40,7 @@ export const StyledToastContainer = styled(ToastContainer)`
   }
   .Toastify__toast {
     color: ${({ theme }) => theme.textColor};
-    background-color: ${({ theme }) => theme.bgColor};
+    background-color: ${({ theme }) => theme.bgElementColor};
     font-family: 'NeutralFace', sans-serif;
     & > button {
       color: ${({ theme }) => theme.textColor};

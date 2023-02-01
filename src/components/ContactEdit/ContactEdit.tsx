@@ -20,14 +20,14 @@ import Modal from '../Modal';
 import {
   Input,
   MaskedInput,
-  StyledButton,
+
 } from '../ContactForm/ContactForm.styled';
 import {
+  Form, Label, CloseIcon, StyledButton
+} from '../../generalStyles.styled'
+import {
   Wrap,
-  InfoForm,
-  EmailInput,
-  InfoLabel,
-  CloseIcon,
+  EmailInput
 } from './ContactEdit.styled';
 
 interface IProps {
@@ -132,8 +132,8 @@ const ContactEdit = forwardRef<HTMLDivElement, IProps>(
           >
             <CloseIcon />
           </Button>
-          <InfoForm onSubmit={handleSubmit(onSubmit)}>
-            <InfoLabel>
+          <Form onSubmit={handleSubmit(onSubmit)}>
+            <Label>
               Name
               <Input
                 defaultValue={name}
@@ -141,7 +141,7 @@ const ContactEdit = forwardRef<HTMLDivElement, IProps>(
                   required: 'Name is required.',
                   maxLength: {
                     value: 20,
-                    message: 'This input exceed maxLength.',
+                    message: 'Maximum number of symbols - 20',
                   },
                 })}
               />
@@ -155,8 +155,8 @@ const ContactEdit = forwardRef<HTMLDivElement, IProps>(
                   ))
                 }
               />
-            </InfoLabel>
-            <InfoLabel>
+            </Label>
+            <Label>
               Surname
               <Input
                 defaultValue={surname}
@@ -164,7 +164,7 @@ const ContactEdit = forwardRef<HTMLDivElement, IProps>(
                   pattern: /[A-Za-z]{3}/,
                   maxLength: {
                     value: 20,
-                    message: 'This input exceed maxLength.',
+                    message: 'Maximum number of symbols - 20',
                   },
                 })}
               />
@@ -178,8 +178,8 @@ const ContactEdit = forwardRef<HTMLDivElement, IProps>(
                   ))
                 }
               />
-            </InfoLabel>
-            <InfoLabel>
+            </Label>
+            <Label>
               Phone
               <MaskedInput
                 defaultValue={phone}
@@ -198,8 +198,8 @@ const ContactEdit = forwardRef<HTMLDivElement, IProps>(
                   ))
                 }
               />
-            </InfoLabel>
-            <InfoLabel>
+            </Label>
+            <Label>
               Email
               <EmailInput
                 defaultValue={email}
@@ -208,7 +208,7 @@ const ContactEdit = forwardRef<HTMLDivElement, IProps>(
                     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
                   maxLength: {
                     value: 30,
-                    message: 'This input exceed maxLength.',
+                    message: 'Maximum number of symbols - 30',
                   },
                 })}
               />
@@ -222,13 +222,12 @@ const ContactEdit = forwardRef<HTMLDivElement, IProps>(
                   ))
                 }
               />
-            </InfoLabel>
+            </Label>
             <FileUploader handleFile={image => handleFile(image)}>
               <Avatar imageURL={imageURL} width="100px" />
             </FileUploader>
-            {(errors.name || errors.phone) && <span>This field is required</span>}
             <StyledButton type="submit">EDIT</StyledButton>
-          </InfoForm>
+          </Form>
         </Wrap>
       </Modal>
     );

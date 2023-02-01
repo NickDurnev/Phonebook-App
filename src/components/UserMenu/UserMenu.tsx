@@ -1,9 +1,8 @@
 import { useState, useRef, FC } from 'react';
 import { CSSTransition } from 'react-transition-group';
-import { useAppDispatch, useAppSelector } from '../../hooks/rtkQueryHooks';
+import { useAppSelector } from '../../hooks/rtkQueryHooks';
 import Button from '../Button';
 import { Container, UserIcon, Icon } from './UserMenu.styled';
-import { addAvatar } from '../../redux/addAvatar/avatars-slice';
 import AvatarList from '../AvatarList';
 import avatars from '../../avatars/avatars';
 import { light } from '../../config/themes';
@@ -13,23 +12,18 @@ interface IProps {
 }
 
 const UserMenu: FC<IProps> = ({ userLogout }) => {
-  const [isAvatarList, setIsAvatarList] = useState(false);
-  const animationTimeOut = useRef(parseInt(light.animationDuration));
-  const modalRef = useRef(null);
+  const [isAvatarList, setIsAvatarList] = useState<boolean>(false);
+  const animationTimeOut = useRef<number>(parseInt(light.animationDuration));
+  const modalRef = useRef<HTMLDivElement>(null);
   const { user } = useAppSelector(({ rootReducer }) => rootReducer.auth);
   const userAvatar = useAppSelector(
     ({ rootReducer }) => rootReducer.userAvatarID.userAvatarID
   );
-  const dispatch = useAppDispatch();
 
   const handleLogout = () => {
     userLogout();
   };
 
-  const handleAvatarClick = (id: string) => {
-    dispatch(addAvatar(id));
-    setIsAvatarList(false);
-  };
 
   return (
     <>
@@ -52,7 +46,6 @@ const UserMenu: FC<IProps> = ({ userLogout }) => {
         unmountOnExit
       >
         <AvatarList
-          onClick={id => handleAvatarClick(id)}
           setIsAvatarList={setIsAvatarList}
           ref={modalRef}
         />

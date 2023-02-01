@@ -6,12 +6,13 @@ import { IContact } from '../../services/interfaces';
 import { useAppDispatch, useAppSelector } from '../../hooks/rtkQueryHooks';
 import Button from '../Button';
 import Modal from '../Modal';
-import { CloseIcon } from '../ContactEdit/ContactEdit.styled';
+import {
+  CloseIcon, StyledButton
+} from '../../generalStyles.styled';
 import {
   Wrap,
   Form,
   Label,
-  StyledButton,
   Input,
   MaskedInput,
   Loader,

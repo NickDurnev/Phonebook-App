@@ -1,6 +1,5 @@
 import { useRef, useState, useEffect, FC, MouseEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useInView } from 'react-intersection-observer';
 import { CSSTransition } from 'react-transition-group';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -41,6 +40,7 @@ const ContactsPage: FC<IProps> = ({ userLogout }) => {
   const [favorite, setFavorite] = useState<boolean>(false);
   const [skipQuery, setSkipQuery] = useState<boolean>(false);
   const [page, setPage] = useState<number>(1);
+  const [total, setTotal] = useState<number | null>(null);
   const [contacts, setContacts] = useState<IContact[]>([]);
 
   let contactIdRef = useRef<string | null>(null);
@@ -85,15 +85,15 @@ const ContactsPage: FC<IProps> = ({ userLogout }) => {
   }
 
   if (isSuccess && data.data.contacts) {
-    console.log(data.data.contacts);
     setContacts(data.data.contacts);
+    setTotal(data.data.total);
     setSkipQuery(true);
   }
 
   useEffect(() => {
-    console.log(data);
     setSkipQuery(false);
     refetch();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page])
 
 
@@ -214,7 +214,7 @@ const ContactsPage: FC<IProps> = ({ userLogout }) => {
             ref={modalRef}
           />
         </CSSTransition>
-        {contacts.length >= 10 && (
+        {total && total > 10 && (
           <ContactsNavigation
             data={contacts}
             page={page}

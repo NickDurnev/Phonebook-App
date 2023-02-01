@@ -4,14 +4,10 @@ import { ErrorMessage } from '@hookform/error-message';
 import { useResetPasswordQuery } from '../../redux/auth/auth';
 import 'react-toastify/dist/ReactToastify.css';
 import { toast } from 'react-toastify';
+import { Title, Container, Form, Label, Input } from '../../generalStyles.styled'
 import {
   Wrap,
-  StyledTitle,
-  StyledContainer,
-  StyledForm,
-  StyledLabel,
-  StyledInput,
-  StyledButton,
+  SubmitButton,
 } from './ForgotPasswordPage.styled';
 
 interface FormValues {
@@ -44,18 +40,18 @@ const ForgotPasswordPage = () => {
   } = useForm<FormValues>({ criteriaMode: 'all' });
   return (
     <Wrap>
-      <StyledTitle>Password reset</StyledTitle>
-      <StyledContainer>
-        <StyledForm onSubmit={handleSubmit(onSubmit)}>
-          <StyledLabel>
+      <Title>Password reset</Title>
+      <Container>
+        <Form onSubmit={handleSubmit(onSubmit)}>
+          <Label>
             Email
-            <StyledInput
+            <Input
               {...register('email', {
                 required: 'Email is required.',
                 pattern: /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/,
                 maxLength: {
                   value: 30,
-                  message: 'This input exceed maxLength.',
+                  message: 'Maximum number of symbols - 30',
                 },
               })}
             />
@@ -69,15 +65,14 @@ const ForgotPasswordPage = () => {
                 ))
               }
             />
-          </StyledLabel>
-          {errors.email && <span>This field is required</span>}
+          </Label>
           {email ? (
             <p>Check your email</p>
           ) : (
-            <StyledButton type="submit">Send email</StyledButton>
+            <SubmitButton type="submit">Send email</SubmitButton>
           )}
-        </StyledForm>
-      </StyledContainer>
+        </Form>
+      </Container>
     </Wrap>
   );
 };

@@ -1,25 +1,11 @@
 import styled from 'styled-components';
-import {
-  Title,
-  Container,
-  Form,
-  Label,
-  Input,
-  Button,
-} from '../RegistrationPage/RegistrationPage.styled';
+import { StyledButton } from '../../generalStyles.styled';
 
 export const Wrap = styled.div`
   padding: 30px 0;
 `;
 
-export const StyledTitle = styled(Title)``;
-
-export const StyledContainer = styled(Container)``;
-
-export const StyledForm = styled(Form)``;
-
-export const StyledLabel = styled(Label)``;
-
-export const StyledInput = styled(Input)``;
-
-export const StyledButton = styled(Button)``;
+export const SubmitButton = styled(StyledButton)`
+ font-size: 16px;
+  margin-top: 20px;
+`;

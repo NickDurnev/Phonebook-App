@@ -7,10 +7,10 @@ interface IProps {
 }
 
 const enterAnimation = css`
-  ${slideInTop} ${({ theme }) => theme.animationDuration}${({ theme }) => theme.animationTimeFunction}`;
+  ${slideInTop} ${({ theme }) => theme.animationDuration} ${({ theme }) => theme.animationTimeFunction}`;
 
 const exitAnimation = css`
-  ${slideInBottom} ${({ theme }) => theme.animationDuration}${({ theme }) => theme.animationTimeFunction}`;
+  ${slideInBottom} ${({ theme }) => theme.animationDuration} ${({ theme }) => theme.animationTimeFunction}`;
 
 export const Container = styled.div`
   position: relative;

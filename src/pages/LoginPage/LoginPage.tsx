@@ -18,42 +18,57 @@ import { isFetchBaseQueryError } from '../../services/helpers';
 import { light } from '../../config/themes';
 import IconButton from '../../components/IconButton';
 import Button from '../../components/Button';
-import { Title, Container, Form } from '../RegistrationPage/RegistrationPage.styled'
+import AvatarList from '../../components/AvatarList';
+import {
+  Title,
+  Container,
+  Form,
+  Input,
+} from '../../generalStyles.styled';
 import {
   Wrap,
+  StyledForm,
   StyledLabel,
-  StyledInput,
-  StyledButton,
+  LoginButton,
   StyledLink,
+  UserIcon,
+  Icon,
 } from './LoginPage.styled';
 import {
   OffVisibleIcon,
   OnVisibleIcon,
 } from '../RegistrationPage/RegistrationPage.styled';
+import avatars from '../../avatars/avatars';
+
 
 interface FormValues {
   email: string;
   password: string;
 }
 
-
 const LoginPage = () => {
   const [skipVerify, setSkipVerify] = useState<boolean>(true);
   const [skipVerifyEmailSent, setSkipVerifyEmailSent] = useState<boolean>(true);
   const [isVisiblePassword, setIsVisiblePassword] = useState<boolean>(false);
   const [isVerifyButton, setIsVerifyButton] = useState<boolean>(false);
+  const [isAvatarList, setIsAvatarList] = useState<boolean>(false);
 
   const animationTimeOut = useRef<number>(parseInt(light.animationDuration));
   const buttonRef = useRef<HTMLButtonElement>(null);
+  const modalRef = useRef<HTMLDivElement>(null);
 
   const params = useParams();
   const verificationToken = params.verificationToken!;
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { email, verify } = useAppSelector(({ rootReducer }) => rootReducer.auth.user);
+  const { email, verify } = useAppSelector(
+    ({ rootReducer }) => rootReducer.auth.user
+  );
+  const userAvatar = useAppSelector(
+    ({ rootReducer }) => rootReducer.userAvatarID.userAvatarID
+  );
 
-  const [userLogin, { data, isSuccess, error }] =
-    useUserLoginMutation();
+  const [userLogin, { data, isSuccess, error }] = useUserLoginMutation();
 
   const verifyEmailQuery = useVerifyEmailQuery(verificationToken, {
     skip: skipVerify,
@@ -116,7 +131,7 @@ const LoginPage = () => {
       toast.error(`${errMsg}`);
       toast.clearWaitingQueue();
     }
-  }, [error])
+  }, [error]);
 
   const onSubmit: SubmitHandler<FormValues> = data => {
     const fetchData = { ...data };
@@ -143,17 +158,24 @@ const LoginPage = () => {
       </CSSTransition>
       <Title>Login</Title>
       <Container>
-        <Form onSubmit={handleSubmit(onSubmit)}>
+        <Button onClick={() => setIsAvatarList(true)} bgColor={false}>
+          {userAvatar ? (
+            <Icon src={avatars[+userAvatar]} alt="avatar" />
+          ) : (
+            <UserIcon />
+          )}
+        </Button>
+        <StyledForm onSubmit={handleSubmit(onSubmit)}>
           <StyledLabel>
             Email
-            <StyledInput
+            <Input
               defaultValue={email}
               {...register('email', {
                 required: 'Email is required.',
                 pattern: /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/,
                 maxLength: {
                   value: 30,
-                  message: 'This input exceed maxLength.',
+                  message: 'Maximum number of symbols - 30',
                 },
               })}
             />
@@ -177,7 +199,7 @@ const LoginPage = () => {
                 <OffVisibleIcon onClick={toggleVisibility} />
               )}
             </IconButton>
-            <StyledInput
+            <Input
               type={isVisiblePassword ? 'text' : 'password'}
               {...register('password', {
                 required: 'Password is required.',
@@ -189,11 +211,11 @@ const LoginPage = () => {
                 },
                 maxLength: {
                   value: 16,
-                  message: 'This input exceed maxLength.',
+                  message: 'Maximum number of symbols - 16',
                 },
                 minLength: {
                   value: 6,
-                  message: 'This input exceed maxLength.',
+                  message: 'Minimum number of symbols - 6',
                 },
               })}
             />
@@ -208,12 +230,23 @@ const LoginPage = () => {
               }
             />
           </StyledLabel>
-          {(errors.email || errors.password) && <span>This field is required</span>}
           <div>
             <StyledLink to="/password">Forgot password</StyledLink>
-            <StyledButton type="submit">LOGIN</StyledButton>
+            <LoginButton type="submit">LOGIN</LoginButton>
           </div>
-        </Form>
+        </StyledForm>
+        <CSSTransition
+          nodeRef={modalRef}
+          in={isAvatarList}
+          timeout={animationTimeOut.current}
+          classNames="fade"
+          unmountOnExit
+        >
+          <AvatarList
+            setIsAvatarList={setIsAvatarList}
+            ref={modalRef}
+          />
+        </CSSTransition>
       </Container>
     </Wrap>
   );

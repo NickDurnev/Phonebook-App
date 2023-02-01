@@ -70,22 +70,6 @@ export const MaskedInput = styled(InputMask)`
   }
 `;
 
-export const StyledButton = styled.button`
-  width: 100%;
-  padding: 10px;
-  margin-right: 5px;
-  margin-left: auto;
-  margin-right: auto;
-  color: ${({ theme }) => theme.textColor};
-  background-color: ${({ theme }) => theme.bgElementColor};
-  transition: background-color ${({ theme }) => theme.hoverTransition}
-    ${({ theme }) => theme.hoverTimeFunction};
-  &:hover,
-  &:focus {
-    background-color: ${({ theme }) => theme.bgElementHoverColor};
-  }
-`;
-
 export const Loader = styled(RingLoader)`
   margin-left: 5px;
 `;

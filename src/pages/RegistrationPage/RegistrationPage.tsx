@@ -9,13 +9,11 @@ import { toast } from 'react-toastify';
 import { useUserSignupMutation } from '../../redux/auth/auth';
 import { setRegistrationCredentials } from '../../redux/auth/auth-slice';
 import IconButton from '../../components/IconButton';
+import { Title, Container, Input } from '../../generalStyles.styled'
 import {
   Wrap,
-  Title,
-  Container,
-  Form,
-  Label,
-  Input,
+  StyledForm,
+  StyledLabel,
   OnVisibleIcon,
   OffVisibleIcon,
   Button,
@@ -62,19 +60,19 @@ const RegistrationPage = () => {
     <Wrap>
       <Title>Registration</Title>
       <Container>
-        <Form onSubmit={handleSubmit(onSubmit)}>
-          <Label>
+        <StyledForm onSubmit={handleSubmit(onSubmit)}>
+          <StyledLabel>
             Name
             <Input
               {...register('name', {
                 required: 'Name is required.',
                 pattern: /[A-Za-z]{3}/,
                 minLength: {
-                  value: 3, message: 'This input exceed minLength.',
+                  value: 3, message: 'Minimum number of symbols - 3',
                 },
                 maxLength: {
                   value: 25,
-                  message: 'This input exceed maxLength.',
+                  message: 'Maximum number of symbols - 25',
                 },
               })}
             />
@@ -88,8 +86,8 @@ const RegistrationPage = () => {
                 ))
               }
             />
-          </Label>
-          <Label>
+          </StyledLabel>
+          <StyledLabel>
             Email
             <Input
               {...register('email', {
@@ -97,7 +95,7 @@ const RegistrationPage = () => {
                 pattern: /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/,
                 maxLength: {
                   value: 30,
-                  message: 'This input exceed maxLength.',
+                  message: 'Maximum number of symbols - 30',
                 },
               })}
             />
@@ -111,8 +109,8 @@ const RegistrationPage = () => {
                 ))
               }
             />
-          </Label>
-          <Label>
+          </StyledLabel>
+          <StyledLabel>
             Password
             <IconButton width="8%">
               {isVisiblePassword ? (
@@ -133,11 +131,11 @@ const RegistrationPage = () => {
                 },
                 maxLength: {
                   value: 16,
-                  message: 'This input exceed maxLength.',
+                  message: 'Maximum number of symbols - 16',
                 },
                 minLength: {
                   value: 6,
-                  message: 'This input exceed maxLength.',
+                  message: 'Minimum number of symbols - 6',
                 },
               })}
             />
@@ -151,10 +149,9 @@ const RegistrationPage = () => {
                 ))
               }
             />
-          </Label>
-          {(errors.name || errors.email || errors.password) && <span>This field is required</span>}
+          </StyledLabel>
           <Button type="submit">REGISTER</Button>
-        </Form>
+        </StyledForm>
       </Container>
     </Wrap>
   );

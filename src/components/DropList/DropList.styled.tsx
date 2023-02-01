@@ -5,7 +5,7 @@ export const List = styled.ul`
   position: absolute;
   top: 45px;
   right: 20px;
-  width: 128px;
+  width: 154px;
   padding: 10px;
   background-color: ${({ theme }) => theme.listItemBcgColor};
 
@@ -23,7 +23,7 @@ export const List = styled.ul`
   &.drop-enter-active {
     transform: translateY(0px);
     opacity: 1;
-    transition: all ${({ theme }) => theme.animationDuration}${({ theme }) => theme.animationTimeFunction};
+    transition: all ${({ theme }) => theme.animationDuration} ${({ theme }) => theme.animationTimeFunction};
   }
 
   &.drop-exit {
@@ -34,7 +34,7 @@ export const List = styled.ul`
   &.drop-exit-active {
     opacity: 0;
     transform: translateY(-100px);
-    transition: all ${({ theme }) => theme.animationDuration}${({ theme }) => theme.animationTimeFunction};
+    transition: all ${({ theme }) => theme.animationDuration} ${({ theme }) => theme.animationTimeFunction};
   }
 
   & > li + li {

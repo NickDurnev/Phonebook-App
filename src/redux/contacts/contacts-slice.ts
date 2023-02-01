@@ -5,7 +5,7 @@ import { IContact, IQuery } from '../../services/interfaces';
 const url = process.env.REACT_APP_WEB_SERVER_URL;
 
 interface IData {
-  data: { contacts: IContact[] };
+  data: { contacts: IContact[]; total: number };
 }
 
 export const contactsApi = createApi({
