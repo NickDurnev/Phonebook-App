@@ -11,16 +11,23 @@ import { Wrap } from './Agreement.styled';
 
 interface IProps {
   id: IContact['_id'] | null;
+  contacts: IContact[];
+  page: number;
+  setPage: (a: number) => void;
   onSetSkipQuery: (a: boolean) => void;
 }
 
-const Agreement = forwardRef<HTMLDivElement, IProps>(({ id, onSetSkipQuery }, ref) => {
+const Agreement = forwardRef<HTMLDivElement, IProps>(({ id, contacts, page, setPage, onSetSkipQuery }, ref) => {
   const [deleteContact, { isSuccess }] = useDeleteContactMutation();
   const dispatch = useDispatch();
 
   const checkAgreement = (answear: boolean): void => {
+    dispatch(setModalOpen(false));
     if (answear && id) {
       deleteContact(id);
+    }
+    if (contacts.length === 1) {
+      setPage(page - 1)
     }
   };
 
@@ -33,7 +40,7 @@ const Agreement = forwardRef<HTMLDivElement, IProps>(({ id, onSetSkipQuery }, re
       onSetSkipQuery(false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isSuccess])
+  }, [isSuccess, id])
 
   return (
     <Modal ref={ref}>

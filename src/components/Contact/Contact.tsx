@@ -56,8 +56,8 @@ const Contact: FC<IProps> = ({
     >
       <Item ref={nodeRef}>
         <Avatar imageURL={avatarURL} width="48px" />
-        <span>{name}:</span>
-        <span>{phone}</span>
+        <span><p>{name}:</p></span>
+        <span><p>{phone}</p></span>
         <ButtonWrap>
           <IconButton onClick={() => onEdit(_id)} width="30%">
             <EditIcon />

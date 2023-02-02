@@ -19,6 +19,9 @@ export const light = {
   bgModalColor: 'rgba(157, 153, 153, 1)',
   bgElementHoverColor: 'rgba(169, 226, 245, 1)',
   boxShadow: ' 0px 5px 10px 2px rgba(34, 60, 80, 0.2)',
+  gradientFirstColor: 'hsla(211, 66%, 87%, 1)',
+  gradientSecondColor: 'hsla(348, 67%, 88%, 1)',
+  gradientThirdColor: 'hsla(272, 26%, 72%, 1)',
 };
 
 export const dark = {
@@ -29,9 +32,9 @@ export const dark = {
   linkActiveColor: 'rgba(220, 220, 221, 1)',
   bgModalColor: 'rgba(149, 154, 153, 1)',
   bgElementHoverColor: 'rgba(113, 137, 152, 1)',
-  gradientFirstColor: 'hsla(211, 66%, 87%, 1)',
-  gradientSecondColor: 'hsla(348, 67%, 88%, 1)',
-  gradientThirdColor: 'hsla(272, 26%, 72%, 1)',
+  gradientFirstColor: 'hsla(155, 23%, 71%, 1)',
+  gradientSecondColor: 'hsla(180, 13%, 58%, 1)',
+  gradientThirdColor: 'hsla(302, 17%, 32%, 1)',
 };
 
 export const blue = {
@@ -42,8 +45,7 @@ export const blue = {
   linkActiveColor: 'rgba(164, 226, 249, 1)',
   bgModalColor: 'rgba(119, 189, 223, 1)',
   bgElementHoverColor: 'rgba(142, 179, 205, 1)',
-    gradientFirstColor: 'hsla(211, 66%, 87%, 1)',
-  gradientSecondColor: 'hsla(348, 67%, 88%, 1)',
-  gradientThirdColor: 'hsla(272, 26%, 72%, 1)',
-
+  gradientFirstColor: 'hsla(190, 79%, 59%, 0.4)',
+  gradientSecondColor: 'hsla(190, 79%, 59%, 0.4)',
+  gradientThirdColor: 'hsla(226, 50%, 65%, 1)',
 };

@@ -8,16 +8,25 @@ import { device } from '../../config/deviceSizes';
 export const Wrap = styled.div`
   position: relative;
   padding: 30px 0;
+
   & > button {
     position: absolute;
-    top: 30px;
-    right: 30px;
-    font-size: 16px;
+    top: 10px;
+    right: 5px;
+    font-size: 12px;
+  }
+
+  @media ${device.tablet} {
+    & > button {
+      top: 25px;
+      right: 30px;
+      font-size: 16px;
+    }
   }
 `;
 
 export const StyledForm = styled(Form)`
-  margin-top:30px;
+  margin-top: 30px;
 `;
 
 export const StyledLink = styled(Link)`
@@ -47,8 +56,9 @@ export const LoginButton = styled(StyledButton)`
 `;
 
 export const UserIcon = styled(BiUserCircle)`
-  width: 90px;
-  height: 90px;
+  width: 28px;
+  height: 28px;
+
   color: ${({ theme }) => theme.bgElementColor};
   transition: color ${({ theme }) => theme.hoverTransition}${({ theme }) => theme.hoverTimeFunction};
 
@@ -56,9 +66,9 @@ export const UserIcon = styled(BiUserCircle)`
     color: ${({ theme }) => theme.bgElementHoverColor};
   }
 
-  @media ${device.mobileM} {
-    width: 28px;
-    height: 28px;
+  @media ${device.tablet} {
+    width: 90px;
+    height: 90px;
   }
 `;
 

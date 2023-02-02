@@ -4,15 +4,14 @@ import { device } from '../../config/deviceSizes';
 export const List = styled.ul`
   position: absolute;
   top: 45px;
-  right: 20px;
-  width: 154px;
+  width: 134px;
+  right: 15px;
   padding: 10px;
   background-color: ${({ theme }) => theme.listItemBcgColor};
 
-  @media ${device.mobileM} {
-    top: 45px;
-    width: 108px;
-    right: 15px;
+  @media ${device.tablet} {
+    top: 55px;
+    right: 20px;
   }
 
   &.drop-enter {
@@ -23,7 +22,8 @@ export const List = styled.ul`
   &.drop-enter-active {
     transform: translateY(0px);
     opacity: 1;
-    transition: all ${({ theme }) => theme.animationDuration} ${({ theme }) => theme.animationTimeFunction};
+    transition: all ${({ theme }) => theme.animationDuration}
+      ${({ theme }) => theme.animationTimeFunction};
   }
 
   &.drop-exit {
@@ -34,7 +34,8 @@ export const List = styled.ul`
   &.drop-exit-active {
     opacity: 0;
     transform: translateY(-100px);
-    transition: all ${({ theme }) => theme.animationDuration} ${({ theme }) => theme.animationTimeFunction};
+    transition: all ${({ theme }) => theme.animationDuration}
+      ${({ theme }) => theme.animationTimeFunction};
   }
 
   & > li + li {

@@ -40,4 +40,5 @@ export const Container = styled.div`
   text-align: center;
   background-color: ${({ theme }) => theme.bgModalColor};
   font-weight: ${({ theme }) => theme.mainTextFontWeight};
+  overflow: hidden;
 `;

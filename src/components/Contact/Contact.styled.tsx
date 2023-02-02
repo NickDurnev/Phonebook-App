@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { FiEdit } from 'react-icons/fi';
 import { AiFillDelete } from 'react-icons/ai';
 import { AiFillStar } from 'react-icons/ai';
+import { device } from '../../config/deviceSizes';
 
 interface IProps {
   favorite: number;
@@ -23,7 +24,14 @@ export const Item = styled.li`
 
   & > span {
     width: 35%;
+    margin:1px;
     text-transform: capitalize;
+    font-size: 12px;
+    word-wrap: break-word;
+
+   @media ${device.tablet} {
+    font-size: 16px;
+   }
   }
 `;
 

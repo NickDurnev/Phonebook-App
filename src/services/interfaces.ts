@@ -34,6 +34,9 @@ export interface ITheme {
   linkActiveColor: string,
   bgElementHoverColor: string,
   boxShadow: string,
+  gradientFirstColor: string,
+  gradientSecondColor: string,
+  gradientThirdColor:string,
   [x: string]: string,
 }
 

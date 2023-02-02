@@ -9,20 +9,20 @@ export const Title = styled.h1`
 `;
 
 export const Container = styled.div`
-  width: 400px;
+  width: 350px;
   padding:25px;
   margin-left: auto;
   margin-right: auto;
   background-color: ${({ theme }) => theme.bgModalColor};
   border-radius: 10px;
 
-  @media ${device.mobileM} {
-    width: 350px;
+  @media ${device.tablet} {
+    width: 400px;
   }
 `;
 
 export const Form = styled.form`
-  min-width: 350px;
+  min-width: 300px;
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 10px;

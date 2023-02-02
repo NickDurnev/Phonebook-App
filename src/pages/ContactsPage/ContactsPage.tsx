@@ -39,6 +39,7 @@ interface IProps {
 const ContactsPage: FC<IProps> = ({ userLogout }) => {
   const [favorite, setFavorite] = useState<boolean>(false);
   const [skipQuery, setSkipQuery] = useState<boolean>(false);
+  const [query, setQuery] = useState<string>('');
   const [page, setPage] = useState<number>(1);
   const [total, setTotal] = useState<number | null>(null);
   const [contacts, setContacts] = useState<IContact[]>([]);
@@ -85,14 +86,17 @@ const ContactsPage: FC<IProps> = ({ userLogout }) => {
   }
 
   if (isSuccess && data.data.contacts) {
-    setContacts(data.data.contacts);
-    setTotal(data.data.total);
+    const { contacts, total } = data.data;
+    setContacts(contacts);
+    setTotal(total);
     setSkipQuery(true);
   }
 
   useEffect(() => {
-    setSkipQuery(false);
-    refetch();
+    if (!query) {
+      setSkipQuery(false);
+      refetch();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page])
 
@@ -168,8 +172,9 @@ const ContactsPage: FC<IProps> = ({ userLogout }) => {
         <h2>Contacts</h2>
         <Filter
           onChange={data => setContacts(data)}
-          favorite={favorite}
           page={page}
+          query={query}
+          setQuery={query => setQuery(query)}
           onSetPage={number => setPage(number)}
           onSetSkipQuery={bool => setSkipQuery(bool)}
         />
@@ -196,6 +201,9 @@ const ContactsPage: FC<IProps> = ({ userLogout }) => {
         >
           <AgreementModal
             id={contactIdRef.current}
+            contacts={contacts}
+            page={page}
+            setPage={setPage}
             onSetSkipQuery={bool => setSkipQuery(bool)}
             ref={modalRef}
           ></AgreementModal>
@@ -216,8 +224,9 @@ const ContactsPage: FC<IProps> = ({ userLogout }) => {
         </CSSTransition>
         {total && total > 10 && (
           <ContactsNavigation
-            data={contacts}
+            contacts={contacts}
             page={page}
+            total={total}
             onClick={page => setPage(page)}
           />
         )}

@@ -7,11 +7,11 @@ export const Container = styled.div`
   align-items: center;
   width: 100%;
   height: 70px;
-  padding: 15px 40px;
+  padding: 10px 10px;
   border-radius: 5px;
   background-color: ${({ theme }) => theme.bgElementColor};
 
-  @media ${device.mobileM} {
-    padding: 15px 15px;
+  @media ${device.tablet} {
+    padding: 15px 40px;
   }
 `;

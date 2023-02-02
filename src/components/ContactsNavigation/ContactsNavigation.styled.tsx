@@ -1,21 +1,34 @@
 import styled from 'styled-components';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 import { jelloHorizontal } from '../../config/animations';
+import { device } from '../../config/deviceSizes';
 
-export const NavWrap = styled.div`
+interface IProps {
+  page: number;
+}
+
+export const NavWrap = styled.div<IProps>`
   position: fixed;
   pointer-events: none;
   top: 50%;
   left: 50%;
+  width: 80%;
   transform: translate(-50%, -50%);
   display: flex;
-  justify-content: space-between;
-  width: 65%;
+  justify-content: ${({ page }) => (page === 1 ? 'flex-end' : 'space-between')};
+
+  @media ${device.tablet} {
+    width: 95%;
+  }
+
+   @media ${device.laptop} {
+    width: 65%;
+  }
 `;
 
 export const LeftIcon = styled(IoIosArrowBack)`
-  width: 100%;
-  height: auto;
+  width: 50px;
+  height: 50px;
 
   color: ${({ theme }) => theme.marksBgColor};
   animation: ${jelloHorizontal} ${({ theme }) => theme.animationTimeFunction} 4s
@@ -30,11 +43,16 @@ export const LeftIcon = styled(IoIosArrowBack)`
   &:focus {
     transform: scale(1.2);
   }
+
+  @media ${device.tablet} {
+    width: 100%;
+    height: auto;
+  }
 `;
 
 export const RightIcon = styled(IoIosArrowForward)`
-  width: 100%;
-  height: auto;
+  width: 50px;
+  height: 50px;
 
   color: ${({ theme }) => theme.marksBgColor};
   animation: ${jelloHorizontal} ${({ theme }) => theme.animationTimeFunction} 4s
@@ -48,5 +66,10 @@ export const RightIcon = styled(IoIosArrowForward)`
   &:hover,
   &:focus {
     transform: scale(1.2);
+  }
+
+  @media ${device.tablet} {
+    width: 100%;
+    height: auto;
   }
 `;

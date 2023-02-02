@@ -70,7 +70,7 @@ export const contactsApi = createApi({
       Pick<IQuery, 'userID' | 'query' | 'page'>
     >({
       query: ({ userID, query, page }) => ({
-        url: `api/contacts/${userID}/search/${query}`,
+        url: `api/contacts/search/${query}`,
         params: { page: page },
       }),
     }),

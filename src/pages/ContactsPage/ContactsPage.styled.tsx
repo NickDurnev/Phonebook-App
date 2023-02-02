@@ -7,38 +7,42 @@ interface IProps {
 }
 
 const enterAnimation = css`
-  ${slideInTop} ${({ theme }) => theme.animationDuration} ${({ theme }) => theme.animationTimeFunction}`;
+  ${slideInTop} ${({ theme }) => theme.animationDuration} ${({ theme }) =>
+    theme.animationTimeFunction}
+`;
 
 const exitAnimation = css`
-  ${slideInBottom} ${({ theme }) => theme.animationDuration} ${({ theme }) => theme.animationTimeFunction}`;
+  ${slideInBottom} ${({ theme }) => theme.animationDuration} ${({ theme }) =>
+    theme.animationTimeFunction}
+`;
 
 export const Container = styled.div`
   position: relative;
+  padding-top: 50px;
   padding: 10px;
   overflow: hidden;
 
-  @media ${device.mobileM} {
-    padding-top: 50px;
+  @media ${device.tablet} {
+    padding: 10px;
   }
   & > button {
     position: absolute;
-    top: 20px;
-    right: 20px;
-    @media ${device.mobileM} {
-      position: absolute;
-      padding: 10px 10px;
-      top: 10px;
-      right: 15px;
+    padding: 10px 10px;
+    top: 10px;
+    right: 15px;
+    @media ${device.tablet} {
+      top: 20px;
+      right: 20px;
     }
   }
 `;
 
 export const Wrap = styled.div`
-  margin-top:100px;
+  margin-top: 100px;
 
   & button {
-    margin-top:20px;
-    margin-bottom:30px;
+    margin-top: 20px;
+    margin-bottom: 30px;
   }
 `;
 
@@ -46,7 +50,7 @@ export const PositionedWrap = styled.div`
   position: absolute;
   top: 0;
   left: 30px;
-  width: 140px;
+  width: 170px;
   @media ${device.tablet} {
     left: 100px;
     width: 200px;
@@ -57,22 +61,22 @@ export const PositionedWrap = styled.div`
 `;
 
 export const PositionedButton = styled.button`
-  width: 60px;
-  height: 65px;
+  width: 80px;
+  height: 90px;
   padding: 50px 5px 10px 5px;
   background-color: ${({ theme }) => theme.linkActiveColor};
   color: ${({ theme }) => theme.bgElementColor};
   transform: translateY(-20px);
-  font-family: 'NeutralFace',sans-serif;
+  font-family: 'NeutralFace', sans-serif;
   text-transform: uppercase;
-  font-size: 9px;
+  font-size: 12px;
   font-weight: 500;
   @media ${device.tablet} {
     width: 90px;
     height: 100px;
     padding: 60px 5px 10px 5px;
     transform: translateY(-30px);
-    font-size: 12px;
+    font-size: 14px;
     font-weight: 600;
   }
 `;
@@ -96,4 +100,3 @@ export const ButtonWrap = styled.div`
     font-weight: 500;
   }
 `;
-

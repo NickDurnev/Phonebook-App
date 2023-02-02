@@ -6,11 +6,12 @@ export const Background = styled.div`
   background: hsla(211, 66%, 87%, 1);
   background: linear-gradient(
     180deg,
-    hsla(211, 66%, 87%, 1) 0%,
-    hsla(348, 67%, 88%, 1) 50%,
-    hsla(272, 26%, 72%, 1) 100%
+    ${({ theme }) => theme.gradientFirstColor} 0%,
+    ${({ theme }) => theme.gradientSecondColor} 50%,
+    ${({ theme }) => theme.gradientThirdColor} 100%
   );
   width: 100vw;
+  min-height: 100vh;
 `;
 
 export const Container = styled.div`

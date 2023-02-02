@@ -39,8 +39,8 @@ export const Input = styled.input`
   text-transform: capitalize;
   border: solid 1px;
   border-radius: 5px;
-    color: ${props => props.theme.textColor};
-  border: 1px solid ${props => props.theme.bgElementColor};
+    color: ${({ theme }) => theme.textColor};
+  border: 1px solid ${({ theme }) => theme.bgElementColor};
   background-color: transparent;
   transition: border-color ${({ theme }) => theme.hoverTransition}${({ theme }) => theme.hoverTimeFunction};
   &:hover,
@@ -60,8 +60,8 @@ export const MaskedInput = styled(InputMask)`
   text-transform: capitalize;
   border: solid 1px;
   border-radius: 5px;
-  color: ${props => props.theme.textColor};
-  border: 1px solid ${props => props.theme.bgElementColor};
+  color: ${({ theme }) => theme.textColor};
+  border: 1px solid ${({ theme }) => theme.bgElementColor};
   background-color: transparent;
   transition: border-color ${({ theme }) => theme.hoverTransition}${({ theme }) => theme.hoverTimeFunction};
   &:hover,

@@ -68,6 +68,12 @@ const ContactForm = forwardRef<HTMLDivElement, IProps>(
         });
         return;
       }
+      if (name.length < 3) {
+        toast.error('Name shoiuld contain minimum 3 symbols', {
+          position: toast.POSITION.TOP_CENTER,
+        });
+        return;
+      }
       createContact({ userID, name, phone });
       reset();
       dispatch(setContactFormOpen(false));

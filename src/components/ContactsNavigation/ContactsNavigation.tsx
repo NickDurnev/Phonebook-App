@@ -4,22 +4,23 @@ import { NavWrap, LeftIcon, RightIcon } from './ContactsNavigation.styled';
 import { IContact } from '../../services/interfaces';
 
 interface IProps {
+  contacts: IContact[];
   page: number;
+  total: number;
   onClick: (a: number) => void;
-  data: IContact[];
 }
 
-const ContactsNavigation: FC<IProps> = ({ page, onClick, data }) => {
+const ContactsNavigation: FC<IProps> = ({ contacts, page, total, onClick }) => {
   useEffect(() => {
-    if (data.length === 0 && page > 1) {
+    if (contacts.length === 0 && page > 1) {
       const count = page - 1;
       onClick(count);
       return;
     }
-  }, [data.length, onClick, page]);
+  }, [contacts.length, onClick, page]);
 
   const pageIncrement = () => {
-    if (data.length < 10) {
+    if (contacts.length < 10) {
       return;
     }
     const count = page + 1;
@@ -35,13 +36,13 @@ const ContactsNavigation: FC<IProps> = ({ page, onClick, data }) => {
   };
 
   return (
-    <NavWrap>
-      <IconButton onClick={() => pageDecrement()} width="8vw">
+    <NavWrap page={page}>
+      {page > 1 && <IconButton onClick={() => pageDecrement()} width="8vw">
         <LeftIcon />
-      </IconButton>
-      <IconButton onClick={() => pageIncrement()} width="8vw">
+      </IconButton>}
+      {page * 10 < total && <IconButton onClick={() => pageIncrement()} width="8vw">
         <RightIcon />
-      </IconButton>
+      </IconButton>}
     </NavWrap>
   );
 };

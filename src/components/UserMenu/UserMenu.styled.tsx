@@ -6,9 +6,9 @@ export const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-size: 16px;
+  font-size: 12px;
   padding: 5px;
-  width: 300px;
+  width: 230px;
   height: 50px;
   background-color: ${({ theme }) => theme.linkActiveColor};
   border-radius: 4px;
@@ -17,14 +17,15 @@ export const Container = styled.div`
     color: ${({ theme }) => theme.bgElementColor};
   }
 
-  @media ${device.mobileM} {
-    width: 250px;
+  @media ${device.tablet} {
+    width: 300px;
+      font-size: 16px;
   }
 `;
 
 export const UserIcon = styled(BiUserCircle)`
-  width: 35px;
-  height: 35px;
+  width: 28px;
+  height: 28px;
   color: ${({ theme }) => theme.bgElementColor};
   transition: color ${({ theme }) => theme.hoverTransition}${({ theme }) => theme.hoverTimeFunction};
 
@@ -32,9 +33,9 @@ export const UserIcon = styled(BiUserCircle)`
     color: ${({ theme }) => theme.bgElementHoverColor};
   }
 
-  @media ${device.mobileM} {
-    width: 28px;
-    height: 28px;
+  @media ${device.tablet} {
+    width: 35px;
+    height: 35px;
   }
 `;
 
