@@ -9,6 +9,7 @@ export const Backdrop = styled.div`
   background: ${({ theme }) => theme.backdropColor};
   color: ${({ theme }) => theme.textColor};
   overflow-y: scroll;
+  scroll-behavior: 
 
   &.fade-enter {
     opacity: 0;

@@ -43,6 +43,7 @@ const ChangePasswordPage = () => {
   if (isSuccess) {
     navigate('/login', { replace: true });
     toast.success(`${data.message}`);
+    toast.clearWaitingQueue();
   }
 
   const {

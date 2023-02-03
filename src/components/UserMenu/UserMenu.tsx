@@ -1,5 +1,6 @@
 import { useState, useRef, FC } from 'react';
 import { CSSTransition } from 'react-transition-group';
+import { toast } from 'react-toastify';
 import { useAppSelector } from '../../hooks/rtkQueryHooks';
 import Button from '../Button';
 import { Container, UserIcon, Icon } from './UserMenu.styled';
@@ -22,6 +23,7 @@ const UserMenu: FC<IProps> = ({ userLogout }) => {
 
   const handleLogout = () => {
     userLogout();
+    toast.clearWaitingQueue();
   };
 
 

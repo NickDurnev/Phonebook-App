@@ -55,7 +55,7 @@ const Contact: FC<IProps> = ({
       classNames="contact-item"
     >
       <Item ref={nodeRef}>
-        <Avatar imageURL={avatarURL} width="48px" />
+        <Avatar imageURL={avatarURL} width="70px" />
         <span><p>{name}:</p></span>
         <span><p>{phone}</p></span>
         <ButtonWrap>
