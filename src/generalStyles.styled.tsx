@@ -60,7 +60,7 @@ export const StyledButton = styled.button`
   margin-right: auto;
   color: ${({ theme }) => theme.textColor};
   background-color: ${({ theme }) => theme.bgElementColor};
-  transition: background-color ${({ theme }) => theme.hoverTransition}${({ theme }) => theme.hoverTimeFunction};
+  transition: background-color ${({ theme }) => theme.hoverTransition} ${({ theme }) => theme.hoverTimeFunction};
   &:hover,
   &:focus {
     background-color: ${({ theme }) => theme.bgElementHoverColor};
@@ -71,7 +71,7 @@ export const CloseIcon = styled(IoMdClose)`
   width: 24px;
   height: 24px;
   color: ${({ theme }) => theme.textColor};
-  transition: color ${({ theme }) => theme.animationDuration}${({ theme }) => theme.animationTimeFunction};
+  transition: color ${({ theme }) => theme.animationDuration} ${({ theme }) => theme.animationTimeFunction};
 
   &:hover,
   &:focus {
@@ -93,7 +93,7 @@ export const Input = styled.input`
   color: ${props => props.theme.textColor};
   border: 1px solid ${props => props.theme.bgElementColor};
   background-color: transparent;
-  transition: border-color ${props => props.theme.hoverTransition}${props => props.theme.hoverTimeFunction};
+  transition: border-color ${props => props.theme.hoverTransition} ${props => props.theme.hoverTimeFunction};
   transition: color 1000ms ${props => props.theme.hoverTimeFunction};
   &:hover,
   &:focus {
