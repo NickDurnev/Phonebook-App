@@ -74,15 +74,15 @@ const ContactForm = forwardRef<HTMLDivElement, IProps>(
         });
         return;
       }
-      createContact({ userID, name, phone });
+      await createContact({ userID, name, phone });
+      // if (isSuccess) {
       reset();
-      if (isSuccess) {
-        dispatch(setContactFormOpen(false));
-        toast.success('Contact was added', {
-          position: toast.POSITION.TOP_CENTER,
-        });
-        onSetSkipQuery(false);
-      }
+      dispatch(setContactFormOpen(false));
+      toast.success('Contact was added', {
+        position: toast.POSITION.TOP_CENTER,
+      });
+      onSetSkipQuery(false);
+      // }
     };
 
     const reset = () => {
