@@ -1,12 +1,19 @@
 @import-normalize; /* bring in normalize.css styles */
 
+@font-face {
+  font-family: "NeutralFace";
+  /*Can be any text*/
+  src: local("NeutralFace"),
+    url("./fonts/NeutralFace.otf") format("truetype");
+}
+
 * {
   box-sizing: border-box;
 }
 
 body {
   margin: 0;
-  font-family: 'Roboto',sans-serif;
+  font-family: 'NeutralFace',sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
