@@ -90,13 +90,12 @@ export const Input = styled.input`
   text-transform: none;
   border: solid 1px;
   border-radius: 5px;
-  color: ${props => props.theme.textColor};
-  border: 1px solid ${props => props.theme.bgElementColor};
+  color: ${({ theme }) => theme.textColor};
+  border: 1px solid ${({ theme }) => theme.bgElementColor};
   background-color: transparent;
-  transition: border-color ${props => props.theme.hoverTransition} ${props => props.theme.hoverTimeFunction};
-  transition: color 1000ms ${props => props.theme.hoverTimeFunction};
+  transition: border-color ${({ theme }) => theme.hoverTransition} ${props => props.theme.hoverTimeFunction};
   &:hover,
   &:focus {
-    border-color: ${props => props.theme.bgElementHoverColor};
+    border-color: ${({ theme }) => theme.bgElementHoverColor};
   }
 `;
