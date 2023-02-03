@@ -36,7 +36,7 @@ const ContactForm = forwardRef<HTMLDivElement, IProps>(
     );
     const names = data.map(({ name }) => name.toLowerCase());
 
-    const [createContact, { isLoading, isSuccess }] = useAddContactMutation();
+    const [createContact, { isLoading }] = useAddContactMutation();
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
       const { name, value } = e.target;
