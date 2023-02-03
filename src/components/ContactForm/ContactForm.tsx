@@ -36,7 +36,7 @@ const ContactForm = forwardRef<HTMLDivElement, IProps>(
     );
     const names = data.map(({ name }) => name.toLowerCase());
 
-    const [createContact, { isLoading }] = useAddContactMutation();
+    const [createContact, { isLoading, isSuccess }] = useAddContactMutation();
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
       const { name, value } = e.target;
@@ -76,11 +76,13 @@ const ContactForm = forwardRef<HTMLDivElement, IProps>(
       }
       createContact({ userID, name, phone });
       reset();
-      dispatch(setContactFormOpen(false));
-      toast.success('Contact was added', {
-        position: toast.POSITION.TOP_CENTER,
-      });
-      onSetSkipQuery(false);
+      if (isSuccess) {
+        dispatch(setContactFormOpen(false));
+        toast.success('Contact was added', {
+          position: toast.POSITION.TOP_CENTER,
+        });
+        onSetSkipQuery(false);
+      }
     };
 
     const reset = () => {
