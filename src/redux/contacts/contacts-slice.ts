@@ -102,7 +102,6 @@ export const contactsApi = createApi({
       }
     >({
       query: ({ contactID, contact }) => {
-        console.log(contact);
         return {
           url: `api/contacts/${contactID}`,
           method: 'PATCH',
