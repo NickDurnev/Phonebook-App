@@ -22,7 +22,6 @@ import AvatarList from '../../components/AvatarList';
 import {
   Title,
   Container,
-  Form,
   Input,
 } from '../../generalStyles.styled';
 import {
