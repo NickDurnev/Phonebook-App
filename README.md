@@ -1,38 +1,66 @@
+# Phonebook
 
-# Phonebook App documentation
+Phonebook is a web application built with React, Redux, and Typescript. It
+allows users to store contacts and search for them quickly.
 
-This project was created with
-[Create React App](https://github.com/facebook/create-react-app). For
-acquaintance and customize additional features
-[refer to documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Features
 
-## About
+- Authorisation
+- Email confirm
+- Contacts CRUD
+- Search for contacts quickly
+- Three color themes
 
-This application allows you to store your contacts and get it from any device. For using it, you need to registrate, get email on your email adress and vereficate yourself.
+## Technologies Used
 
-## Used library
+- React
+- Redux
+- Typescript
+- React Router Dom
+- React Hook Form
+- React Transition Group
+- React Icons
+- Axios
+- Nanoid
+- Styled Components
 
-### State Management, Asynchronous Queries and Local Storage
+## Scripts Usage
 
-- react-redux
-- redux-toolkit
-- redux-persist
+This project uses the following scripts:
 
-### Routing
+```bash
+npm run build
+```
 
-- react-router-dom
+Builds the application for production use.
 
-### Forms
+```bash
+npm start
+```
 
-- react-hook-form
+Starts the application in production mode.
 
-### Styling
+```bash
+npm run lint:js
+```
 
-- styled componnets
-- react-toastify
-- react-spinners
-- react-icons
+Lints the code for any errors or warnings.
 
-### Animations
+```bash
+npm run test
+```
 
-- react-transition-group
+Run tests
+
+```bash
+npm run eject
+```
+
+Remove all of the default configurations and dependencies that were installed by
+create-react-app.
+
+```bash
+npm run deploy
+```
+
+Deploy project to Netlify service.
