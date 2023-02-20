@@ -5,7 +5,7 @@ allows users to store contacts and search for them quickly.
 
 ## Features
 
-- Authorisation
+- Authentication
 - Email confirm
 - Contacts CRUD
 - Search for contacts quickly
