@@ -14,7 +14,8 @@ allows users to store contacts and search for them quickly.
 ## Technologies Used
 
 - React
-- Redux
+- Redux Toolkit
+- RTK Query
 - Typescript
 - React Router Dom
 - React Hook Form
